@@ -1,7 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.transparenttextures.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      }
+    ],
+  },
+  allowedDevOrigins: ['192.168.1.11'],
+  turbopack: {
+    resolveAlias: {
+      'tailwindcss': './node_modules/tailwindcss',
+    },
+  },
 };
 
 export default nextConfig;
