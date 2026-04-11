@@ -6,7 +6,7 @@ import { ShieldCheck, Truck, Zap, Settings2 } from 'lucide-react';
 export default function TruckingValuePillars() {
   return (
     <section className="py-24 bg-[#073E62] relative overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='none'/%3E%3Crect width='1' height='1' fill='white' opacity='0.4'/%3E%3C/svg%3E\")"}} />
       
       <div className="max-w-[1700px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">

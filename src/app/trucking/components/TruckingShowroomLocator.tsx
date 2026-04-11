@@ -19,7 +19,7 @@ export default function TruckingShowroomLocator({ onTestRideClick }: TruckingSho
   return (
     <section className="py-32 lg:py-48 bg-[#073E62] relative overflow-hidden">
       {/* ═══ GEOMETRIC WATERMARK ═══ */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
+      <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='10' cy='10' r='1' fill='white' opacity='0.5'/%3E%3Ccircle cx='50' cy='30' r='0.8' fill='white' opacity='0.4'/%3E%3Ccircle cx='80' cy='70' r='1.2' fill='white' opacity='0.3'/%3E%3Ccircle cx='30' cy='80' r='0.6' fill='white' opacity='0.5'/%3E%3Ccircle cx='70' cy='15' r='0.9' fill='white' opacity='0.4'/%3E%3C/svg%3E\")"}} />
       
       <div className="max-w-[1700px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
         

@@ -34,7 +34,7 @@ export default function GroupHomepage() {
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/75 to-transparent shadow-[inset_0_0_100px_rgba(0,0,0,0.3)]" />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-primary/40" />
           {/* Subtle Grain Overlay for texture */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")"}} />
         </motion.div>
 
         {/* Content Layer */}
@@ -448,7 +448,7 @@ export default function GroupHomepage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 className="bg-white p-16 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-primary/5 relative overflow-hidden"
               >
-                <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/grid-me.png')]" />
+                <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='20' fill='none'/%3E%3Cpath d='M0 0h20M0 0v20' stroke='%23095181' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E\")"}} />
                 <div className="relative z-10 space-y-12">
                   <div className="text-center pb-8 border-b border-primary/5">
                     <span className="text-accent text-[10px] font-black uppercase tracking-[.4em]">Our Subsidiaries</span>

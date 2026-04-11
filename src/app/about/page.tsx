@@ -18,7 +18,7 @@ export default function AboutPage() {
       
       {/* LEGACY HERO */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-primary">
-         <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1541746972996-4e0b0f43e01a?auto=format&fit=crop&q=80')] bg-cover bg-center grayscale" />
+         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{backgroundImage: "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(218,34,42,0.15) 0%, transparent 50%)"}} />
          
          <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
             <motion.h4
