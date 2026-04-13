@@ -96,13 +96,22 @@ const TextileHeader = () => {
       <div className={`bg-white border-b border-gray-100 shadow-sm transition-all duration-300 hidden lg:block ${isScrolled ? 'shadow-xl bg-white/95 backdrop-blur-xl' : ''}`}>
         <div className="max-w-[1700px] mx-auto px-4 md:px-12">
           <nav className="flex items-center justify-start lg:justify-between gap-1 py-1 overflow-x-auto no-scrollbar snap-x">
-            {CATEGORIES.map((cat) => (
+            {[
+              { name: "Sarees", slug: "sarees" },
+              { name: "Suits", slug: "suits" },
+              { name: "Kurtis", slug: "kurtis" },
+              { name: "Kids Wear", slug: "kids-wear" },
+              { name: "Lehenga", slug: "lehenga" },
+              { name: "Home Furnishing", slug: "home-furnishings" },
+              { name: "Mens Wear", slug: "mens-wear" },
+              { name: "Uniforms", slug: "uniforms" }
+            ].map((cat) => (
               <Link 
-                key={cat} 
-                href={`#${cat.toLowerCase()}`} 
+                key={cat.name} 
+                href={`/textiles/category/${cat.slug}`} 
                 className="relative px-4 md:px-5 py-3 md:py-4 text-[10px] md:text-[12px] font-black uppercase tracking-[.2em] text-gray-700 hover:text-red-600 transition-colors group shrink-0 snap-start"
               >
-                {cat}
+                {cat.name}
                 <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-red-600 transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
@@ -142,36 +151,34 @@ const TextileHeader = () => {
             {/* Menu Links */}
             <nav className="flex flex-col">
               {[
-                { name: "Home", expandable: false },
-                { name: "About Us", expandable: true },
-                { name: "Saree", expandable: true },
-                { name: "Lehenga", expandable: true },
-                { name: "Suit", expandable: true },
-                { name: "Kurti", expandable: true },
-                { name: "Dupatta", expandable: true },
-                { name: "Blouse", expandable: true },
-                { name: "Petticoat", expandable: true },
-                { name: "Kids Wear", expandable: true },
-                { name: "Women Bottom Wear", expandable: true },
-                { name: "Mens Wear", expandable: true },
-                { name: "Towel", expandable: true },
-                { name: "Blog", expandable: false },
-                { name: "Contact Us", expandable: false },
-              ].map((item, i) => (
-                <Link 
-                  key={i}
-                  href={`#${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-between px-8 py-5 border-b border-gray-100 group active:bg-gray-50 transition-colors"
-                >
-                  <span className="text-[#DA222A] text-lg font-bold tracking-tight group-hover:translate-x-1 transition-transform">
-                    {item.name}
-                  </span>
-                  {item.expandable && (
+                { name: "Home", slug: "home" },
+                { name: "Saree", slug: "sarees" },
+                { name: "Suit", slug: "suits" },
+                { name: "Kurti", slug: "kurtis" },
+                { name: "Kids Wear", slug: "kids-wear" },
+                { name: "Lehenga", slug: "lehenga" },
+                { name: "Home Furnishing", slug: "home-furnishings" },
+                { name: "Mens Wear", slug: "mens-wear" },
+                { name: "Uniforms", slug: "uniforms" },
+                { name: "Manufacturing Hub", slug: "sarees" },
+                { name: "Blog", slug: "blog" },
+                { name: "Contact Us", slug: "contact" },
+              ].map((item, i) => {
+                const isCategory = ['sarees', 'suits', 'kurtis', 'kids-wear', 'lehenga', 'home-furnishings', 'mens-wear', 'uniforms'].includes(item.slug);
+                return (
+                  <Link 
+                    key={i}
+                    href={isCategory ? `/textiles/category/${item.slug}` : `#${item.slug}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-between px-8 py-5 border-b border-gray-100 group active:bg-gray-50 transition-colors"
+                  >
+                    <span className="text-[#DA222A] text-lg font-bold tracking-tight group-hover:translate-x-1 transition-transform">
+                      {item.name}
+                    </span>
                     <ChevronDown className="w-6 h-6 text-[#DA222A]/40 group-hover:text-[#DA222A] transition-colors" />
-                  )}
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Bottom Contact Quick Links */}

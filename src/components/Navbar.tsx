@@ -44,6 +44,7 @@ export default function Navbar() {
                 !isScrolled && "brightness-0 invert drop-shadow-[0_0_18px_rgba(255,255,255,0.35)]"
               )}
               priority
+              loading="eager"
             />
           </div>
         </Link>

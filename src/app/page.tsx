@@ -29,6 +29,7 @@ export default function GroupHomepage() {
             sizes="100vw"
             className="object-cover object-center"
             priority
+            loading="eager"
           />
           {/* ═══ Visual Overlay (Deepened for Text Clarity) ═══ */}
           <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/75 to-transparent shadow-[inset_0_0_100px_rgba(0,0,0,0.3)]" />

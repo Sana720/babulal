@@ -36,6 +36,8 @@ const Footer = () => {
                 fill
                 sizes="(max-width: 1024px) 300px, 450px"
                 className="object-contain object-center lg:object-left brightness-0 invert"
+                priority
+                loading="eager"
               />
             </div>
             <p className="text-white/40 text-base md:text-lg font-medium italic leading-relaxed max-w-md mx-auto lg:mx-0">

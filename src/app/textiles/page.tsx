@@ -66,6 +66,7 @@ export default function TextileVerticalPage() {
   const suitScrollRef = useRef<HTMLDivElement>(null);
   const kurtiScrollRef = useRef<HTMLDivElement>(null);
   const kidsScrollRef = useRef<HTMLDivElement>(null);
+  const reelsScrollRef = useRef<HTMLDivElement>(null);
 
   // Exhibition State Management — The Interactive Layer
   const [sareeProgress, setSareeProgress] = useState(0);
@@ -284,20 +285,20 @@ export default function TextileVerticalPage() {
               <div className="w-8 md:w-12 h-[1px] bg-[#0A5181]/20" />
             </div>
             <h2 className="text-[#0A5181] text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter leading-[1.1] mb-8 md:mb-10">
-              The Legacy Of <br className="hidden sm:block" /><span className="text-[#DA222A]">Sri Hanumanbux Poddar.</span>
+              The Legacy Of <br className="hidden sm:block" /><span className="text-[#DA222A]">Babulal Premkumar.</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-               {[
-                 { year: "2019-20", title: "Raymond Top Retailer", region: "Bihar & Jharkhand" },
-                 { year: "2018-19", title: "Raymond Growth Award", region: "Regional Winner" },
-                 { year: "2021", title: "Linen Club Excellence", region: "Distribution Leadership" }
-               ].map((award, idx) => (
-                 <div key={idx} className="bg-white p-6 border-l-4 border-[#DA222A] shadow-sm text-left">
-                   <div className="text-[#DA222A] text-[9px] font-black uppercase tracking-widest mb-1">{award.year}</div>
-                   <h5 className="text-[#0A5181] text-xs font-black uppercase tracking-widest">{award.title}</h5>
-                   <p className="text-gray-400 text-[10px] uppercase font-bold mt-1">{award.region}</p>
-                 </div>
-               ))}
+              {[
+                { year: "2019-20", title: "Raymond Top Retailer", region: "Bihar & Jharkhand" },
+                { year: "2018-19", title: "Raymond Growth Award", region: "Regional Winner" },
+                { year: "2021", title: "Linen Club Excellence", region: "Distribution Leadership" }
+              ].map((award, idx) => (
+                <div key={idx} className="bg-white p-6 border-l-4 border-[#DA222A] shadow-sm text-left">
+                  <div className="text-[#DA222A] text-[9px] font-black uppercase tracking-widest mb-1">{award.year}</div>
+                  <h5 className="text-[#0A5181] text-xs font-black uppercase tracking-widest">{award.title}</h5>
+                  <p className="text-gray-400 text-[10px] uppercase font-bold mt-1">{award.region}</p>
+                </div>
+              ))}
             </div>
             <p className="text-gray-500 text-base md:text-xl lg:text-2xl font-medium max-w-4xl mx-auto italic leading-relaxed">
               We define industry standards with a fixed-pricing strategy. From Sri Hanumanbux Poddar to the 5th generation leadership, <br className="hidden lg:block" /> we service 2000+ partners across 6 states from our Tupudana supply hub.
@@ -333,9 +334,8 @@ export default function TextileVerticalPage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className={`flex-1 px-4 py-12 md:px-12 md:py-20 flex flex-col items-center text-center group transition-all duration-700 hover:bg-gray-50/50 ${
-                  i % 2 === 0 ? 'border-r border-gray-100/30' : ''
-                } ${i < 2 ? 'border-b lg:border-b-0 border-gray-100/30' : ''} ${i === 1 ? 'lg:border-r border-gray-100/30' : ''}`}
+                className={`flex-1 px-4 py-12 md:px-12 md:py-20 flex flex-col items-center text-center group transition-all duration-700 hover:bg-gray-50/50 ${i % 2 === 0 ? 'border-r border-gray-100/30' : ''
+                  } ${i < 2 ? 'border-b lg:border-b-0 border-gray-100/30' : ''} ${i === 1 ? 'lg:border-r border-gray-100/30' : ''}`}
               >
                 <div className="relative mb-8 md:mb-12">
                   <div className="absolute inset-0 bg-[#0A5181]/10 rounded-full blur-xl md:blur-2xl group-hover:bg-[#DA222A]/10 transition-all duration-700" />
@@ -485,8 +485,9 @@ export default function TextileVerticalPage() {
               { name: "Silk Sarees", img: "/saree_boutique_red.png" },
               { name: "Handloom Sarees", img: "/saree_boutique_red.png" }
             ].map((cat, i) => (
-              <div
+              <Link
                 key={i}
+                href="/textiles/category/sarees"
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
@@ -502,18 +503,17 @@ export default function TextileVerticalPage() {
                   <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{cat.name}</h4>
                   <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">See the collection</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
           {/* Institutional Progress Indicators — Saree Section */}
           <div className="flex justify-center gap-2 mt-4">
             {[0, 1, 2, 3, 4].map((dot) => (
-              <div 
+              <div
                 key={dot}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  Math.round(sareeProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${Math.round(sareeProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
+                  }`}
               />
             ))}
           </div>
@@ -549,8 +549,9 @@ export default function TextileVerticalPage() {
               { name: "Cotton Silk Suits", img: "/suit_boutique_purple.png" },
               { name: "Designer Party Suits", img: "/suit_boutique_purple.png" }
             ].map((cat, i) => (
-              <div
+              <Link
                 key={i}
+                href="/textiles/category/suits"
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
@@ -566,18 +567,17 @@ export default function TextileVerticalPage() {
                   <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{cat.name}</h4>
                   <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">See the collection</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
           {/* Institutional Progress Indicators — Suit Section */}
           <div className="flex justify-center gap-2 mt-4">
             {[0, 1, 2, 3, 4].map((dot) => (
-              <div 
+              <div
                 key={dot}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  Math.round(suitProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${Math.round(suitProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
+                  }`}
               />
             ))}
           </div>
@@ -613,8 +613,9 @@ export default function TextileVerticalPage() {
               { name: "Casual Daily Kurti", img: "/kurti_boutique_yellow.png" },
               { name: "Party Wear Kurtis", img: "/kurti_boutique_yellow.png" }
             ].map((cat, i) => (
-              <div
+              <Link
                 key={i}
+                href="/textiles/category/kurtis"
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
@@ -630,18 +631,17 @@ export default function TextileVerticalPage() {
                   <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{cat.name}</h4>
                   <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">See the collection</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
           {/* Institutional Progress Indicators — Kurti Section */}
           <div className="flex justify-center gap-2 mt-4">
             {[0, 1, 2, 3, 4].map((dot) => (
-              <div 
+              <div
                 key={dot}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  Math.round(kurtiProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-500 ${Math.round(kurtiProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
+                  }`}
               />
             ))}
           </div>
@@ -827,8 +827,9 @@ export default function TextileVerticalPage() {
                   { name: "Girls T-Shirts", img: "/kids_boutique_yellow.png" },
                   { name: "Kids Lehenga Choli", img: "/kids_boutique_yellow.png" }
                 ].map((cat, i) => (
-                  <div
+                  <Link
                     key={i}
+                    href="/textiles/category/kids-wear"
                     className="min-w-[280px] md:min-w-[calc(50%-1.5rem)] lg:min-w-[calc(33.33%-1.5rem)] xl:min-w-[calc(25%-1.2rem)] snap-center group cursor-pointer"
                   >
                     <div className="relative aspect-[4/5] overflow-hidden bg-white mb-6 border border-gray-100 group-hover:shadow-xl transition-all duration-700">
@@ -844,7 +845,7 @@ export default function TextileVerticalPage() {
                       <h4 className="text-gray-900 text-sm font-bold tracking-tight mb-1 group-hover:text-[#DA222A] transition-colors">{cat.name}</h4>
                       <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">See the collection</p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -856,10 +857,10 @@ export default function TextileVerticalPage() {
       {/* ═══ PRODUCTION STRENGTH — THE ASYMMETRICAL SUPPLY WAVE ═══ */}
       <section className="relative py-32 overflow-hidden bg-white">
         {/* Technical Blueprint Layer — ENHANCED VISIBILITY */}
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(#DA222A 2px, transparent 2px)', backgroundSize: '40px 40px' }} 
+        <div className="absolute inset-0 opacity-[0.06] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(#DA222A 2px, transparent 2px)', backgroundSize: '40px 40px' }}
         />
-        
+
         <div className="relative z-10 max-w-[1700px] mx-auto px-12 lg:px-24">
           <div className="text-center mb-28 px-4">
             <h2 className="text-[#DA222A] text-2xl md:text-3xl font-black tracking-[0.2em] mb-4 uppercase">Institutional Supply Chain</h2>
@@ -873,11 +874,11 @@ export default function TextileVerticalPage() {
           <div className="relative h-auto lg:h-[500px]">
             {/* The Cinematic Wave Line (Desktop) — THICKER & MORE VISIBLE */}
             <svg className="absolute top-0 left-0 w-full h-full hidden lg:block opacity-20" preserveAspectRatio="none">
-              <path 
-                d="M 0 250 C 200 50, 400 450, 600 250 C 800 50, 1000 450, 1200 250 C 1400 50, 1600 250, 1700 250" 
-                fill="none" 
-                stroke="#DA222A" 
-                strokeWidth="3" 
+              <path
+                d="M 0 250 C 200 50, 400 450, 600 250 C 800 50, 1000 450, 1200 250 C 1400 50, 1600 250, 1700 250"
+                fill="none"
+                stroke="#DA222A"
+                strokeWidth="3"
                 strokeDasharray="12 12"
               />
             </svg>
@@ -908,10 +909,10 @@ export default function TextileVerticalPage() {
                   <div className="relative w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 mb-6 md:mb-8">
                     {/* Shadow Ripple */}
                     <div className="absolute inset-0 bg-[#DA222A]/20 rounded-full blur-xl group-hover:bg-[#0A5181]/30 transition-colors" />
-                    
+
                     {/* Pulsing Outer Orbit */}
                     <div className="absolute -inset-2 border-2 border-[#DA222A]/20 rounded-full group-hover:border-[#DA222A] animate-[pulse_2s_infinite] opacity-0 group-hover:opacity-100" />
-                    
+
                     {/* The Primary Hub */}
                     <div className="absolute inset-0 bg-[#DA222A] rounded-full flex items-center justify-center shadow-2xl group-hover:bg-[#095181] group-hover:rotate-[360deg] transition-all duration-1000 z-10 border-4 border-white/10">
                       <step.icon className="w-8 h-8 md:w-10 md:h-10 text-white" />
@@ -932,7 +933,90 @@ export default function TextileVerticalPage() {
           </div>
         </div>
       </section>
-      
+
+      {/* ═══ BBP STUDIO — FABRICS IN MOTION (REELS) ═══ */}
+      <section className="relative py-28 bg-[#fafafa] overflow-hidden">
+        <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
+          <div className="flex flex-col lg:flex-row justify-between items-end mb-20 gap-10">
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-1 bg-[#DA222A]" />
+                <span className="text-[#DA222A] text-[10px] font-black uppercase tracking-[0.4em]">Cinematic Showcase</span>
+              </div>
+              <h2 className="text-[#0A5181] text-4xl lg:text-6xl font-black tracking-tighter leading-tight">
+                Fabrics In <br /><span className="text-[#DA222A]">Motion.</span>
+              </h2>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {[
+              { id: "DVxuBIWEZOC", title: "Royal Wedding Collection", category: "Handloom Silk", img: "/reels/wedding.png" },
+              { id: "DTiK-Z6Ed8U", title: "Handcrafted Luxury", category: "Bespoke Suiting", img: "/reels/suits.png" },
+              { id: "DTSqfNBkZVy", title: "Textile Heritage Show", category: "Legacy Collection", img: "/reels/heritage.png" },
+              { id: "DTC2iElEcQ0", title: "New Arrival Exhibit", category: "Modern Ethnic", img: "/reels/ethnic.png" },
+              { id: "DRPEMCeEZ1A", title: "Editorial Showcase", category: "Corporate Wear", img: "/reels/corporate.png" },
+              { id: "DQ_iBc5EqHZ", title: "Bridal Masterpiece", category: "Wedding Special", img: "/reels/bridal.png" }
+            ].map((reel, i) => (
+              <motion.div
+                key={reel.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                onClick={() => window.open(`https://www.instagram.com/reel/${reel.id}/`, '_blank')}
+                className="group relative aspect-[9/16] bg-[#0A5181] rounded-[40px] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.25)] cursor-pointer"
+              >
+                {/* Clean Cinematic Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A5181] via-transparent to-transparent z-10 opacity-80 group-hover:opacity-60 transition-opacity" />
+                
+                {/* High Quality Thumbnail (Local Optimized Asset) */}
+                <Image
+                  src={reel.img}
+                  alt={reel.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out"
+                />
+
+                {/* Central Play Indicator */}
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                   <div className="w-20 h-20 bg-white/20 backdrop-blur-3xl rounded-full flex items-center justify-center border border-white/30 scale-90 group-hover:scale-100 transition-all duration-700">
+                      <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2 shadow-[0_0_30px_rgba(255,255,255,0.5)]" />
+                   </div>
+                </div>
+
+                {/* Industrial Metadata Info */}
+                <div className="absolute inset-x-0 bottom-0 p-10 z-30">
+                   <div className="flex flex-col gap-2">
+                      <span className="text-[#DA222A] text-[9px] font-black uppercase tracking-[0.4em] drop-shadow-lg">{reel.category}</span>
+                      <h4 className="text-white text-2xl font-black italic tracking-tighter uppercase leading-none drop-shadow-2xl">{reel.title}</h4>
+                   </div>
+                   <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
+                      <span className="text-white/40 text-[9px] font-black uppercase tracking-widest">Studio BBP / 2024</span>
+                      <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-[#0A5181] transition-all">
+                         <ArrowRight className="w-4 h-4" />
+                      </div>
+                   </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-16 flex flex-col items-center gap-6">
+             <div className="flex items-center gap-3 px-4 py-2 bg-red-50 rounded-full border border-red-100">
+                <div className="w-2 h-2 bg-[#DA222A] rounded-full animate-pulse" />
+                <span className="text-[#DA222A] text-[10px] font-black uppercase tracking-widest">Live Updates Available @babulalpremkumar</span>
+             </div>
+             <Link 
+               href="https://instagram.com" 
+               target="_blank"
+               className="px-12 py-5 bg-[#0A5181] text-white text-[11px] font-black uppercase tracking-[.4em] rounded hover:bg-[#DA222A] transition-all shadow-2xl flex items-center gap-4"
+             >
+                Visit Official Instagram <ArrowUpRight className="w-5 h-5" />
+             </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ LATEST BLOGS EXHIBITION ═══ */}
       <section className="relative py-28 bg-white overflow-hidden">
         <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
@@ -945,18 +1029,18 @@ export default function TextileVerticalPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { 
-                title: "Pattu Silk Saree Manufacturers in Telangana Crafting Timeless Silk Elegance", 
+              {
+                title: "Pattu Silk Saree Manufacturers in Telangana Crafting Timeless Silk Elegance",
                 img: "/blog_pattu.png",
                 excerpt: "The Pattu Silk Saree Manufacturers in Telangana are the skilled people who keep this beautiful tradition alive. They do ..."
               },
-              { 
-                title: "Kanchipuram Saree Manufacturers in Telangana: Complete Wholesale Buying Guide", 
+              {
+                title: "Kanchipuram Saree Manufacturers in Telangana: Complete Wholesale Buying Guide",
                 img: "/blog_kanchipuram.png",
                 excerpt: "The Kanchipuram Saree Manufacturers in Telangana are the people who create these masterpieces. Known as the Queen of Sil..."
               },
-              { 
-                title: "Gadwal Saree Manufacturers in Telangana Preserving a Rich Handloom Legacy", 
+              {
+                title: "Gadwal Saree Manufacturers in Telangana Preserving a Rich Handloom Legacy",
                 img: "/blog_gadwal.png",
                 excerpt: "Gadwal Saree Manufacturers in Telangana do their magic. These sarees are very special because they bring two different t..."
               }

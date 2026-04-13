@@ -85,27 +85,29 @@ export default function BajajShowroomLocator({ onTestRideClick }: BajajShowroomL
 
                {/* RIGHT: SHOWROOM AMBIENCE IMAGE */}
                <div className="flex-1 relative">
-                  <div className="relative aspect-[16/10] xl:aspect-square rounded-[2rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(7,62,98,0.3)]">
+                  <div className="relative aspect-[3/2] sm:aspect-[16/10] xl:aspect-square rounded-[2rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(7,62,98,0.3)] bg-gray-100">
                      <Image
                         src="/BajajShowroom.jpg"
                         alt="Premsons Bajaj HQ"
                         fill
                         sizes="(max-width: 1280px) 100vw, 50vw"
                         className="object-contain"
+                        priority
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-[#073E62]/60 to-transparent" />
+                     <div className="absolute inset-0 bg-gradient-to-t from-[#073E62]/90 via-[#073E62]/40 to-transparent" />
 
-                     <div className="absolute top-10 right-10 flex flex-col items-end gap-2">
-                        <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 text-white text-[10px] font-black tracking-[0.3em] uppercase">
+                     <div className="absolute top-4 right-4 md:top-10 md:right-10 flex flex-col items-end gap-2">
+                        <div className="bg-[#073E62]/90 backdrop-blur-md px-4 py-2 md:px-8 md:py-3.5 rounded-full border border-white/20 text-white shadow-2xl text-[8px] md:text-[10px] font-black tracking-[0.4em] uppercase flex items-center gap-2 md:gap-3">
+                           <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#DA222A] rounded-full animate-pulse shadow-[0_0_10px_#DA222A]" />
                            Live in Ranchi
                         </div>
                      </div>
 
-                     <div className="absolute bottom-10 left-10 max-w-sm">
-                        <h3 className="text-white text-4xl font-black tracking-tighter leading-none mb-4">
+                     <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 max-w-[85%] md:max-w-sm">
+                        <h3 className="text-white text-2xl md:text-4xl font-black tracking-tighter leading-none mb-3 md:mb-4 drop-shadow-2xl">
                            The Ultimate <br />Bajaj Experience.
                         </h3>
-                        <p className="text-white/60 text-sm italic font-medium">
+                        <p className="text-white/80 text-[11px] md:text-sm italic font-medium leading-relaxed drop-shadow-lg">
                            Visit our flagship centers for specialized technical consulting and spot-financing tools.
                         </p>
                      </div>
