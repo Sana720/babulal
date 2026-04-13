@@ -52,15 +52,15 @@ export default function Navbar() {
         {/* ── DESKTOP NAV ── */}
         <nav className="hidden lg:flex items-center gap-8 flex-1 justify-center">
 
-          <Link href="/about" className={cn(
+          <Link href="/about#legacy" className={cn(
             "text-[11px] font-bold uppercase tracking-[.2em] transition-colors duration-300",
-            isScrolled ? "text-primary/55 hover:text-primary" : "text-white/60 hover:text-white"
+            isScrolled ? "text-primary/75 hover:text-primary" : "text-white/80 hover:text-white"
           )}>
             Our Legacy
           </Link>
-          <Link href="/about" className={cn(
+          <Link href="/about#philosophy" className={cn(
             "text-[11px] font-bold uppercase tracking-[.2em] transition-colors duration-300",
-            isScrolled ? "text-primary/55 hover:text-primary" : "text-white/60 hover:text-white"
+            isScrolled ? "text-primary/75 hover:text-primary" : "text-white/80 hover:text-white"
           )}>
             Leadership
           </Link>
@@ -82,11 +82,11 @@ export default function Navbar() {
             </button>
 
             <div className={cn(
-              "absolute top-full left-1/2 -translate-x-1/2 mt-6 transition-all duration-300 origin-top",
+              "absolute top-full left-1/2 -translate-x-1/2 pt-6 transition-all duration-300 origin-top",
               isVerticalsOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
             )}>
               {/* arrow tip */}
-              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rotate-45" />
+              <div className="absolute top-[18px] left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rotate-45" />
               <div className="bg-primary shadow-[0_30px_70px_rgba(0,0,0,0.5)] p-8 w-[400px] grid grid-cols-2 gap-x-6 gap-y-5 relative">
                 {Object.values(BUSINESS_VERTICALS).map((v) => (
                   <Link
@@ -104,7 +104,7 @@ export default function Navbar() {
 
           <Link href="/contact" className={cn(
             "text-[11px] font-bold uppercase tracking-[.2em] transition-colors duration-300",
-            isScrolled ? "text-primary/55 hover:text-primary" : "text-white/60 hover:text-white"
+            isScrolled ? "text-primary/75 hover:text-primary" : "text-white/80 hover:text-white"
           )}>
             Contact
           </Link>
@@ -155,7 +155,7 @@ export default function Navbar() {
         <div className="lg:hidden fixed inset-0 bg-primary z-[60] flex flex-col p-8 pt-24">
           <div className="flex flex-col gap-0">
             {[
-              { label: 'Our Legacy', href: '/about' },
+              { label: 'Our Legacy', href: '/about#legacy' },
               { label: 'Businesses', href: '/#divisions' },
               { label: 'Contact', href: '/contact' },
               { label: 'Staff Login', href: '/admin' },

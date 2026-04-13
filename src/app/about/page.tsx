@@ -17,7 +17,7 @@ export default function AboutPage() {
     <div className="bg-canvas">
       
       {/* LEGACY HERO */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-primary">
+      <section id="legacy" className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-primary">
          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{backgroundImage: "radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(218,34,42,0.15) 0%, transparent 50%)"}} />
          
          <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
@@ -41,7 +41,7 @@ export default function AboutPage() {
       </section>
 
       {/* THE STORY (EDITORIAL LAYOUT) */}
-      <section className="py-32 px-6">
+      <section id="philosophy" className="py-32 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-32 items-start">
            <div className="sticky top-40">
               <h2 className="text-primary text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-[0.9]">The Babulal<br /> <span className="text-accent italic font-black uppercase">Philosophy</span></h2>

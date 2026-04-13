@@ -180,7 +180,7 @@ export default function GroupHomepage() {
       </section>
 
       {/* ═══ THE CONGLOMERATE ECOSYSTEM — INSTITUTIONAL PORTFOLIO ═══ */}
-      <section className="bg-white py-40 overflow-hidden">
+      <section id="divisions" className="bg-white py-40 overflow-hidden">
         <div className="max-w-[1700px] mx-auto px-8 lg:px-24">
           
           {/* Section Header */}

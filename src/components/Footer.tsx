@@ -71,9 +71,9 @@ const Footer = () => {
               {[
                 { name: 'Premkumar Textiles', slug: 'textiles' },
                 { name: 'Premsons Honda', slug: 'honda' },
-                { name: 'Ashok Leyland Trucks', slug: 'trucks' },
+                { name: 'Ashok Leyland Trucks', slug: 'trucking' },
                 { name: 'Premsons Bajaj', slug: 'bajaj' },
-                { name: 'MUVA Industries', slug: 'manufacturing' }
+                { name: 'MUVA Industries', slug: 'muva-industries' }
               ].map((unit) => (
                 <Link key={unit.name} href={`/${unit.slug}`} className="text-white/40 text-xs md:text-sm font-bold uppercase tracking-widest hover:text-[#DA222A] transition-all flex items-center justify-center sm:justify-start gap-3 group">
                   <span className="hidden sm:block w-0 group-hover:w-4 h-[2px] bg-[#DA222A] transition-all" />
