@@ -32,7 +32,9 @@ import {
   ClipboardCheck,
   Flame,
   Box,
-  Truck
+  Truck,
+  Play,
+  X
 } from 'lucide-react';
 import TextileHeader from '@/components/TextileHeader';
 import Footer from '@/components/Footer';
@@ -59,6 +61,44 @@ const LATEST_COLLECTIONS = [
   { name: 'Mens Wear', price: '25 Years of Association', img: '/mens_sherwani.png' },
   { name: 'Premium Fabric', price: 'Luxury Fabric Portfolio', img: '/textile_logistics.png' },
 ];
+
+// ═══ TYPES ═══
+interface Reel {
+  id: string;
+  title: string;
+  category: string;
+  img: string;
+}
+
+// ═══ COMPONENTS ═══
+const ReelCard = ({ reel, index }: { reel: Reel, index: number }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.8 }}
+      className="group relative aspect-[9/16] bg-black rounded-[2rem] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/5"
+    >
+      <iframe
+        src={`https://www.instagram.com/reel/${reel.id}/embed/`}
+        className="w-full h-full border-none"
+        allowFullScreen
+        scrolling="no"
+        loading="lazy"
+      ></iframe>
+      
+      {/* Subtle Bottom Metadata Gradient (Non-interactive) */}
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none opacity-60" />
+      
+      {/* Decorative Brand Label */}
+      <div className="absolute bottom-6 left-6 z-20 pointer-events-none">
+        <span className="text-[#DA222A] text-[8px] font-black uppercase tracking-[0.3em] drop-shadow-lg">{reel.category}</span>
+        <h4 className="text-white text-sm font-bold uppercase tracking-tighter leading-none">{reel.title}</h4>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function TextileVerticalPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -958,48 +998,10 @@ export default function TextileVerticalPage() {
               { id: "DRPEMCeEZ1A", title: "Editorial Showcase", category: "Corporate Wear", img: "/reels/corporate.png" },
               { id: "DQ_iBc5EqHZ", title: "Bridal Masterpiece", category: "Wedding Special", img: "/reels/bridal.png" }
             ].map((reel, i) => (
-              <motion.div
-                key={reel.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                onClick={() => window.open(`https://www.instagram.com/reel/${reel.id}/`, '_blank')}
-                className="group relative aspect-[9/16] bg-[#0A5181] rounded-[40px] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.25)] cursor-pointer"
-              >
-                {/* Clean Cinematic Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A5181] via-transparent to-transparent z-10 opacity-80 group-hover:opacity-60 transition-opacity" />
-                
-                {/* High Quality Thumbnail (Local Optimized Asset) */}
-                <Image
-                  src={reel.img}
-                  alt={reel.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-[2s] ease-out"
-                />
-
-                {/* Central Play Indicator */}
-                <div className="absolute inset-0 flex items-center justify-center z-20">
-                   <div className="w-20 h-20 bg-white/20 backdrop-blur-3xl rounded-full flex items-center justify-center border border-white/30 scale-90 group-hover:scale-100 transition-all duration-700">
-                      <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-2 shadow-[0_0_30px_rgba(255,255,255,0.5)]" />
-                   </div>
-                </div>
-
-                {/* Industrial Metadata Info */}
-                <div className="absolute inset-x-0 bottom-0 p-10 z-30">
-                   <div className="flex flex-col gap-2">
-                      <span className="text-[#DA222A] text-[9px] font-black uppercase tracking-[0.4em] drop-shadow-lg">{reel.category}</span>
-                      <h4 className="text-white text-2xl font-black italic tracking-tighter uppercase leading-none drop-shadow-2xl">{reel.title}</h4>
-                   </div>
-                   <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-white/40 text-[9px] font-black uppercase tracking-widest">Studio BBP / 2024</span>
-                      <div className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-[#0A5181] transition-all">
-                         <ArrowRight className="w-4 h-4" />
-                      </div>
-                   </div>
-                </div>
-              </motion.div>
+              <ReelCard key={reel.id} reel={reel} index={i} />
             ))}
           </div>
+
 
           <div className="mt-16 flex flex-col items-center gap-6">
              <div className="flex items-center gap-3 px-4 py-2 bg-red-50 rounded-full border border-red-100">

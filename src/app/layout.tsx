@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import FooterWrapper from "@/components/FooterWrapper";
+import AuthProvider from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
 
 const outfit = Outfit({
@@ -37,11 +38,13 @@ export default function RootLayout({
           "font-sans antialiased selection:bg-accent selection:text-white"
         )}
       >
-        <NavbarWrapper />
-        <main className="min-h-screen overflow-x-hidden">
-          {children}
-        </main>
-        <FooterWrapper />
+        <AuthProvider>
+          <NavbarWrapper />
+          <main className="min-h-screen overflow-x-hidden">
+            {children}
+          </main>
+          <FooterWrapper />
+        </AuthProvider>
       </body>
     </html>
   );

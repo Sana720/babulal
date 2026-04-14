@@ -7,13 +7,15 @@ export default function NavbarWrapper() {
   const pathname = usePathname();
   
   // Hide the global Navbar on vertical-specific pages that have their own header
-  const isVerticalPage = pathname?.startsWith('/textiles') || 
-                         pathname?.startsWith('/honda') || 
-                         pathname?.startsWith('/bajaj') ||
-                         pathname?.startsWith('/trucking') ||
-                         pathname?.startsWith('/muva-industries');
+  const shouldHide = pathname?.startsWith('/textiles') || 
+                     pathname?.startsWith('/honda') || 
+                     pathname?.startsWith('/bajaj') ||
+                     pathname?.startsWith('/trucking') ||
+                     pathname?.startsWith('/muva-industries') ||
+                     pathname?.startsWith('/admin') ||
+                     pathname?.startsWith('/auth');
   
-  if (isVerticalPage) return null;
+  if (shouldHide) return null;
   
   return <Navbar />;
 }
