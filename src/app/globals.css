@@ -22,20 +22,19 @@
   Strict 'No-Line' Philosophy: Elevation via tonal shifts & shadows, NOT borders.
 */
 
-:root {
-  --primary: #095181;
-  --accent: #da222a;
-  --canvas: #f8f9fa;
-}
-
 body {
-  background-color: var(--canvas);
+  background-color: var(--color-canvas);
   color: #1A1A1A;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: inherit;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -43,11 +42,19 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glassmorphism Classes for Navigation and Selection Cards */
 .glass-nav {
-  @apply bg-surface/80 backdrop-blur-xl border-none;
+  background-color: rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: none;
 }
 
 .architectural-card {
-  @apply bg-surface shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 ease-out;
+  @apply bg-surface transition-all duration-500 ease-out;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.02);
+}
+
+.architectural-card:hover {
+  box-shadow: 0 20px 40px rgb(0 0 0 / 0.06);
 }
 
 /* Strict Tonal Transition Rule instead of 1px border */
@@ -85,12 +92,25 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes reveal {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -107,17 +127,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .animate-shimmer {
   animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); }
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -127,6 +147,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
