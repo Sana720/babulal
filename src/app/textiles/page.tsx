@@ -406,7 +406,7 @@ export default function TextileVerticalPage() {
         {/* Abstract Collection Layers */}
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50 to-transparent pointer-events-none" />
 
-        <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
+        <div className="max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
           <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
             <div className="max-w-3xl">
               <div className="flex items-center gap-6 mb-8">
@@ -498,7 +498,7 @@ export default function TextileVerticalPage() {
 
       {/* ═══ RANGE OF SAREES — THE BOUTIQUE EXHIBITION ═══ */}
       <section className="relative py-20 bg-gray-50/30 overflow-hidden border-b border-gray-100">
-        <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
+        <div className="max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
           <div className="text-center mb-20 px-4">
             <h2 className="text-2xl md:text-4xl font-black tracking-tight mb-6 uppercase">
               <span className="text-[#DA222A]">Range Of</span> <span className="text-[#0A5181]">Sarees</span>
@@ -562,7 +562,7 @@ export default function TextileVerticalPage() {
 
       {/* ═══ RANGE OF SUITS — THE BOUTIQUE EXHIBITION ═══ */}
       <section className="relative py-20 bg-gray-50/50 overflow-hidden border-b border-gray-100">
-        <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
+        <div className="max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
           <div className="text-center mb-20 px-4">
             <h2 className="text-2xl md:text-4xl font-black tracking-tight mb-6 uppercase">
               <span className="text-[#DA222A]">Range Of</span> <span className="text-[#0A5181]">Suits</span>
@@ -626,7 +626,7 @@ export default function TextileVerticalPage() {
 
       {/* ═══ RANGE OF KURTIS — THE BOUTIQUE EXHIBITION ═══ */}
       <section className="relative py-20 bg-white overflow-hidden">
-        <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
+        <div className="max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
           <div className="text-center mb-20 px-4">
             <h2 className="text-2xl md:text-4xl font-black tracking-tight mb-6 uppercase">
               <span className="text-[#DA222A]">Range Of</span> <span className="text-[#0A5181]">Kurtis</span>
@@ -702,7 +702,7 @@ export default function TextileVerticalPage() {
           <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px]" />
         </div>
 
-        <div className="relative z-10 max-w-[1700px] mx-auto px-12 lg:px-24">
+        <div className="relative z-10 max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
           <div className="text-center mb-12 px-4">
             <h2 className="text-[#DA222A] text-2xl md:text-3xl font-black tracking-tight mb-4">Quality Control</h2>
             <p className="text-gray-900 text-sm md:text-base font-bold max-w-4xl mx-auto leading-relaxed">
@@ -749,7 +749,7 @@ export default function TextileVerticalPage() {
 
       {/* ═══ EXPLORE OUR LATEST ARRIVALS — THE GALLERIA ═══ */}
       <section className="relative py-24 bg-white border-b border-gray-100">
-        <div className="max-w-[1700px] mx-auto px-12 lg:px-24">
+        <div className="max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
             <div className="max-w-4xl">
               <h2 className="text-[#DA222A] text-3xl md:text-4xl font-black tracking-tight mb-4">Explore Our Latest Arrivals</h2>

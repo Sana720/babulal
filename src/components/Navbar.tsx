@@ -152,7 +152,14 @@ export default function Navbar() {
 
       {/* ── MOBILE FULLSCREEN ── */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-primary z-[60] flex flex-col p-8 pt-24">
+        <div className="lg:hidden fixed inset-0 bg-primary/90 backdrop-blur-xl z-[60] flex flex-col p-8 pt-24">
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="absolute top-5 right-5 text-white/70 hover:text-white transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="w-7 h-7" />
+          </button>
           <div className="flex flex-col gap-0">
             {[
               { label: 'Our Legacy', href: '/about#legacy' },
@@ -163,10 +170,10 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="group flex items-center gap-4 py-5 border-b border-white/5"
+                className="group flex items-center gap-4 py-5 border-b border-white/10"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span className="text-accent text-[10px] font-black tracking-[.3em] opacity-40 w-6">0{i + 1}</span>
+                <span className="text-accent text-[10px] font-black tracking-[.3em] opacity-50 w-6">0{i + 1}</span>
                 <span className="text-3xl font-black text-white uppercase tracking-tight group-hover:text-accent transition-colors">{item.label}</span>
               </Link>
             ))}
