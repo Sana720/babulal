@@ -1,31 +1,16 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --font-sans: var(--font-outfit), system-ui, sans-serif;
-  --font-mono: "Fira Code", monospace;
-
-  --color-primary: #095181;
-  --color-accent: #DA222A;
-  --color-canvas: #F8F9FA;
-  --color-surface: #FFFFFF;
-  --color-surface-dim: #F1F3F6;
-
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 24px;
-}
-
-/* 
+/*
   ARCHITECTURAL LEGACY DESIGN SYSTEM
   Strict 'No-Line' Philosophy: Elevation via tonal shifts & shadows, NOT borders.
 */
 
 body {
-  background-color: var(--color-canvas);
+  background-color: #F8F9FA;
   color: #1A1A1A;
-  font-family: var(--font-sans);
+  font-family: var(--font-outfit), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -68,20 +53,20 @@ h6 {
 }
 
 .btn-accent {
-  @apply bg-accent text-white px-8 py-4 rounded-md font-semibold hover:opacity-90 shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2;
+  @apply bg-accent text-white px-8 py-4 rounded-md font-semibold hover:opacity-90 shadow-lg transition-all flex items-center justify-center gap-2;
 }
 
-/* SEO Table Styles (Requested in Document) */
+/* SEO Table Styles */
 .seo-table {
   @apply w-full border-separate border-spacing-0 overflow-hidden rounded-lg;
 }
 
 .seo-table th {
-  @apply bg-primary/5 text-primary text-left px-6 py-4 font-bold border-b border-surface-dim;
+  @apply bg-primary/5 text-primary text-left px-6 py-4 font-bold;
 }
 
 .seo-table td {
-  @apply px-6 py-4 border-b border-surface-dim bg-surface;
+  @apply px-6 py-4 bg-surface;
 }
 
 /* Animations */
@@ -96,7 +81,6 @@ h6 {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -104,13 +88,8 @@ h6 {
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee {
@@ -127,13 +106,8 @@ h6 {
 }
 
 @keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(100%);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .animate-shimmer {
@@ -148,7 +122,5 @@ h6 {
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
