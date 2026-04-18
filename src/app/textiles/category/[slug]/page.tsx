@@ -27,6 +27,7 @@ async function fetchCategoryHeaderData(slug: string) {
 async function fetchSubCategoriesData(categoryId: string) {
   await dbConnect();
   const db = mongoose.connection.db;
+  if (!db) throw new Error("Database connection missing.");
   const subs = await db.collection("subcategories").find({ categoryId }).toArray();
   return JSON.parse(JSON.stringify(subs));
 }
@@ -34,6 +35,7 @@ async function fetchSubCategoriesData(categoryId: string) {
 async function fetchProductsData() {
   await dbConnect();
   const db = mongoose.connection.db;
+  if (!db) throw new Error("Database connection missing.");
   const products = await db.collection("products")
     .find({ businessVertical: { $in: ["textiles", "TEXTILES", "Textiles"] } })
     .sort({ createdAt: -1 })

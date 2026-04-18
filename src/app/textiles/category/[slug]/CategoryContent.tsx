@@ -106,8 +106,9 @@ export default function CategoryContent({ initialCategory, subCategoriesPromise,
 
 // ══ ASYNC INNER COMPONENT ══
 function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCategory, setIsStoreModalOpen }: any) {
-  const dbSubCategories = React.use(subCategoriesPromise);
-  const dbProducts = React.use(productsPromise);
+  // Wait for the data to stream in
+  const dbSubCategories = React.use(subCategoriesPromise) as any[];
+  const dbProducts = React.use(productsPromise) as any[];
   
   const finalProducts = dbProducts.filter((p: any) => {
     const pCat = String(p.category || "").toLowerCase().trim();
