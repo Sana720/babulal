@@ -9,65 +9,37 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 /**
- * ═══ DATA RESOLVER (DIRECT DB ACCESS v8) ═══
- * We use raw MongoDB collection queries to bypass ALL Mongoose caching and strict schema rules.
- * This guarantees the database will return your products.
+ * ═══ DATA RESOLVER (STREAMING DB ACCESS) ═══
  */
-async function fetchCategoryInstitutionalData(slug: string) {
+async function fetchCategoryHeaderData(slug: string) {
   await dbConnect();
-
   const db = mongoose.connection.db;
-  if (!db) {
-    throw new Error("Database connection missing. Restart server.");
-  }
+  if (!db) throw new Error("Database connection missing.");
 
-  // 1. High-Speed Direct Lookup
-  // Instead of scanning all categories, we pinpoint the exact one instantly using a regex case-insensitive match
   const currentCat = await db.collection("categories").findOne({ 
     slug: { $regex: new RegExp(`^${slug}$`, 'i') } 
   });
   
-  if (!currentCat) {
-    return {
-      category: { name: slug.toUpperCase(), image: "/bridal_luxury.png" },
-      subCategories: [],
-      products: []
-    };
-  }
+  return currentCat ? JSON.parse(JSON.stringify(currentCat)) : { name: slug.toUpperCase(), image: "/bridal_luxury.png" };
+}
 
-  // 2. Parallel Database Execution
-  // Fetch products and subcategories at the same time, cutting network time in half.
-  // Using $in array instead of regex for businessVertical is hundreds of times faster.
-  const [products, subCategories] = await Promise.all([
-    db.collection("products")
-      .find({ businessVertical: { $in: ["textiles", "TEXTILES", "Textiles"] } })
-      .sort({ createdAt: -1 })
-      .limit(150)
-      .toArray(),
-    db.collection("subcategories")
-      .find({ categoryId: currentCat._id.toString() })
-      .toArray()
-  ]);
+// These are exported so they can be triggered without blocking the UI
+async function fetchSubCategoriesData(categoryId: string) {
+  await dbConnect();
+  const db = mongoose.connection.db;
+  const subs = await db.collection("subcategories").find({ categoryId }).toArray();
+  return JSON.parse(JSON.stringify(subs));
+}
 
-  // 3. Smart JS Matching
-  const filteredProducts = products.filter(p => {
-    const pCat = String(p.category || "").toLowerCase().trim();
-    const cName = String(currentCat.name || "").toLowerCase().trim();
-    const cSlug = String(currentCat.slug || "").toLowerCase().trim();
-    // Broad match
-    return pCat === cName || pCat === cSlug || cName.includes(pCat);
-  });
-
-  // 4. Emergency Failsafe:
-  // If the specific filter yields zero, just show the top recent textile products
-  // so the grid is NEVER empty.
-  const finalProducts = filteredProducts.length > 0 ? filteredProducts : products.slice(0, 30);
-
-  return {
-    category: JSON.parse(JSON.stringify(currentCat)),
-    subCategories: JSON.parse(JSON.stringify(subCategories)),
-    products: JSON.parse(JSON.stringify(finalProducts))
-  };
+async function fetchProductsData() {
+  await dbConnect();
+  const db = mongoose.connection.db;
+  const products = await db.collection("products")
+    .find({ businessVertical: { $in: ["textiles", "TEXTILES", "Textiles"] } })
+    .sort({ createdAt: -1 })
+    .limit(150)
+    .toArray();
+  return JSON.parse(JSON.stringify(products));
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -81,13 +53,18 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
 
   if (!slug) return <div className="pt-40 text-center">Invalid Segment</div>;
 
-  const { category, subCategories, products } = await fetchCategoryInstitutionalData(slug);
+  // Await the category immediately so the Hero can render
+  const category = await fetchCategoryHeaderData(slug);
+
+  // Do NOT await these! Trigger them in parallel to stream the promises down.
+  const subCategoriesPromise = fetchSubCategoriesData(category._id ? category._id.toString() : "0");
+  const productsPromise = fetchProductsData();
 
   return (
     <CategoryContent 
       initialCategory={category}
-      initialSubCategories={subCategories}
-      initialProducts={products}
+      subCategoriesPromise={subCategoriesPromise}
+      productsPromise={productsPromise}
       slug={slug}
     />
   );
