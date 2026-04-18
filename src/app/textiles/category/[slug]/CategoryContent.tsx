@@ -9,7 +9,8 @@ import {
   Download,
   ArrowLeft,
   CheckCircle,
-  ChevronDown
+  ChevronDown,
+  Clock
 } from 'lucide-react';
 import TextileHeader from '@/components/TextileHeader';
 import Footer from '@/components/Footer';
@@ -108,14 +109,12 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
   const dbSubCategories = React.use(subCategoriesPromise);
   const dbProducts = React.use(productsPromise);
   
-  const filteredProducts = dbProducts.filter((p: any) => {
+  const finalProducts = dbProducts.filter((p: any) => {
     const pCat = String(p.category || "").toLowerCase().trim();
     const cName = String(initialCategory?.name || "").toLowerCase().trim();
     const cSlug = String(initialCategory?.slug || "").toLowerCase().trim();
     return pCat === cName || pCat === cSlug || cName.includes(pCat);
   });
-  
-  const finalProducts = filteredProducts.length > 0 ? filteredProducts : dbProducts.slice(0, 30);
 
   return (
     <div className="flex flex-col lg:flex-row gap-12">
@@ -154,28 +153,36 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
 
        <div className="flex-1">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-             {finalProducts.map((item: any) => (
-                <div key={item._id} className="group border border-gray-100 bg-white hover:border-[#DA222A] transition-all flex flex-col">
-                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
-                      <Image 
-                        src={item.images?.[0] || "/latest_arrivals_saree.png"} 
-                        alt={item.name} 
-                        fill 
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                   </div>
-                   <div className="p-5 flex flex-col flex-1">
-                      <h4 className="text-[11px] font-black text-[#0A5181] uppercase tracking-tight mb-2 h-8 line-clamp-2">{item.name}</h4>
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6 italic">{item.attributes?.fabric || 'Premium Quality'}</p>
-                      <button 
-                         onClick={() => setIsStoreModalOpen(true)}
-                         className="w-full bg-white border border-[#DA222A] text-[#DA222A] py-3 text-[10px] font-black uppercase tracking-widest hover:bg-[#DA222A] hover:text-white transition-all flex items-center justify-center gap-2"
-                      >
-                         <MessageCircle className="w-3.5 h-3.5" /> Price Enquiry
-                      </button>
-                   </div>
-                </div>
-             ))}
+             {finalProducts.length > 0 ? (
+               finalProducts.map((item: any) => (
+                  <div key={item._id} className="group border border-gray-100 bg-white hover:border-[#DA222A] transition-all flex flex-col">
+                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
+                        <Image 
+                          src={item.images?.[0] || "/latest_arrivals_saree.png"} 
+                          alt={item.name} 
+                          fill 
+                          className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                     </div>
+                     <div className="p-5 flex flex-col flex-1">
+                        <h4 className="text-[11px] font-black text-[#0A5181] uppercase tracking-tight mb-2 h-8 line-clamp-2">{item.name}</h4>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6 italic">{item.attributes?.fabric || 'Premium Quality'}</p>
+                        <button 
+                           onClick={() => setIsStoreModalOpen(true)}
+                           className="w-full bg-white border border-[#DA222A] text-[#DA222A] py-3 text-[10px] font-black uppercase tracking-widest hover:bg-[#DA222A] hover:text-white transition-all flex items-center justify-center gap-2"
+                        >
+                           <MessageCircle className="w-3.5 h-3.5" /> Price Enquiry
+                        </button>
+                     </div>
+                  </div>
+               ))
+             ) : (
+               <div className="col-span-full w-full py-24 mb-12 flex flex-col items-center justify-center bg-[#fbfbfb] border border-gray-100">
+                  <Clock className="w-8 h-8 text-gray-300 mb-6" />
+                  <h3 className="text-xl font-black text-[#0A5181] uppercase tracking-tighter italic mb-3">Collection Incoming</h3>
+                  <p className="text-xs uppercase tracking-widest font-bold text-gray-400 text-center max-w-md">Our procurement team is currently curating premium institutional pieces for this vertical. Check back shortly.</p>
+               </div>
+             )}
           </div>
 
           <div className="mt-32 pt-20 border-t border-gray-100">
