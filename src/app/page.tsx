@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Users } from 'lucide-react';
 import { BUSINESS_VERTICALS } from '@/lib/constants';
+import { Haptics } from '@/lib/haptics';
 
 export default function GroupHomepage() {
   return (
@@ -106,6 +107,7 @@ export default function GroupHomepage() {
             >
               <Link
                 href="/contact"
+                onClick={() => Haptics.medium()}
                 className="group relative px-7 py-4 lg:px-10 lg:py-5 bg-accent text-white font-black uppercase tracking-[.2em] lg:tracking-[.3em] text-xs hover:bg-accent/90 transition-all overflow-hidden"
               >
                 <span className="relative z-10 transition-transform group-hover:-translate-y-1 block">Enquire Now</span>
@@ -113,6 +115,7 @@ export default function GroupHomepage() {
               </Link>
               <Link
                 href="/about"
+                onClick={() => Haptics.light()}
                 className="group flex items-center gap-3 lg:gap-4 text-white/60 hover:text-white font-bold uppercase tracking-[.2em] text-[11px] transition-colors"
               >
                 Learn More
@@ -209,6 +212,7 @@ export default function GroupHomepage() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              onClick={() => Haptics.light()}
               className="lg:col-span-8 h-[320px] sm:h-[480px] lg:h-[700px] group relative overflow-hidden bg-primary"
             >
               <Link href="/textiles" className="block h-full relative">
@@ -240,6 +244,7 @@ export default function GroupHomepage() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
+              onClick={() => Haptics.light()}
               className="lg:col-span-4 h-[280px] sm:h-[400px] lg:h-[700px] group relative overflow-hidden bg-primary"
             >
               <Link href="/muva-industries" className="block h-full relative">
@@ -271,6 +276,7 @@ export default function GroupHomepage() {
                 key={v.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                onClick={() => Haptics.light()}
                 transition={{ delay: i * 0.1 }}
                 className="lg:col-span-4 h-[260px] sm:h-[360px] lg:h-[500px] group relative overflow-hidden bg-surface-dim border border-primary/5"
               >

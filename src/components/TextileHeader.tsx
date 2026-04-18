@@ -43,7 +43,7 @@ const TextileHeader = () => {
           <div className="flex whitespace-nowrap animate-marquee font-bold text-[8px] md:text-[10px] uppercase tracking-[.3em]">
             <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Textile Manufacturer Since 1978</span>
             <span className="mx-4 md:mx-8">Global Shipping Now Available to 50+ Countries</span>
-            <span className="mx-4 md:mx-8">New Bridal Collection 2024 Launching Soon</span>
+            <span className="mx-4 md:mx-8">New Bridal Collection 2026 Launching Soon</span>
             <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Textile Manufacturer Since 1978</span>
           </div>
         </div>

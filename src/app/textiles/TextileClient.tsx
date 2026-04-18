@@ -39,6 +39,7 @@ import {
 import TextileHeader from '@/components/TextileHeader';
 import Footer from '@/components/Footer';
 import InquiryForm from '@/components/InquiryForm';
+import { Haptics } from '@/lib/haptics';
 
 const HERO_SLIDES = [
   {
@@ -292,7 +293,10 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               </h1>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-start">
-                <button className="w-full sm:w-auto px-10 py-4 md:py-5 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded transition-all hover:bg-black shadow-2xl flex items-center justify-center gap-2">
+                <button 
+                  onClick={() => Haptics.medium()}
+                  className="w-full sm:w-auto px-10 py-4 md:py-5 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded transition-all hover:bg-black shadow-2xl flex items-center justify-center gap-2"
+                >
                   Request Catalog <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -463,6 +467,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               curatedCategories.map((cat, i) => (
                 <motion.div
                   key={cat._id}
+                  onClick={() => Haptics.light()}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -528,7 +533,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
                 </div>
                 <h4 className="text-[#0A5181] text-2xl font-black tracking-tighter mb-4">Explore Full <br />Inventory.</h4>
                 <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-8 leading-relaxed">
-                  Access our complete 2024 wholesale line sheet and technical specifications.
+                  Access our complete 2026 wholesale line sheet and technical specifications.
                 </p>
                 <div className="flex items-center gap-2 text-[#DA222A] text-[10px] font-black uppercase tracking-widest">
                   Coming Soon <ArrowRight className="w-4 h-4" />
@@ -571,6 +576,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               <Link
                 key={i}
                 href="/textiles/category/sarees"
+                onClick={() => Haptics.light()}
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
@@ -635,6 +641,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               <Link
                 key={i}
                 href="/textiles/category/suits"
+                onClick={() => Haptics.light()}
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
@@ -699,6 +706,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               <Link
                 key={i}
                 href="/textiles/category/kurtis"
+                onClick={() => Haptics.light()}
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">

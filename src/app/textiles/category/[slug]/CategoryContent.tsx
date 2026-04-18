@@ -15,6 +15,7 @@ import {
 import TextileHeader from '@/components/TextileHeader';
 import Footer from '@/components/Footer';
 import StoreLocatorModal from '@/components/StoreLocatorModal';
+import { Haptics } from '@/lib/haptics';
 
 interface CategoryContentProps {
   initialCategory: any;
@@ -52,6 +53,7 @@ export default function CategoryContent({ initialCategory, subCategoriesPromise,
            <div className="relative h-full max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col justify-center">
               <Link 
                 href="/textiles" 
+                onClick={() => Haptics.light()}
                 className="flex items-center gap-2 text-white/80 text-[10px] lg:text-[11px] font-black uppercase tracking-[0.3em] mb-4 hover:text-white transition-colors"
               >
                  <ArrowLeft className="w-4 h-4" /> BACK TO COLLECTIONS
@@ -125,13 +127,19 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
                 <h3 className="text-xs font-black uppercase text-[#0A5181] border-b-2 border-gray-100 pb-2 mb-6 tracking-tight">Product Sub-Type</h3>
                 <ul className="space-y-4">
                    <li>
-                      <button className="text-[11px] font-black text-[#DA222A] flex items-center gap-2 uppercase tracking-tight">
+                      <button 
+                        onClick={() => Haptics.light()}
+                        className="text-[11px] font-black text-[#DA222A] flex items-center gap-2 uppercase tracking-tight"
+                      >
                          <CheckCircle className="w-4 h-4" /> ALL {initialCategory?.name}
                       </button>
                    </li>
                    {dbSubCategories.map((sub: any) => (
                       <li key={sub._id}>
-                         <button className="text-[11px] font-bold text-gray-400 hover:text-[#0A5181] uppercase transition-colors tracking-tight">
+                         <button 
+                           onClick={() => Haptics.light()}
+                           className="text-[11px] font-bold text-gray-400 hover:text-[#0A5181] uppercase transition-colors tracking-tight"
+                         >
                             {sub.name}
                          </button>
                       </li>
@@ -143,7 +151,10 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
                 <h4 className="text-[10px] font-black uppercase text-[#0A5181] tracking-widest mb-3">Bulk Assistance</h4>
                 <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-6 uppercase">Direct procurement desk for wholesale partners.</p>
                 <button 
-                  onClick={() => setIsStoreModalOpen(true)}
+                  onClick={() => {
+                    Haptics.medium();
+                    setIsStoreModalOpen(true);
+                  }}
                   className="w-full bg-[#0A5181] text-white py-4 rounded text-[10px] font-black uppercase tracking-widest hover:bg-[#DA222A] transition-colors"
                 >
                    Enquire Now
@@ -169,7 +180,10 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
                         <h4 className="text-[11px] font-black text-[#0A5181] uppercase tracking-tight mb-2 h-8 line-clamp-2">{item.name}</h4>
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6 italic">{item.attributes?.fabric || 'Premium Quality'}</p>
                         <button 
-                           onClick={() => setIsStoreModalOpen(true)}
+                           onClick={() => {
+                             Haptics.medium();
+                             setIsStoreModalOpen(true);
+                           }}
                            className="w-full bg-white border border-[#DA222A] text-[#DA222A] py-3 text-[10px] font-black uppercase tracking-widest hover:bg-[#DA222A] hover:text-white transition-all flex items-center justify-center gap-2"
                         >
                            <MessageCircle className="w-3.5 h-3.5" /> Price Enquiry
