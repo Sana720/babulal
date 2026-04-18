@@ -333,20 +333,81 @@ export default function GroupHomepage() {
       </section>
 
       {/* ═══ CAREERS ═══ */}
-      <section className="bg-canvas py-20 lg:py-40 border-t border-primary/5">
+      <section className="bg-canvas py-20 lg:py-40 overflow-hidden border-t border-primary/5">
         <div className="max-w-[1700px] mx-auto px-5 sm:px-8 lg:px-24">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-            <div className="lg:col-span-6">
-              <h2 className="text-primary font-black uppercase tracking-tighter leading-none mb-8" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
-                Career <br /><span className="text-accent italic">Legacy.</span>
-              </h2>
-              <Link href="/careers" className="group flex items-center gap-5">
-                <div className="w-12 h-12 rounded-full border border-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                  <ArrowUpRight className="w-5 h-5" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+
+            {/* Text */}
+            <div className="lg:col-span-4">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                className="relative"
+              >
+                <div className="w-12 h-px bg-accent mb-8 lg:mb-12" />
+                <h2 className="text-primary font-black uppercase tracking-tighter leading-none mb-8" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
+                  Career <br /><span className="text-accent italic">Legacy.</span>
+                </h2>
+                <div className="space-y-4 text-primary/60 text-base font-medium leading-relaxed italic">
+                  <p>Joining the Babulal Premsons Group transforms your professional journey into a legacy.</p>
+                  <p>An environment defined by innovation, precision, and institutional collaboration.</p>
                 </div>
-                <span className="text-primary font-black uppercase tracking-[.3em] text-xs">Join our ecosystem</span>
-              </Link>
+                <div className="mt-10 lg:mt-16">
+                  <Link href="/careers" className="group flex items-center gap-5">
+                    <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border border-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                      <ArrowUpRight className="w-5 h-5 lg:w-6 lg:h-6" />
+                    </div>
+                    <span className="text-primary font-black uppercase tracking-[.3em] text-xs">Join our ecosystem</span>
+                  </Link>
+                </div>
+              </motion.div>
             </div>
+
+            {/* Subsidiaries Card */}
+            <div className="lg:col-span-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="bg-white p-10 lg:p-16 shadow-xl border border-primary/5 relative overflow-hidden"
+              >
+                <div className="relative z-10 space-y-8 lg:space-y-12">
+                  <div className="text-center pb-6 border-b border-primary/5">
+                    <span className="text-accent text-[10px] font-black uppercase tracking-[.4em]">Our Subsidiaries</span>
+                  </div>
+                  <div className="space-y-6 lg:space-y-10">
+                    {['Babulal Premkumar', 'Premsons Honda', 'Premsons Bajaj', 'Premsons & Poddar Trucking', 'MUVA Industries'].map((name) => (
+                      <div key={name} className="flex justify-center grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100">
+                        <span className="text-lg font-bold tracking-tighter uppercase text-center text-primary">{name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Team Image */}
+            <div className="lg:col-span-4 h-[380px] sm:h-[500px] lg:h-[800px] relative order-first lg:order-last">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="h-full w-full relative overflow-hidden shadow-2xl"
+              >
+                <Image src="/team_branded.png" alt="Babulal Premsons Team" fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+                <div className="absolute bottom-8 left-6 right-6 flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-white text-[10px] font-black uppercase tracking-[.4em] mb-1">Team Collective</span>
+                    <span className="text-white/60 text-xs italic font-medium leading-relaxed hidden sm:block">
+                      Defining the backbone of Jharkhand&apos;s commercial success.
+                    </span>
+                  </div>
+                  <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                    <Users className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
           </div>
         </div>
       </section>
