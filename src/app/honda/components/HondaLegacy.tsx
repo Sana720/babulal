@@ -3,6 +3,21 @@
 import React from 'react';
 
 export default function HondaLegacy() {
+  const [content, setContent] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch('/api/admin/landing-content?vertical=HONDA');
+        const data = await res.json();
+        if (data._id) setContent(data);
+      } catch (err) {
+        console.error('Failed to fetch honda content:', err);
+      }
+    };
+    fetchContent();
+  }, []);
+
   return (
     <section className="relative py-28 md:py-32 bg-white overflow-hidden">
       <div className="absolute top-0 left-[15%] w-[1px] h-full bg-gradient-to-b from-transparent via-[#0A5181]/10 to-transparent pointer-events-none" />
@@ -12,14 +27,14 @@ export default function HondaLegacy() {
         <div className="text-center mb-16 px-4">
           <div className="flex items-center justify-center gap-6 mb-8">
             <div className="w-12 h-[1px] bg-[#0A5181]/20" />
-            <span className="text-[#0A5181] text-[11px] font-black uppercase tracking-[.6em]">Two Decades of Partnership</span>
+            <span className="text-[#0A5181] text-[11px] font-black uppercase tracking-[.6em]">{content?.aboutSection?.title || "Two Decades of Partnership"}</span>
             <div className="w-12 h-[1px] bg-[#0A5181]/20" />
           </div>
           <h2 className="text-[#0A5181] text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter leading-[1.1] mb-10">
-            Ranchi&apos;s Trusted <br className="hidden sm:block" /><span className="text-[#DA222A]">Honda Powerhouse.</span>
+            {content?.heroTitle?.includes('Honda') ? content.heroTitle.split('Honda')[0] : "Ranchi's Trusted "} <br className="hidden sm:block" /><span className="text-[#DA222A]">{content?.heroTitle?.includes('Honda') ? 'Honda Powerhouse' : 'Honda Powerhouse.'}</span>
           </h2>
-          <p className="text-gray-500 text-base md:text-xl lg:text-2xl font-medium max-w-4xl mx-auto italic leading-relaxed">
-            We define automotive trust with transparent pricing and clinical service precision. <br className="hidden lg:block" /> As the largest Honda Wings dealer in Jharkhand, we bring the global standard of mobility to Ranchi.
+          <p className="text-gray-500 text-base md:text-xl lg:text-2xl font-medium max-w-4xl mx-auto italic leading-relaxed whitespace-pre-line">
+            {content?.aboutSection?.content || "We define automotive trust with transparent pricing and clinical service precision. As the largest Honda Wings dealer in Jharkhand, we bring the global standard of mobility to Ranchi."}
           </p>
         </div>
 

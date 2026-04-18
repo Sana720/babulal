@@ -44,6 +44,21 @@ export default function AdminProductsPage() {
     }
   };
 
+  const deleteProduct = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+    
+    try {
+      const res = await fetch(`/api/admin/products?id=${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setProducts(products.filter(p => p._id !== id));
+      } else {
+        alert('Failed to delete product');
+      }
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
   }, [filter]);
@@ -165,15 +180,25 @@ export default function AdminProductsPage() {
                         </td>
                         <td className="px-6 py-6 text-right">
                             <div className="flex justify-end gap-2">
-                                <button className="p-2.5 rounded-md bg-surface-dim text-primary/40 hover:bg-primary hover:text-white transition-all">
+                                <Link 
+                                  href={`/admin/products/${item._id}`}
+                                  className="p-2.5 rounded-md bg-surface-dim text-primary/40 hover:bg-primary hover:text-white transition-all outline-none"
+                                >
                                   <Edit2 className="w-4 h-4" />
-                                </button>
-                                <button className="p-2.5 rounded-md bg-surface-dim text-primary/40 hover:bg-accent hover:text-white transition-all shadow-sm">
+                                </Link>
+                                <button 
+                                  onClick={() => deleteProduct(item._id)}
+                                  className="p-2.5 rounded-md bg-surface-dim text-primary/40 hover:bg-accent hover:text-white transition-all shadow-sm"
+                                >
                                   <Trash2 className="w-4 h-4" />
                                 </button>
-                                <button className="p-2.5 rounded-md bg-surface-dim text-primary/40 hover:bg-primary hover:text-white transition-all">
+                                <Link 
+                                  href={`/products/${item.slug}`}
+                                  target="_blank"
+                                  className="p-2.5 rounded-md bg-surface-dim text-primary/40 hover:bg-primary hover:text-white transition-all"
+                                >
                                   <ExternalLink className="w-4 h-4" />
-                                </button>
+                                </Link>
                             </div>
                         </td>
                       </motion.tr>

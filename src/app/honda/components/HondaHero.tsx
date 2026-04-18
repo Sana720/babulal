@@ -26,13 +26,36 @@ interface HondaHeroProps {
 
 export default function HondaHero({ onTestRideClick }: HondaHeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slides, setSlides] = useState(HERO_SLIDES);
 
   useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const res = await fetch('/api/admin/banners?vertical=HONDA');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const dynamicSlides = data.filter(b => b.isActive).map(b => ({
+            title: b.title,
+            subtitle: b.subtitle || '',
+            img: b.image,
+            accent: b.position === 'HOME_HERO' ? 'Featured Selection' : 'Honda Elite'
+          }));
+          setSlides(dynamicSlides);
+        }
+      } catch (err) {
+        console.error('Failed to fetch honda banners:', err);
+      }
+    };
+    fetchBanners();
+  }, []);
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides]);
 
   return (
     <section className="relative h-[85vh] md:h-screen w-full overflow-hidden bg-[#0A5181] pt-24 md:pt-32">
@@ -47,7 +70,7 @@ export default function HondaHero({ onTestRideClick }: HondaHeroProps) {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={HERO_SLIDES[currentSlide].img}
+            src={slides[currentSlide].img}
             alt="Honda Excellence"
             fill
             priority
@@ -69,20 +92,20 @@ export default function HondaHero({ onTestRideClick }: HondaHeroProps) {
            <div className="flex items-center gap-6 mb-8">
             <span className="w-12 h-[2px] bg-[#DA222A]" />
             <span className="text-white text-[10px] md:text-[12px] font-black uppercase tracking-[.6em] md:tracking-[.8em]">
-              {HERO_SLIDES[currentSlide].accent}
+              {slides[currentSlide].accent}
             </span>
           </div>
 
           <div className="min-h-[150px] md:min-h-[250px] lg:min-h-[320px]">
             <h1 className="text-white text-5xl md:text-[5rem] lg:text-[8rem] font-black tracking-tighter leading-[0.9] uppercase mb-10">
-              {HERO_SLIDES[currentSlide].title}<br />
+              {slides[currentSlide].title}<br />
               <span className="text-[#DA222A] italic">DREAMS.</span>
             </h1>
           </div>
 
           <div className="min-h-[60px] md:min-h-[80px]">
             <p className="text-white/80 text-lg md:text-2xl font-medium max-w-2xl italic mb-12 border-l-2 border-[#DA222A] pl-10 leading-relaxed">
-              {HERO_SLIDES[currentSlide].subtitle}
+              {slides[currentSlide].subtitle}
             </p>
           </div>
 
@@ -104,7 +127,7 @@ export default function HondaHero({ onTestRideClick }: HondaHeroProps) {
       </div>
 
       <div className="absolute bottom-12 right-12 z-20 flex gap-4">
-        {HERO_SLIDES.map((_, i) => (
+        {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrentSlide(i)}

@@ -16,7 +16,8 @@ import {
   Sliders,
   ImageIcon,
   FileText,
-  MapPin
+  MapPin,
+  Globe
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -27,6 +28,7 @@ const MENU_ITEMS = [
   { name: 'Product Attributes', icon: Sliders, href: '/admin/attributes' },
   { name: 'Manage Enquiry', icon: Users, href: '/admin/leads' },
   { name: 'Manage Banners', icon: ImageIcon, href: '/admin/banners' },
+  { name: 'Manage Verticals', icon: Globe, href: '/admin/verticals' },
   { name: 'Manage Blog Article', icon: FileText, href: '/admin/blogs' },
   { name: 'Manage Locations', icon: MapPin, href: '/admin/locations' },
 ];

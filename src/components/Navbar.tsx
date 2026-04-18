@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ChevronDown, Shield } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ChevronDown, Shield, ArrowRight } from 'lucide-react';
 import { BUSINESS_VERTICALS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -20,10 +21,12 @@ export default function Navbar() {
 
   return (
     <header className={cn(
-      "fixed top-0 w-full z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
-      isScrolled
-        ? "bg-white shadow-sm border-b-2 border-accent/20 py-1"
-        : "bg-black/20 backdrop-blur-md border-b border-white/10 py-2.5"
+      "fixed top-0 w-full z-50 transition-[background-color,padding,border-color,box-shadow] duration-500 ease-in-out",
+      isMobileMenuOpen 
+        ? "bg-[#0A5181] py-1" 
+        : isScrolled 
+          ? "bg-white shadow-sm border-accent/20 py-1" 
+          : "bg-black/20 backdrop-blur-md border-b border-white/10 py-2.5"
     )}>
       <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between gap-6">
 
@@ -40,8 +43,8 @@ export default function Navbar() {
               sizes="(max-width: 1024px) 320px, 400px"
               className={cn(
                 "object-contain object-left transition-all duration-700",
-                // At top: invert to white so it pops on dark glass header
-                !isScrolled && "brightness-0 invert drop-shadow-[0_0_18px_rgba(255,255,255,0.35)]"
+                // At top or when menu is open: invert to white
+                (!isScrolled || isMobileMenuOpen) && "brightness-0 invert drop-shadow-[0_0_18px_rgba(255,255,255,0.35)]"
               )}
               priority
               loading="eager"
@@ -150,45 +153,74 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* ── MOBILE FULLSCREEN ── */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-primary/90 backdrop-blur-xl z-[60] flex flex-col p-8 pt-24">
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="absolute top-5 right-5 text-white/70 hover:text-white transition-colors"
-            aria-label="Close menu"
+      {/* ── MOBILE FULLSCREEN (ZERO LAG) ── */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="lg:hidden fixed inset-0 bg-[#0A5181] z-[70] flex flex-col"
           >
-            <X className="w-7 h-7" />
-          </button>
-          <div className="flex flex-col gap-0">
-            {[
-              { label: 'Our Legacy', href: '/about#legacy' },
-              { label: 'Businesses', href: '/#divisions' },
-              { label: 'Contact', href: '/contact' },
-              { label: 'Staff Login', href: '/admin' },
-            ].map((item, i) => (
+            {/* Mobile Header Bar */}
+            <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="relative w-40 h-10">
+                <Image
+                  src="/babulal_premsons.avif"
+                  alt="Babulal Premsons Group"
+                  fill
+                  className="object-contain brightness-0 invert"
+                />
+              </div>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-white/70 hover:text-white transition-colors"
+              >
+                <X className="w-8 h-8" />
+              </button>
+            </div>
+
+            {/* Menu Links */}
+            <div className="flex flex-col p-8 overflow-y-auto">
+              {[
+                { label: 'Our Legacy', href: '/about#legacy' },
+                { label: 'Businesses', href: '/#divisions' },
+                { label: 'Leadership', href: '/about#philosophy' },
+                { label: 'Contact Us', href: '/contact' },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + (i * 0.05) }}
+                >
+                  <Link
+                    href={item.href}
+                    className="group flex items-center justify-between py-6 border-b border-white/[0.05]"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <span className="text-xl font-bold text-white uppercase tracking-tighter group-active:text-accent group-active:translate-x-2 transition-all">{item.label}</span>
+                    <ChevronDown className="w-5 h-5 text-accent -rotate-90" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Bottom Actions */}
+            <div className="mt-auto p-8 border-t border-white/10 space-y-4">
+              <div className="text-[10px] font-black uppercase text-accent tracking-[0.4em] mb-4">Enterprise Hub</div>
               <Link
-                key={item.label}
-                href={item.href}
-                className="group flex items-center gap-4 py-5 border-b border-white/10"
+                href="/contact"
+                className="flex items-center justify-center gap-3 bg-[#DA222A] text-white py-5 rounded-sm font-black text-xs uppercase tracking-widest shadow-2xl active:scale-95 transition-transform"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <span className="text-accent text-[10px] font-black tracking-[.3em] opacity-50 w-6">0{i + 1}</span>
-                <span className="text-3xl font-black text-white uppercase tracking-tight group-hover:text-accent transition-colors">{item.label}</span>
+                Enquire Now <ArrowRight className="w-4 h-4" />
               </Link>
-            ))}
-          </div>
-          <div className="mt-auto">
-            <Link
-              href="/contact"
-              className="block bg-accent text-white text-center font-black uppercase tracking-widest py-4"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Enquire Now
-            </Link>
-          </div>
-        </div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

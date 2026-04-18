@@ -5,6 +5,7 @@ const ProductSchema = new Schema({
   slug: { type: String, required: true, unique: true },
   businessVertical: { type: String, required: true }, // e.g. 'textiles', 'honda'
   category: { type: String, required: true },
+  subCategory: { type: String },
   description: { type: String },
   images: [{ type: String }], // Cloudinary URLs
   videoUrl: { type: String }, // YouTube link per SEO doc

@@ -59,13 +59,14 @@ export default function AboutPage() {
                 { icon: Award, label: "Uncompromising Quality", desc: "From fabrics to 3-wheelers, every product is a promise of group excellence." },
                 { icon: Landmark, label: "Ranchi Heritage", desc: "A deep core belief in the growth of Jharkhand and the surrounding region." },
               ].map((v, i) => (
-                <div key={i} className="flex gap-5 group">
-                  <div className="bg-primary p-3 lg:p-4 rounded-xl shadow-lg shadow-primary/20 text-white group-hover:scale-110 transition-transform shrink-0">
-                    <v.icon className="w-5 h-5 lg:w-6 lg:h-6" />
+                <div key={i} className="flex items-start gap-4 sm:gap-8 group">
+                  <div className="bg-primary w-11 lg:w-16 h-20 lg:h-36 rounded-full shadow-xl shadow-primary/20 text-white flex flex-col items-center pt-4 lg:pt-7 shrink-0 transition-all duration-500 group-hover:bg-accent group-hover:-translate-y-2">
+                    <v.icon className="w-4 h-4 lg:w-7 lg:h-7" />
+                    <div className="mt-auto mb-4 w-1 h-1 bg-white/20 rounded-full" />
                   </div>
-                  <div>
-                    <h5 className="text-sm font-bold text-primary tracking-tight">{v.label}</h5>
-                    <p className="text-[11px] font-bold text-primary/40 uppercase tracking-widest leading-loose mt-1">{v.desc}</p>
+                  <div className="pt-1">
+                    <h5 className="text-sm lg:text-xl font-black text-primary tracking-tight mb-2 uppercase italic leading-tight">{v.label}</h5>
+                    <p className="text-[10px] lg:text-[12px] font-black text-primary/60 uppercase tracking-[.15em] leading-relaxed">{v.desc}</p>
                   </div>
                 </div>
               ))}

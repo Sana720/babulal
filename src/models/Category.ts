@@ -8,6 +8,7 @@ export interface ICategory extends Document {
   faqCount: number;
   showInHeader: boolean;
   topBusiness: boolean;
+  isCurated: boolean;
   order: number;
   status: 'Active' | 'Inactive';
   parentVertical: string; // e.g. 'textiles'
@@ -23,9 +24,16 @@ const CategorySchema: Schema = new Schema({
   faqCount: { type: Number, default: 0 },
   showInHeader: { type: Boolean, default: true },
   topBusiness: { type: Boolean, default: false },
+  isCurated: { type: Boolean, default: false },
   order: { type: Number, default: 0 },
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
   parentVertical: { type: String, default: 'textiles' },
 }, { timestamps: true });
 
-export default mongoose.models.Category || mongoose.model<ICategory>('Category', CategorySchema);
+// Delete cached model to force re-registration with latest schema on hot-reload
+// This prevents stale schema issues where new fields (like isCurated) get stripped
+if (mongoose.models.Category) {
+  delete mongoose.models.Category;
+}
+
+export default mongoose.model<ICategory>('Category', CategorySchema);
