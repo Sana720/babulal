@@ -106,19 +106,9 @@ export default function AdminProductsPage() {
             />
          </div>
          
-         <div className="flex gap-2 p-1 bg-surface-dim rounded-lg overflow-x-auto no-scrollbar">
-            {['ALL', ...Object.keys(BUSINESS_VERTICALS)].map((v) => (
-              <button
-                key={v}
-                onClick={() => setFilter(v)}
-                className={cn(
-                  "text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-md transition-all whitespace-nowrap",
-                  filter === v ? "bg-primary text-white shadow-lg" : "text-primary/40 hover:text-primary"
-                )}
-              >
-                {v}
-              </button>
-            ))}
+         <div className="hidden md:flex items-center gap-3 px-6 py-3 bg-surface-dim rounded-lg border border-primary/5">
+            <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-[.2em] text-primary/60">Filtering: Textiles Only</span>
          </div>
       </div>
 

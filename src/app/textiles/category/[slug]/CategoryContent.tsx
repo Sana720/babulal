@@ -78,8 +78,9 @@ export default function CategoryContent({ initialCategory, subCategoriesPromise,
                     <div className="text-[10px] font-black uppercase text-[#DA222A] tracking-[0.2em] mb-2">Inventory Catalog</div>
                     <h2 className="text-3xl lg:text-4xl font-black text-[#0A5181] uppercase tracking-tighter italic">Featured Pieces</h2>
                  </div>
-                 <div className="text-[10px] font-black uppercase text-gray-300 tracking-widest text-right">
-                    AVAILABLE IN-STORE ONLY • WHOLESALE EXPORT PARTNER
+                 <div className="text-right">
+                    <div className="text-[10px] font-black uppercase text-accent tracking-widest">In-Store Procurement Only</div>
+                    <div className="text-[9px] font-bold uppercase text-gray-300 tracking-[0.3em] mt-1">Visit Ranchi H.Q. • Wholesale Only</div>
                  </div>
               </div>
            </div>
@@ -168,16 +169,20 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
              {finalProducts.length > 0 ? (
                finalProducts.map((item: any) => (
                   <div key={item._id} className="group border border-gray-100 bg-white hover:border-[#DA222A] transition-all flex flex-col">
-                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
-                        <Image 
-                          src={item.images?.[0] || "/latest_arrivals_saree.png"} 
-                          alt={item.name} 
-                          fill 
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                     </div>
+                     <Link href={`/textiles/product/${item.slug}`} className="block">
+                        <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
+                           <Image 
+                             src={item.images?.[0] || "/latest_arrivals_saree.png"} 
+                             alt={item.name} 
+                             fill 
+                             className="object-cover group-hover:scale-105 transition-transform duration-700"
+                           />
+                        </div>
+                     </Link>
                      <div className="p-5 flex flex-col flex-1">
-                        <h4 className="text-[11px] font-black text-[#0A5181] uppercase tracking-tight mb-2 h-8 line-clamp-2">{item.name}</h4>
+                        <Link href={`/textiles/product/${item.slug}`} className="hover:text-[#DA222A] transition-colors">
+                           <h4 className="text-[11px] font-black text-[#0A5181] uppercase tracking-tight mb-2 h-8 line-clamp-2">{item.name}</h4>
+                        </Link>
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6 italic">{item.attributes?.fabric || 'Premium Quality'}</p>
                         <button 
                            onClick={() => {

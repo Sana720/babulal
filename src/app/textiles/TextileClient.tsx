@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import {
   ArrowUpRight,
   ChevronRight,
@@ -21,6 +22,8 @@ import {
   Award,
   Factory,
   ArrowRight,
+  MapPin,
+  X,
   Droplets,
   Layers,
   PackageCheck,
@@ -34,7 +37,6 @@ import {
   Box,
   Truck,
   Play,
-  X
 } from 'lucide-react';
 import TextileHeader from '@/components/TextileHeader';
 import Footer from '@/components/Footer';
@@ -89,10 +91,10 @@ const ReelCard = ({ reel, index }: { reel: Reel, index: number }) => {
         scrolling="no"
         loading="lazy"
       ></iframe>
-      
+
       {/* Subtle Bottom Metadata Gradient (Non-interactive) */}
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none opacity-60" />
-      
+
       {/* Decorative Brand Label */}
       <div className="absolute bottom-6 left-6 z-20 pointer-events-none">
         <span className="text-[#DA222A] text-[8px] font-black uppercase tracking-[0.3em] drop-shadow-lg">{reel.category}</span>
@@ -122,12 +124,12 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
   const [isSareePaused, setIsSareePaused] = useState(false);
   const [isSuitPaused, setIsSuitPaused] = useState(false);
   const [isKurtiPaused, setIsKurtiPaused] = useState(false);
-  
+
   // Dynamic Data States (Pre-populated from Server)
   const [products] = useState<any[]>(initialProducts);
   const [curatedCategories] = useState<any[]>(initialCategories);
   const [isLoading] = useState(false); // Never loading because data is SSR
-  
+
   // Inquiry Modal State
   const [showInquiryModal, setShowInquiryModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -184,6 +186,14 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
 
     return () => clearInterval(autoScroll);
   }, [isSuitPaused]);
+
+  // Dynamic Data Sections
+  const sarees = products.filter(p => p.category?.toLowerCase() === 'saree').slice(0, 10);
+  const suits = products.filter(p => p.category?.toLowerCase() === 'suit').slice(0, 10);
+  const kurtis = products.filter(p => p.category?.toLowerCase() === 'kurti').slice(0, 10);
+  const kidsWear = products.filter(p => p.category?.toLowerCase() === 'kids-wear').slice(0, 10);
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   // Kurti Auto-Scroll Engine — With Smart Pause
   useEffect(() => {
@@ -293,7 +303,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               </h1>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-start">
-                <button 
+                <button
                   onClick={() => Haptics.medium()}
                   className="w-full sm:w-auto px-10 py-4 md:py-5 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded transition-all hover:bg-black shadow-2xl flex items-center justify-center gap-2"
                 >
@@ -459,8 +469,8 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               // PREMIUM SHIMMER LOADING STATES
               [1, 2, 3].map((i) => (
                 <div key={i} className="animate-pulse space-y-6">
-                   <div className="h-10 w-2/3 bg-gray-100 rounded-lg mb-4" />
-                   <div className="aspect-[4/5] bg-gray-100 rounded-3xl" />
+                  <div className="h-10 w-2/3 bg-gray-100 rounded-lg mb-4" />
+                  <div className="aspect-[4/5] bg-gray-100 rounded-3xl" />
                 </div>
               ))
             ) : curatedCategories.length > 0 ? (
@@ -517,11 +527,11 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
             ) : (
               // EMPTY STATE
               <div className="col-span-1 md:col-span-2 lg:col-span-2">
-                 <div className="bg-gray-50 p-12 rounded-3xl border-2 border-dashed border-gray-200 text-center">
-                    <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-black text-primary uppercase tracking-tighter">New Collection Arriving Soon</h3>
-                    <p className="text-gray-400 text-xs mt-2 uppercase tracking-widest">Our catalog is currently being updated for the season.</p>
-                 </div>
+                <div className="bg-gray-50 p-12 rounded-3xl border-2 border-dashed border-gray-200 text-center">
+                  <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                  <h3 className="text-xl font-black text-primary uppercase tracking-tighter">New Collection Arriving Soon</h3>
+                  <p className="text-gray-400 text-xs mt-2 uppercase tracking-widest">Our catalog is currently being updated for the season.</p>
+                </div>
               </div>
             )}
 
@@ -564,36 +574,39 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
             onScroll={() => handleScrollSync(sareeScrollRef, setSareeProgress)}
             className="flex gap-6 overflow-x-auto no-scrollbar pb-8 snap-x snap-mandatory"
           >
-            {[
-              { name: "Net Sarees", img: "/saree_boutique_red.png" },
-              { name: "Cotton Sarees", img: "/saree_boutique_red.png" },
-              { name: "Dyed Fancy Matching Saree", img: "/saree_boutique_red.png" },
-              { name: "Dyed Matching Saree", img: "/saree_boutique_red.png" },
-              { name: "Lehenga Style Sarees", img: "/saree_boutique_red.png" },
-              { name: "Silk Sarees", img: "/saree_boutique_red.png" },
-              { name: "Handloom Sarees", img: "/saree_boutique_red.png" }
-            ].map((cat, i) => (
-              <Link
-                key={i}
-                href="/textiles/category/sarees"
-                onClick={() => Haptics.light()}
+            {sarees.length > 0 ? sarees.map((p, i) => (
+              <div
+                key={p._id}
+                onClick={() => {
+                  Haptics.light();
+                  openInquiry(p);
+                }}
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
                   <Image
-                    src={cat.img}
-                    alt={cat.name}
+                    src={p.images?.[0] || "/saree_boutique_red.png"}
+                    alt={p.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
+                  {p.images?.length > 1 && (
+                    <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[8px] font-black text-white uppercase tracking-widest">
+                      +{p.images.length - 1} View
+                    </div>
+                  )}
                 </div>
                 <div className="text-center px-4">
-                  <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{cat.name}</h4>
-                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">See the collection</p>
+                  <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{p.name}</h4>
+                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Request Wholesale Price</p>
                 </div>
-              </Link>
-            ))}
+              </div>
+            )) : (
+              [1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] aspect-[3/4] bg-gray-100 animate-pulse rounded-sm" />
+              ))
+            )}
           </div>
 
           {/* Institutional Progress Indicators — Saree Section */}
@@ -629,36 +642,39 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
             onScroll={() => handleScrollSync(suitScrollRef, setSuitProgress)}
             className="flex gap-6 overflow-x-auto no-scrollbar pb-8 snap-x snap-mandatory"
           >
-            {[
-              { name: "Embroidered Ladies Suit", img: "/suit_boutique_purple.png" },
-              { name: "Ladies Suits", img: "/suit_boutique_purple.png" },
-              { name: "Pashmina Ladies Suits", img: "/suit_boutique_purple.png" },
-              { name: "Silk Ladies Suits", img: "/suit_boutique_purple.png" },
-              { name: "Chanderi Ladies Suits", img: "/suit_boutique_purple.png" },
-              { name: "Cotton Silk Suits", img: "/suit_boutique_purple.png" },
-              { name: "Designer Party Suits", img: "/suit_boutique_purple.png" }
-            ].map((cat, i) => (
-              <Link
-                key={i}
-                href="/textiles/category/suits"
-                onClick={() => Haptics.light()}
+            {suits.length > 0 ? suits.map((p, i) => (
+              <div
+                key={p._id}
+                onClick={() => {
+                  Haptics.light();
+                  openInquiry(p);
+                }}
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
                   <Image
-                    src={cat.img}
-                    alt={cat.name}
+                    src={p.images?.[0] || "/suit_boutique_purple.png"}
+                    alt={p.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
+                  {p.images?.length > 1 && (
+                    <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[8px] font-black text-white uppercase tracking-widest">
+                      +{p.images.length - 1} View
+                    </div>
+                  )}
                 </div>
                 <div className="text-center px-4">
-                  <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{cat.name}</h4>
-                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">See the collection</p>
+                  <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{p.name}</h4>
+                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Bulk Inquiry</p>
                 </div>
-              </Link>
-            ))}
+              </div>
+            )) : (
+              [1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] aspect-[3/4] bg-gray-100 animate-pulse rounded-sm" />
+              ))
+            )}
           </div>
 
           {/* Institutional Progress Indicators — Suit Section */}
@@ -694,36 +710,39 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
             onScroll={() => handleScrollSync(kurtiScrollRef, setKurtiProgress)}
             className="flex gap-6 overflow-x-auto no-scrollbar pb-8 snap-x snap-mandatory"
           >
-            {[
-              { name: "Printed Cotton Kurti", img: "/kurti_boutique_yellow.png" },
-              { name: "Rayon Embroidered Kurti", img: "/kurti_boutique_yellow.png" },
-              { name: "Anarkali Kurti", img: "/kurti_boutique_yellow.png" },
-              { name: "Designer Kurtis", img: "/kurti_boutique_yellow.png" },
-              { name: "Jaipuri Kurtis", img: "/kurti_boutique_yellow.png" },
-              { name: "Casual Daily Kurti", img: "/kurti_boutique_yellow.png" },
-              { name: "Party Wear Kurtis", img: "/kurti_boutique_yellow.png" }
-            ].map((cat, i) => (
-              <Link
-                key={i}
-                href="/textiles/category/kurtis"
-                onClick={() => Haptics.light()}
+            {kurtis.length > 0 ? kurtis.map((p, i) => (
+              <div
+                key={p._id}
+                onClick={() => {
+                  Haptics.light();
+                  openInquiry(p);
+                }}
                 className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] snap-center group cursor-pointer"
               >
                 <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6 shadow-[0_15px_30px_-10px_rgba(0,0,0,0.1)] group-hover:shadow-2xl transition-all duration-700">
                   <Image
-                    src={cat.img}
-                    alt={cat.name}
+                    src={p.images?.[0] || "/kurti_boutique_yellow.png"}
+                    alt={p.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
+                  {p.images?.length > 1 && (
+                    <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[8px] font-black text-white uppercase tracking-widest">
+                      +{p.images.length - 1} View
+                    </div>
+                  )}
                 </div>
                 <div className="text-center px-4">
-                  <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{cat.name}</h4>
-                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">See the collection</p>
+                  <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{p.name}</h4>
+                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Wholesale Rate</p>
                 </div>
-              </Link>
-            ))}
+              </div>
+            )) : (
+              [1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="min-w-[280px] md:min-w-[calc(33.33%-1.5rem)] lg:min-w-[calc(20%-1.2rem)] aspect-[3/4] bg-gray-100 animate-pulse rounded-sm" />
+              ))
+            )}
           </div>
 
           {/* Institutional Progress Indicators — Kurti Section */}
@@ -1055,17 +1074,17 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
 
 
           <div className="mt-16 flex flex-col items-center gap-6">
-             <div className="flex items-center gap-3 px-4 py-2 bg-red-50 rounded-full border border-red-100">
-                <div className="w-2 h-2 bg-[#DA222A] rounded-full animate-pulse" />
-                <span className="text-[#DA222A] text-[10px] font-black uppercase tracking-widest">Live Updates Available @babulalpremkumar</span>
-             </div>
-             <Link 
-               href="https://instagram.com" 
-               target="_blank"
-               className="px-12 py-5 bg-[#0A5181] text-white text-[11px] font-black uppercase tracking-[.4em] rounded hover:bg-[#DA222A] transition-all shadow-2xl flex items-center gap-4"
-             >
-                Visit Official Instagram <ArrowUpRight className="w-5 h-5" />
-             </Link>
+            <div className="flex items-center gap-3 px-4 py-2 bg-red-50 rounded-full border border-red-100">
+              <div className="w-2 h-2 bg-[#DA222A] rounded-full animate-pulse" />
+              <span className="text-[#DA222A] text-[10px] font-black uppercase tracking-widest">Live Updates Available @babulalpremkumar</span>
+            </div>
+            <Link
+              href="https://instagram.com"
+              target="_blank"
+              className="px-12 py-5 bg-[#0A5181] text-white text-[11px] font-black uppercase tracking-[.4em] rounded hover:bg-[#DA222A] transition-all shadow-2xl flex items-center gap-4"
+            >
+              Visit Official Instagram <ArrowUpRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -1156,32 +1175,90 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
       <AnimatePresence>
         {showInquiryModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowInquiryModal(false)}
               className="absolute inset-0 bg-primary/20 backdrop-blur-md"
             />
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 50, scale: 0.95 }}
-              className="relative w-full max-w-xl bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2rem] overflow-hidden"
+              className="relative w-full max-w-4xl bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2rem] overflow-hidden flex flex-col md:flex-row min-h-[600px]"
             >
-              <button 
-                onClick={() => setShowInquiryModal(false)}
-                className="absolute right-8 top-8 z-10 p-2 bg-primary/5 hover:bg-accent hover:text-white rounded-full transition-all"
+              <button
+                onClick={() => {
+                  setShowInquiryModal(false);
+                  setActiveImageIndex(0);
+                }}
+                className="absolute right-6 top-6 z-20 p-2 bg-white/80 backdrop-blur-md hover:bg-accent hover:text-white rounded-full transition-all shadow-xl"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <InquiryForm 
-                verticalId="TEXTILES" 
-                interestDefault={selectedProduct ? `Bulk Interest: ${selectedProduct.name}` : "Wholesale Catalog Request"}
-                className="border-none shadow-none p-10 pt-16"
-              />
+              {/* Multiple Images Gallery */}
+              <div className="w-full md:w-1/2 bg-gray-50 flex flex-col items-center justify-center p-8 border-r border-gray-100">
+                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl mb-6 bg-white">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={activeImageIndex}
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      src={selectedProduct?.images?.[activeImageIndex] || (selectedProduct?.category?.toLowerCase() === 'kurti' ? "/kurti_boutique_yellow.png" : "/saree_boutique_red.png")}
+                      className="w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
+                </div>
+
+                {selectedProduct?.images?.length > 1 && (
+                  <div className="flex gap-3 overflow-x-auto no-scrollbar py-2 px-2 max-w-full">
+                    {selectedProduct.images.map((img: string, idx: number) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={cn(
+                          "relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all shrink-0",
+                          activeImageIndex === idx ? "border-accent scale-110 shadow-lg" : "border-transparent opacity-50 hover:opacity-100"
+                        )}
+                      >
+                        <img src={img} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <div className="mt-6 text-center">
+                  <h3 className="text-2xl font-black text-[#0A5181] tracking-tighter uppercase italic">{selectedProduct?.name}</h3>
+                  <p className="text-[10px] font-black text-accent uppercase tracking-[0.3em] mt-2 mb-4">{selectedProduct?.category} • Bulk Inventory</p>
+
+                  <Link
+                    href={`/textiles/product/${selectedProduct?.slug}`}
+                    className="inline-flex items-center gap-2 text-[9px] font-black uppercase text-[#0A5181]/40 hover:text-accent transition-colors py-2 px-4 border border-gray-100 rounded-full"
+                  >
+                    View Full Specifications <ChevronRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto">
+                <div className="px-10 pt-10">
+                  <div className="bg-accent/[0.03] border border-accent/10 px-6 py-4 rounded-xl flex items-center gap-4">
+                    <MapPin className="w-5 h-5 text-accent" />
+                    <div>
+                      <div className="text-[10px] font-black uppercase text-accent tracking-widest">In-Store Procurement Only</div>
+                      <div className="text-[9px] font-bold text-gray-400 uppercase tracking-tight">Visit Ranchi H.Q. to finalize bulk orders.</div>
+                    </div>
+                  </div>
+                </div>
+                <InquiryForm
+                  verticalId="TEXTILES"
+                  interestDefault={selectedProduct ? `Bulk Interest: ${selectedProduct.name}` : "Wholesale Catalog Request"}
+                  className="border-none shadow-none p-10 pt-16"
+                />
+              </div>
             </motion.div>
           </div>
         )}

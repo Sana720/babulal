@@ -13,7 +13,9 @@ import {
   RefreshCcw,
   CheckCircle2,
   Layers,
-  Star
+  Star,
+  FileText,
+  UploadCloud
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -42,6 +44,7 @@ export default function ManageCategoriesPage() {
   const [activeParentNode, setActiveParentNode] = useState<any>(null);
   const [subCategories, setSubCategories] = useState<any[]>([]);
   const [newSubName, setNewSubName] = useState('');
+  const [newSubBrochureUrl, setNewSubBrochureUrl] = useState('');
   const [isSubmittingSub, setIsSubmittingSub] = useState(false);
 
   // Open Sub-Node Manager
@@ -61,6 +64,38 @@ export default function ManageCategoriesPage() {
     }
   };
 
+  const handleSubBrochureUpload = async (e: React.ChangeEvent<HTMLInputElement>, subId?: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      alert('Please upload a PDF catalog.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64 = reader.result as string;
+      if (subId) {
+        // Direct Update for existing sub
+        try {
+          const res = await fetch('/api/admin/sub-categories', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: subId, brochureUrl: base64 })
+          });
+          if (res.ok) fetchSubCategories(activeParentNode._id);
+        } catch (err) {
+          console.error('Update sub brochure error:', err);
+        }
+      } else {
+        // Set state for new sub
+        setNewSubBrochureUrl(base64);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleAddSubCategory = async () => {
     if (!newSubName || !activeParentNode) return;
     setIsSubmittingSub(true);
@@ -70,11 +105,13 @@ export default function ManageCategoriesPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: newSubName,
-          category: activeParentNode._id
+          category: activeParentNode._id,
+          brochureUrl: newSubBrochureUrl
         })
       });
       if (res.ok) {
         setNewSubName('');
+        setNewSubBrochureUrl('');
         fetchSubCategories(activeParentNode._id);
         fetchCategories(); // Refresh main list to update count
       }
@@ -528,20 +565,43 @@ export default function ManageCategoriesPage() {
                  <div className="mb-10 p-6 bg-white rounded-2xl border border-[#d1d9e6] shadow-sm">
                     <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-6">Initialize New Sub-Node</h3>
                     <div className="flex gap-4">
-                       <input 
-                         type="text" 
-                         placeholder="Sub-node name (e.g., Banarasi Silk)"
-                         className="flex-1 px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-primary/10"
-                         value={newSubName}
-                         onChange={(e) => setNewSubName(e.target.value)}
-                       />
-                       <button 
-                         onClick={handleAddSubCategory}
-                         disabled={isSubmittingSub || !newSubName}
-                         className="bg-[#095181] text-white px-8 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#DA222A] transition-all disabled:opacity-50"
-                       >
-                          {isSubmittingSub ? <Loader2 className="w-3 h-3 animate-spin"/> : <Plus className="w-3 h-3" />} Add Node
-                       </button>
+                        <div className="flex-1 space-y-3">
+                           <input 
+                             type="text" 
+                             placeholder="Sub-node name (e.g., Banarasi Silk)"
+                             className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-primary/10"
+                             value={newSubName}
+                             onChange={(e) => setNewSubName(e.target.value)}
+                           />
+                           
+                           <label className={cn(
+                             "flex items-center gap-3 p-3 border-2 border-dashed rounded-xl cursor-pointer transition-all",
+                             newSubBrochureUrl ? "bg-green-50 border-green-200" : "bg-[#f8fafc] border-[#d1d9e6] hover:bg-white"
+                           )}>
+                              <div className={cn(
+                                "w-10 h-10 rounded-lg flex items-center justify-center shadow-md",
+                                newSubBrochureUrl ? "bg-green-500 text-white" : "bg-white text-primary/20"
+                              )}>
+                                 <FileText className="w-5 h-5" />
+                              </div>
+                              <div className="flex-1">
+                                 <div className="text-[9px] font-black uppercase text-primary tracking-widest">
+                                    {newSubBrochureUrl ? "Catalog Ready" : "Attach PDF Catalog"}
+                                 </div>
+                                 <div className="text-[8px] font-bold text-primary/20 uppercase tracking-widest leading-none mt-1">
+                                    {newSubBrochureUrl ? "Click to change" : "Max 10MB Institutional Spec"}
+                                 </div>
+                              </div>
+                              <input type="file" className="hidden" accept=".pdf" onChange={(e) => handleSubBrochureUpload(e)} />
+                           </label>
+                        </div>
+                        <button 
+                          onClick={handleAddSubCategory}
+                          disabled={isSubmittingSub || !newSubName}
+                          className="bg-[#095181] text-white px-8 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-[#DA222A] transition-all disabled:opacity-50 h-fit py-5 shadow-lg shadow-[#095181]/20"
+                        >
+                           {isSubmittingSub ? <Loader2 className="w-3 h-3 animate-spin"/> : <Plus className="w-3 h-3" />} Complete Node
+                        </button>
                     </div>
                  </div>
 
@@ -560,6 +620,13 @@ export default function ManageCategoriesPage() {
                               <h4 className="text-xs font-black text-[#1a2b4b] uppercase tracking-tight">{sub.name}</h4>
                            </div>
                            <div className="flex items-center gap-3">
+                              <label className={cn(
+                                "w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all",
+                                sub.brochureUrl ? "bg-green-100 text-green-600" : "bg-gray-50 text-gray-300 hover:bg-primary/10 hover:text-primary"
+                              )}>
+                                 <FileText className="w-4 h-4" />
+                                 <input type="file" className="hidden" accept=".pdf" onChange={(e) => handleSubBrochureUpload(e, sub._id)} />
+                              </label>
                               <Trash2 
                                 onClick={() => handleDeleteSub(sub._id)}
                                 className="w-3.5 h-3.5 text-[#1a2b4b]/20 hover:text-accent cursor-pointer transition-all" 

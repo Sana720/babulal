@@ -73,13 +73,34 @@ const TEXTILE_STORES = [
     ]
   },
   {
-    city: "Bokaro",
+    city: "Bokaro / Chas",
     locations: [
       { 
         name: "Babulal Premkumar - Chas Outlet", 
         address: "Bypass Road, Chas, Bokaro, Jharkhand - 827013", 
         mapUrl: "https://maps.app.goo.gl/otSWt3CdpQNa4qWVA" 
       }
+    ]
+  }
+];
+
+const HONDA_STORES = [
+  {
+    city: "Ranchi",
+    locations: [
+      { name: "Premsons Honda - Harmu Road (Flagship)", address: "Shanti Complex, Harmu Road, Ranchi - 834002", mapUrl: "https://maps.google.com/?q=Premsons+Honda+Harmu+Road+Ranchi" }
+    ]
+  },
+  {
+    city: "Bokaro",
+    locations: [
+      { name: "Premsons Honda - City Center", address: "Sector 4, City Center, Bokaro - 827004", mapUrl: "https://maps.google.com/?q=Premsons+Honda+Bokaro" }
+    ]
+  },
+  {
+    city: "Dhanbad",
+    locations: [
+      { name: "Premsons Honda - Saraidhela", address: "Saraidhela, Dhanbad - 828127", mapUrl: "https://maps.google.com/?q=Premsons+Honda+Dhanbad" }
     ]
   }
 ];
@@ -93,7 +114,11 @@ interface StoreLocatorModalProps {
 export default function StoreLocatorModal({ isOpen, onClose, vertical = 'bajaj' }: StoreLocatorModalProps) {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
-  const STORES_DATA = vertical === 'trucking' ? TRUCKING_STORES : (vertical === 'textile' ? TEXTILE_STORES : BAJAJ_STORES);
+  const STORES_DATA = 
+    vertical === 'trucking' ? TRUCKING_STORES : 
+    vertical === 'textile' ? TEXTILE_STORES : 
+    vertical === 'honda' ? HONDA_STORES : 
+    BAJAJ_STORES;
 
   const resetAndClose = () => {
     setSelectedCity(null);

@@ -70,8 +70,15 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           {products.map((product) => (
             <div key={product._id} className="group architectural-card p-4 rounded-xl">
               <div className="relative aspect-[3/4] mb-6 overflow-hidden rounded-md bg-primary/5">
-                {/* Product Image integration with Cloudinary would go here */}
-                <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-700 bg-surface-dim" />
+                {product.images?.[0] ? (
+                  <img 
+                    src={product.images[0]} 
+                    alt={product.name} 
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-surface-dim" />
+                )}
 
                 {product.isFeatured && (
                   <div className="absolute top-4 left-4 bg-accent text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-sm shadow-lg">
@@ -100,9 +107,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 <button className="bg-primary text-white py-3 rounded-md text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-all">
                   Get Quote
                 </button>
-                <button className="flex items-center justify-center gap-2 text-primary/40 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-all">
+                <Link 
+                  href={`/${verticalSlug}/product/${product.slug}`}
+                  className="flex items-center justify-center gap-2 text-primary/40 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-all"
+                >
                   <FileText className="w-3 h-3" /> Details
-                </button>
+                </Link>
               </div>
             </div>
           ))}

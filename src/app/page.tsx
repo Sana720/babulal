@@ -138,7 +138,7 @@ export default function GroupHomepage() {
               <div className="relative z-10 space-y-12">
                 {[
                   { val: '45+', lbl: 'Years of Institutional Presence' },
-                  { val: '5', lbl: 'Cross-Industrial Verticals' },
+                  { val: '5', lbl: 'Strategic Business Verticals' },
                   { val: '50K+', lbl: 'Network of Partners' },
                 ].map((stat) => (
                   <div key={stat.lbl} className="group/stat">
@@ -201,108 +201,96 @@ export default function GroupHomepage() {
               </h2>
             </div>
             <p className="max-w-sm text-primary/45 text-base lg:text-lg font-medium italic leading-relaxed border-l-2 border-accent/20 pl-6 lg:pl-10">
-              Integrating four decades of excellence across five strategic market pillars.
+              India&apos;s legacy in wholesale textiles since 1978.
             </p>
           </div>
 
           {/* PORTFOLIO GRID */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 lg:gap-12">
+          {/* PORTFOLIO GRID - DYNAMIC BENTO STYLE */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-10">
 
-            {/* 01: TEXTILES */}
+            {/* 01: TEXTILES (Main Legacy) */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              onClick={() => Haptics.light()}
-              className="lg:col-span-8 h-[320px] sm:h-[480px] lg:h-[700px] group relative overflow-hidden bg-primary"
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              className="lg:col-span-8 h-[400px] lg:h-[650px] group relative overflow-hidden bg-primary rounded-[0.5rem] lg:rounded-none"
             >
-              <Link href="/textiles" className="block h-full relative">
-                <Image
-                  src="/vertical_textiles.png"
-                  alt="Textiles"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 66vw"
-                  className="object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1500ms]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary via-transparent to-transparent opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
-                <div className="absolute bottom-8 lg:bottom-16 left-6 lg:left-16 z-10">
-                  <span className="text-accent text-xs font-black uppercase tracking-[.4em] mb-3 block">Sector 01</span>
-                  <h3 className="text-white font-black uppercase tracking-tighter mb-4" style={{ fontSize: 'clamp(1.6rem, 4vw, 4.5rem)' }}>
-                    Babulal Premkumar <br /><span className="text-white/40 group-hover:text-accent transition-colors">Textiles.</span>
-                  </h3>
+              <Link href="/textiles" className="block h-full">
+                <Image src="/vertical_textiles.png" alt="Textiles" fill className="object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1500ms]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute bottom-10 lg:bottom-16 left-10 lg:left-16 z-10">
+                  <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-3 block">Est. 1978</span>
+                  <h3 className="text-white text-3xl lg:text-5xl font-black uppercase tracking-tighter italic">Babulal <br /><span className="text-white/40 group-hover:text-white">Premkumar.</span></h3>
                 </div>
-                <div className="absolute bottom-8 lg:bottom-16 right-6 lg:right-16">
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
-                    <ArrowUpRight className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
-                  </div>
+                <div className="absolute bottom-10 lg:bottom-16 right-10 lg:right-16">
+                  <ArrowUpRight className="w-8 h-8 text-white/30 group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                 </div>
               </Link>
             </motion.div>
 
-            {/* 02: MANUFACTURING */}
+            {/* 02: HONDA (Modern Mobility) */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              onClick={() => Haptics.light()}
-              className="lg:col-span-4 h-[280px] sm:h-[400px] lg:h-[700px] group relative overflow-hidden bg-primary"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="lg:col-span-4 h-[400px] lg:h-[650px] group relative overflow-hidden bg-primary"
             >
-              <Link href="/muva-industries" className="block h-full relative">
-                <Image
-                  src="/vertical_manufacturing.png"
-                  alt="Manufacturing"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="object-cover opacity-40 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1500ms]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent" />
-                <div className="absolute top-8 lg:top-16 left-6 lg:left-12">
-                  <span className="text-accent text-xs font-black uppercase tracking-[.4em] mb-3 block">Sector 02</span>
-                  <h3 className="text-white font-black uppercase tracking-tighter" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.5rem)' }}>MUVA <br />Industries.</h3>
-                </div>
-                <div className="absolute bottom-8 lg:bottom-12 left-6 lg:left-12">
-                  <ArrowUpRight className="w-6 h-6 text-accent" />
+              <Link href="/honda" className="block h-full">
+                <Image src="/vertical_honda.png" alt="Honda" fill className="object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute bottom-10 left-10 z-10">
+                  <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-2 block">Automotive</span>
+                  <h3 className="text-white text-3xl font-black uppercase tracking-tighter">Premsons <br />Honda.</h3>
                 </div>
               </Link>
             </motion.div>
 
-            {/* 03-05: AUTOMOTIVE */}
-            {[
-              BUSINESS_VERTICALS.HONDA,
-              BUSINESS_VERTICALS.BAJAJ,
-              BUSINESS_VERTICALS.TRUCKING
-            ].map((v, i) => (
-              <motion.div
-                key={v.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                onClick={() => Haptics.light()}
-                transition={{ delay: i * 0.1 }}
-                className="lg:col-span-4 h-[260px] sm:h-[360px] lg:h-[500px] group relative overflow-hidden bg-surface-dim border border-primary/5"
-              >
-                <Link href={`/${v.slug}`} className="block h-full relative p-8 lg:p-12 flex flex-col justify-between">
-                  <Image
-                    src={v.image}
-                    alt={v.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover grayscale opacity-[0.03] group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[1500ms]"
-                  />
-                  <div className="relative z-10 transition-transform group-hover:-translate-y-2 duration-700">
-                    <span className="text-accent text-[10px] font-black uppercase tracking-[.4em] mb-3 block">Sector 0{i + 3}</span>
-                    <h3 className="text-primary group-hover:text-white transition-colors duration-500 font-black uppercase tracking-tighter" style={{ fontSize: 'clamp(1.3rem, 3vw, 2rem)' }}>{v.name}</h3>
-                  </div>
-                  <div className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-4 group-hover:translate-y-0">
-                    <div className="flex items-center gap-2 text-accent text-[10px] font-black uppercase tracking-widest">
-                      View Vertical <ArrowUpRight className="w-4 h-4" />
-                    </div>
-                  </div>
-                  <div className="absolute top-8 right-8 text-6xl lg:text-7xl font-black text-primary/[0.04] select-none">
-                    0{i + 3}
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+            {/* 03: TRUCKING (Industrial Strength) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="lg:col-span-6 h-[400px] lg:h-[500px] group relative overflow-hidden bg-[#1B365D]"
+            >
+              <Link href="/trucking" className="block h-full">
+                <Image src="/vertical_trucks.png" alt="Trucking" fill className="object-cover opacity-50 grayscale group-hover:grayscale-0 transition-transform duration-[2s]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
+                <div className="absolute bottom-10 left-10 z-10">
+                  <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-2 block">Logistics</span>
+                  <h3 className="text-white text-3xl font-black uppercase tracking-tighter">Premsons <br />Motors.</h3>
+                </div>
+              </Link>
+            </motion.div>
+
+            {/* 04: BAJAJ (Logistics Hub) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="lg:col-span-3 h-[400px] lg:h-[500px] group relative overflow-hidden bg-[#0A5181]"
+            >
+              <Link href="/bajaj" className="block h-full">
+                <Image src="/vertical_bajaj.png" alt="Bajaj" fill className="object-cover opacity-50 grayscale group-hover:grayscale-0 transition-all" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute bottom-10 left-10 z-10">
+                  <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-2 block">Transport</span>
+                  <h4 className="text-white text-2xl font-black uppercase tracking-tighter">Premsons <br />Bajaj.</h4>
+                </div>
+              </Link>
+            </motion.div>
+
+            {/* 05: MANUFACTURING (MUVA) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="lg:col-span-3 h-[400px] lg:h-[500px] group relative overflow-hidden bg-[#2D2D2D]"
+            >
+              <Link href="/muva-industries" className="block h-full">
+                <Image src="/vertical_manufacturing.png" alt="Manufacturing" fill className="object-cover opacity-50 grayscale group-hover:grayscale-0 shadow-2xl" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute bottom-10 left-10 z-10">
+                   <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-2 block">Engineering</span>
+                   <h4 className="text-white text-2xl font-black uppercase tracking-tighter">MUVA <br />Industries.</h4>
+                </div>
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -381,9 +369,14 @@ export default function GroupHomepage() {
                     <span className="text-accent text-[10px] font-black uppercase tracking-[.4em]">Our Subsidiaries</span>
                   </div>
                   <div className="space-y-6 lg:space-y-10">
-                    {['Babulal Premkumar', 'Premsons Honda', 'Premsons Bajaj', 'Premsons & Poddar Trucking', 'MUVA Industries'].map((name) => (
+                    {[
+                      'Babulal Premkumar Textiles',
+                      'Premsons Honda & Bajaj',
+                      'Ashok Leyland Distribution',
+                      'MUVA Engineering Hub'
+                    ].map((name) => (
                       <div key={name} className="flex justify-center grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100">
-                        <span className="text-lg font-bold tracking-tighter uppercase text-center text-primary">{name}</span>
+                        <span className="text-2xl font-black tracking-tighter uppercase text-center text-primary">{name}</span>
                       </div>
                     ))}
                   </div>

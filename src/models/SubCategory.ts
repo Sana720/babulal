@@ -6,6 +6,7 @@ export interface ISubCategory extends Document {
   category: mongoose.Types.ObjectId;
   status: 'Active' | 'Inactive';
   order: number;
+  brochureUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,6 +17,7 @@ const SubCategorySchema: Schema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
   order: { type: Number, default: 0 },
+  brochureUrl: { type: String },
 }, { timestamps: true });
 
 // Prevent duplicate names within the same category

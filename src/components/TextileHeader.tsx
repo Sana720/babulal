@@ -15,8 +15,10 @@ import {
   X,
   BookOpen,
   Mail,
-  MessageCircle
+  MessageCircle,
+  Download
 } from 'lucide-react';
+import CatalogDownloadModal from './CatalogDownloadModal';
 
 const CATEGORIES = [
   "Saree", "Lehenga", "Suit", "Kurti", "Dupatta", "Blouse", "Petticoat", "Kids Wear", "Bottom Wear", "Mens Wear", "Towel"
@@ -25,6 +27,7 @@ const CATEGORIES = [
 const TextileHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCatalogModalOpen, setIsCatalogModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80);
@@ -78,9 +81,12 @@ const TextileHeader = () => {
                  <Link href="#about" className="hover:text-red-600 transition-colors">About Us</Link>
                  <Link href="#contact" className="hover:text-red-600 transition-colors">Contact</Link>
                </div>
-               <button className="flex items-center gap-2 md:gap-3 px-4 md:px-8 py-2 md:py-3 bg-[#0A5181] text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded shadow-xl hover:bg-black transition-all">
-                 <BookOpen className="w-4 h-4 md:w-5 md:h-5" /> <span className="hidden sm:inline">Get Catalog</span><span className="sm:hidden">Catalog</span>
-               </button>
+                <button 
+                  onClick={() => setIsCatalogModalOpen(true)}
+                  className="flex items-center gap-2 md:gap-3 px-4 md:px-8 py-2 md:py-3 bg-[#0A5181] text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded shadow-xl hover:bg-black transition-all"
+                >
+                  <BookOpen className="w-4 h-4 md:w-5 md:h-5" /> <span className="hidden sm:inline">Get Catalog</span><span className="sm:hidden">Catalog</span>
+                </button>
                <button 
                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                  className="xl:hidden p-2 text-gray-600"
@@ -181,6 +187,18 @@ const TextileHeader = () => {
               })}
             </nav>
 
+            <div className="px-8 py-10">
+               <button 
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsCatalogModalOpen(true);
+                }}
+                className="w-full flex items-center justify-center gap-3 px-8 py-5 bg-[#DA222A] text-white text-[11px] font-black uppercase tracking-widest rounded shadow-xl"
+               >
+                 <Download className="w-5 h-5 text-white" /> Download Catalogs
+               </button>
+            </div>
+
             {/* Bottom Contact Quick Links */}
             <div className="p-8 bg-gray-50/50 mt-auto">
               <div className="flex justify-center gap-8">
@@ -198,6 +216,10 @@ const TextileHeader = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <CatalogDownloadModal 
+        isOpen={isCatalogModalOpen} 
+        onClose={() => setIsCatalogModalOpen(false)} 
+      />
     </header>
   );
 };

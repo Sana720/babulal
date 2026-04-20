@@ -11,7 +11,9 @@ import {
   Loader2,
   CheckCircle2,
   Info,
-  ChevronDown
+  ChevronDown,
+  FileText,
+  UploadCloud
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -20,10 +22,6 @@ import { BUSINESS_VERTICALS } from '@/lib/constants';
 // Group Verticals based on the Business logic
 const VERTICALS = [
   { id: 'TEXTILES', name: 'Textiles & Apparel', shop: 'Babulal Premkumar' },
-  { id: 'HONDA', name: '2-Wheelers', shop: 'Premsons Honda' },
-  { id: 'BAJAJ', name: '3-Wheelers', shop: 'Premsons Bajaj' },
-  { id: 'TRUCKING', name: 'Commercial Vehicles', shop: 'Premsons & Poddar Trucking' },
-  { id: 'MANUFACTURING', name: 'Industrial', shop: 'MUVA Industries' },
 ];
 
 export default function NewProductPage() {
@@ -45,7 +43,9 @@ export default function NewProductPage() {
     seo: {
       metaTitle: '',
       metaDescription: '',
-    }
+    },
+    brochureUrl: '',
+    videoUrl: ''
   });
 
   // Fetch Categories from DB on Mount
@@ -131,32 +131,69 @@ export default function NewProductPage() {
     setFormData({ ...formData, images: newImages });
   };
 
-  const handleFileUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMultipleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    // Filter out too large files
+    const validFiles = files.filter(file => file.size <= 5 * 1024 * 1024);
+    if (validFiles.length < files.length) {
+      setMessage({ type: 'error', text: 'Some images were too large (>5MB) and skipped.' });
+    }
+
+    setIsUploading(0); // Show loading state on the bulk uploader
+    
+    try {
+      const uploadPromises = validFiles.map(file => {
+        return new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+
+      const base64Images = await Promise.all(uploadPromises);
+      
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images.filter(img => img !== ''), ...base64Images]
+      }));
+      
+      setMessage({ type: 'success', text: `Successfully uploaded ${base64Images.length} images.` });
+    } catch (err) {
+      console.error('Upload error:', err);
+      setMessage({ type: 'error', text: 'Failed to process some images.' });
+    } finally {
+      setIsUploading(null);
+    }
+  };
+
+  const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check file size (e.g., max 2MB for MongoDB stability)
-    if (file.size > 2 * 1024 * 1024) {
-      setMessage({ type: 'error', text: 'Image too large. Please use images under 2MB for database stability.' });
+    if (file.type !== 'application/pdf') {
+      setMessage({ type: 'error', text: 'Please upload a valid PDF file for the catalog.' });
       return;
     }
 
-    setIsUploading(index);
-    
+    if (file.size > 10 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Catalog PDF must be less than 10MB.' });
+      return;
+    }
+
+    setIsUploading(999); // Specific flag for PDF
     try {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result as string;
-        updateImage(index, base64String);
-        setIsUploading(null);
-      };
-      reader.onerror = () => {
-        setMessage({ type: 'error', text: 'Failed to read file' });
-        setIsUploading(null);
+        setFormData(prev => ({ ...prev, brochureUrl: reader.result as string }));
+        setMessage({ type: 'success', text: 'Catalog PDF processed successfully.' });
       };
       reader.readAsDataURL(file);
     } catch (err) {
-      setMessage({ type: 'error', text: 'Upload error' });
+      setMessage({ type: 'error', text: 'Failed to process PDF.' });
+    } finally {
       setIsUploading(null);
     }
   };
@@ -230,29 +267,18 @@ export default function NewProductPage() {
         {/* ═══ LEFT SIDE: DYNAMIC CONFIG ═══ */}
         <div className="lg:col-span-8 space-y-10">
            
-           {/* Vertical Selection */}
+           {/* Vertical Lock (Info Only) */}
            <section className="bg-white p-10 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-primary/5">
               <div className="flex items-center gap-3 mb-10 pb-6 border-b border-surface-dim">
                 <span className="text-accent font-black text-xs uppercase tracking-[0.2em] bg-accent/5 px-3 py-1 rounded-full">01.</span>
                 <h3 className="text-[11px] font-black uppercase tracking-[.4em] text-primary/40 italic">Business Vertical</h3>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                 {VERTICALS.map(v => (
-                   <button
-                     key={v.id}
-                     type="button"
-                     onClick={() => setFormData({...formData, businessVertical: v.id})}
-                     className={cn(
-                       "p-4 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all text-center flex flex-col items-center gap-2",
-                       formData.businessVertical === v.id 
-                         ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-105" 
-                         : "bg-surface-dim border-transparent text-primary/40 hover:bg-white hover:border-primary/20"
-                     )}
-                   >
-                     {v.id === 'textiles' && <div className="w-2 h-2 rounded-full bg-accent" />}
-                     {v.name.split(' ')[0]}
-                   </button>
-                 ))}
+              <div className="flex items-center gap-4 bg-surface-dim p-6 rounded-2xl border border-primary/5">
+                 <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white font-black text-xl italic shadow-lg shadow-primary/20">T</div>
+                 <div>
+                    <h4 className="text-sm font-black text-primary uppercase tracking-tight">Textiles & Apparel</h4>
+                    <p className="text-[10px] font-bold text-primary/40 uppercase tracking-widest mt-0.5">Babulal Premkumar — Ranchi HQ</p>
+                 </div>
               </div>
            </section>
 
@@ -366,95 +392,159 @@ export default function NewProductPage() {
            </section>
         </div>
 
-        {/* ═══ RIGHT SIDE: MEDIA HUB ═══ */}
         <div className="lg:col-span-4 space-y-10">
            
            <section className="bg-white p-10 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-primary/5">
-              <div className="flex justify-between items-center mb-10 pb-6 border-b border-surface-dim">
+              <div className="mb-10 pb-6 border-b border-surface-dim">
                  <h3 className="text-[11px] font-black uppercase tracking-[.4em] text-primary/40 italic">Media Assets</h3>
-                 <button 
-                   type="button"
-                   onClick={addImageField}
-                   className="p-2 bg-primary/5 text-primary hover:bg-primary hover:text-white rounded-lg transition-all"
-                 >
-                    <Plus className="w-4 h-4" />
-                 </button>
               </div>
               
               <div className="space-y-6">
-                 {formData.images.map((img, idx) => (
-                   <div key={idx} className="group">
-                      <div className="flex flex-col gap-3">
-                        <div className="flex items-center gap-4 bg-surface-dim px-6 rounded-2xl focus-within:ring-4 focus-within:ring-primary/5 transition-all">
-                          <ImageIcon className={cn("w-4 h-4 transition-colors", img ? "text-accent" : "text-primary/20")} />
-                          <input 
-                            type="text" 
-                            placeholder="Paste link or upload..."
-                            className="flex-1 bg-transparent py-4 text-[12px] font-bold border-none outline-none text-primary"
-                            value={img}
-                            onChange={(e) => updateImage(idx, e.target.value)}
-                          />
-                          
-                          <label className="cursor-pointer p-2 hover:bg-primary/5 rounded-lg transition-all group/upload relative">
-                            {isUploading === idx ? (
-                              <Loader2 className="w-4 h-4 text-accent animate-spin" />
-                            ) : (
-                              <Plus className="w-4 h-4 text-primary/40 group-hover/upload:text-accent transition-colors" />
-                            )}
-                            <input 
-                              type="file" 
-                              className="hidden" 
-                              accept="image/*"
-                              onChange={(e) => handleFileUpload(idx, e)}
-                              disabled={isUploading !== null}
-                            />
-                          </label>
-
-                          {idx > 0 && (
-                            <button 
-                              type="button"
-                              className="text-primary/10 hover:text-accent transition-colors"
-                              onClick={() => {
-                                const newImgs = formData.images.filter((_, i) => i !== idx);
-                                setFormData({...formData, images: newImgs});
-                              }}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          )}
-                        </div>
-
-                        {/* Preview Box */}
-                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-surface-dim border-2 border-dashed border-primary/5 group-hover:border-accent/20 transition-all flex items-center justify-center">
-                          {img ? (
-                            <>
-                              <img src={img} alt="Preview" className="w-full h-full object-cover" />
-                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <button 
-                                  type="button"
-                                  onClick={() => updateImage(idx, '')}
-                                  className="bg-white/20 backdrop-blur-md p-3 rounded-full text-white hover:bg-white/40 transition-all"
-                                >
-                                  <Trash2 className="w-5 h-5" />
-                                </button>
-                              </div>
-                            </>
-                          ) : (
-                            <div className="flex flex-col items-center gap-2 opacity-20">
-                              <ImageIcon className="w-8 h-8" />
-                              <span className="text-[10px] font-bold uppercase tracking-widest">No Image Asset</span>
+                  {/* Bulk Upload Trigger Area - Refined Dropzone */}
+                  <div className="relative">
+                    <label className={cn(
+                      "relative aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden bg-surface-dim border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer group/upload shadow-inner",
+                      "border-primary/10 hover:border-accent/30 hover:bg-accent/[0.01]"
+                    )}>
+                        <div className="flex flex-col items-center text-center p-8">
+                          <div className="relative mb-6">
+                            <div className="w-20 h-20 bg-white rounded-3xl shadow-xl flex items-center justify-center group-hover/upload:rotate-6 group-hover/upload:scale-110 transition-all duration-700">
+                               <ImageIcon className="w-8 h-8 text-primary/10 group-hover/upload:text-accent transition-colors" />
                             </div>
-                          )}
+                            <div className="absolute -top-2 -right-2 w-8 h-8 bg-accent text-white rounded-2xl flex items-center justify-center shadow-lg group-hover/upload:scale-110 transition-transform">
+                               <Plus className="w-4 h-4 font-black" />
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <div className="text-[12px] font-black uppercase tracking-[0.3em] text-primary italic">Media Vault</div>
+                            <div className="text-[9px] font-bold text-primary/30 uppercase tracking-widest max-w-[160px] leading-relaxed">
+                              Drag & drop high-res catalog assets here
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      
+                      <input 
+                        type="file" 
+                        multiple
+                        className="hidden" 
+                        accept="image/*"
+                        onChange={handleMultipleUpload}
+                        disabled={isUploading !== null}
+                      />
+                    </label>
+                  </div>
+
+                  {/* Previews Grid */}
+                  {formData.images.filter(img => img !== '').length > 0 ? (
+                    <div className="grid grid-cols-2 gap-4">
+                      {formData.images.filter(img => img !== '').map((img, idx) => (
+                        <div key={idx} className="group relative aspect-square rounded-[1.5rem] overflow-hidden bg-white border border-primary/5 shadow-sm hover:shadow-xl transition-all duration-500">
+                           <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <button 
+                                type="button"
+                                className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-accent transition-all"
+                                onClick={() => {
+                                  const newImgs = formData.images.filter((_, i) => i !== idx);
+                                  if (newImgs.length === 0) newImgs.push('');
+                                  setFormData({...formData, images: newImgs});
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                           </div>
+                           <div className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-[8px] font-black text-white uppercase tracking-widest">
+                             Asset {idx + 1}
+                           </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="py-16 border-2 border-dashed border-primary/5 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/40">
+                       <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center opacity-20 mb-4">
+                         <ImageIcon className="w-8 h-8" />
+                       </div>
+                       <span className="text-[10px] font-black text-primary/30 uppercase tracking-[0.3em] italic">Awaiting Catalog Media</span>
+                    </div>
+                  )}
+
+                   <div className="space-y-4 pt-6 border-t border-surface-dim">
+                     <label className="text-[10px] font-black uppercase tracking-[.2em] text-primary/60 italic flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-accent rounded-full" />
+                        Showcase Video (YouTube Link)
+                     </label>
+                     <div className="relative group">
+                       <input 
+                         type="text" 
+                         placeholder="e.g. https://www.youtube.com/watch?v=..."
+                         className="w-full bg-surface-dim px-6 py-5 rounded-2xl text-[12px] font-bold border-none outline-none focus:ring-4 focus:ring-primary/5 transition-all text-primary placeholder:text-primary/10"
+                         value={formData.videoUrl}
+                         onChange={(e) => setFormData({...formData, videoUrl: e.target.value})}
+                       />
+                     </div>
                    </div>
-                 ))}
-                 <div className="p-4 bg-accent/5 rounded-2xl flex gap-3 mt-8">
-                   <Info className="w-5 h-5 text-accent shrink-0" />
-                   <p className="text-[9px] text-accent/60 uppercase font-black tracking-widest leading-loose">
-                     Use high-quality product images for better conversion. Vertical-specific ratios apply.
-                   </p>
-                 </div>
+
+                  <div className="p-6 bg-accent/[0.03] rounded-[1.5rem] flex gap-4 border border-accent/5">
+                    <Info className="w-5 h-5 text-accent shrink-0" />
+                    <p className="text-[10px] text-accent/60 uppercase font-black tracking-widest leading-[1.8]">
+                      Optimized for 5MB Max. Supports PNG, JPG, WEBP.
+                    </p>
+                  </div>
+              </div>
+           </section>
+
+           <section className="bg-white p-10 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-primary/5">
+              <div className="mb-10 pb-6 border-b border-surface-dim flex justify-between items-center">
+                 <h3 className="text-[11px] font-black uppercase tracking-[.4em] text-primary/40 italic">Digital Catalog</h3>
+                 <div className="px-3 py-1 bg-accent/10 rounded-full text-[8px] font-black text-accent uppercase tracking-widest">Optional</div>
+              </div>
+              
+              <div className="space-y-6">
+                  <label className={cn(
+                    "relative w-full p-8 rounded-[1.5rem] bg-surface-dim border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer group/pdf",
+                    formData.brochureUrl ? "border-green-200 bg-green-50/10" : "border-primary/10 hover:border-accent/30 hover:bg-accent/[0.01]"
+                  )}>
+                     <div className="flex items-center gap-6">
+                        <div className={cn(
+                          "w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-700 shadow-lg",
+                          formData.brochureUrl ? "bg-green-500 text-white" : "bg-white text-primary/10 group-hover/pdf:text-accent group-hover/pdf:rotate-12"
+                        )}>
+                           <FileText className="w-6 h-6" />
+                        </div>
+                        <div>
+                           <div className="text-[11px] font-black uppercase tracking-widest text-primary italic">
+                              {formData.brochureUrl ? "Catalog Attached" : "Upload PDF Catalog"}
+                           </div>
+                           <div className="text-[9px] font-bold text-primary/30 uppercase tracking-widest mt-1">
+                              {formData.brochureUrl ? "Click to replace current PDF" : "Max 10MB • Institutional Spec"}
+                           </div>
+                        </div>
+                        {!formData.brochureUrl && <UploadCloud className="w-5 h-5 text-primary/10 ml-4 animate-bounce" />}
+                     </div>
+                     <input 
+                       type="file" 
+                       className="hidden" 
+                       accept=".pdf"
+                       onChange={handlePdfUpload}
+                     />
+                  </label>
+
+                  {formData.brochureUrl && (
+                    <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-green-100 shadow-sm">
+                       <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                          <span className="text-[9px] font-black text-green-700 uppercase tracking-widest">Document Ready for Publish</span>
+                       </div>
+                       <button 
+                         type="button"
+                         onClick={() => setFormData({...formData, brochureUrl: ''})}
+                         className="text-primary/20 hover:text-red-500 transition-colors"
+                       >
+                          <Trash2 className="w-4 h-4" />
+                       </button>
+                    </div>
+                  )}
               </div>
            </section>
 
@@ -465,7 +555,7 @@ export default function NewProductPage() {
                    <label className="text-[10px] font-black uppercase tracking-[.2em] text-primary/60">Meta Display Title</label>
                    <input 
                      type="text" 
-                     className="w-full bg-surface-dim px-6 py-4 rounded-xl text-[12px] font-bold border-none outline-none focus:ring-4 focus:ring-primary/5 transition-all"
+                     className="w-full bg-surface-dim px-6 py-4 rounded-xl text-[12px] font-bold border-none outline-none focus:ring-4 focus:ring-primary/5 transition-all text-primary"
                      placeholder="Title for Google results..."
                      value={formData.seo.metaTitle}
                      onChange={(e) => setFormData({...formData, seo: {...formData.seo, metaTitle: e.target.value}})}
