@@ -75,7 +75,7 @@ export default function InquiryForm({ verticalId, interestDefault = "General Inq
   }
 
   return (
-    <div className={cn("bg-white p-8 md:p-12 rounded-2xl shadow-2xl border border-primary/5 relative overflow-hidden", className)}>
+    <div className={cn("bg-white p-6 md:p-12 rounded-2xl shadow-2xl border border-primary/5 relative overflow-hidden", className)}>
       
       {/* Visual Accent */}
       <div className="absolute top-0 left-0 w-1 h-32 bg-accent opacity-20" />
