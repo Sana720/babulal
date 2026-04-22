@@ -193,7 +193,7 @@ export default async function SingleProductPage({ params }: ProductPageProps) {
                       <td className="py-4 text-right font-bold text-[#0A5181] uppercase tracking-tight">Ranchi, Jharkhand</td>
                     </tr>
                     <tr>
-                      <td className="py-4 text-[9px] font-black uppercase tracking-widest text-[#0A5181]/40">Wholesale ID</td>
+                      <td className="py-4 text-[9px] font-black uppercase tracking-widest text-[#0A5181]/40">Inventory SKU</td>
                       <td className="py-4 text-right font-bold text-[#0A5181] uppercase tracking-tight">BP-{product._id.toString().slice(-6)}</td>
                     </tr>
                   </tbody>
@@ -247,7 +247,7 @@ export default async function SingleProductPage({ params }: ProductPageProps) {
               <div className="space-y-8">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-[2px] bg-accent" />
-                  <span className="text-accent text-[11px] font-black uppercase tracking-[0.4em]">Wholesale Procurement</span>
+                  <span className="text-accent text-[11px] font-black uppercase tracking-[0.4em]">Wholesale & Retail</span>
                 </div>
                 <h2 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white italic uppercase tracking-tighter leading-[0.95]">
                   Direct <span className="text-white/20">Supply</span> Desk.

@@ -44,10 +44,10 @@ const TextileHeader = () => {
         {/* TIER 1: TICKER */}
         <div className="bg-[#DA222A] text-white py-1.5 md:py-2 overflow-hidden shadow-sm relative z-50">
           <div className="flex whitespace-nowrap animate-marquee font-bold text-[8px] md:text-[10px] uppercase tracking-[.3em]">
-            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Textile Manufacturer Since 1978</span>
+            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Wholesale & Retail Textile Hub Since 1978</span>
             <span className="mx-4 md:mx-8">Global Shipping Now Available to 50+ Countries</span>
             <span className="mx-4 md:mx-8">New Bridal Collection 2026 Launching Soon</span>
-            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Textile Manufacturer Since 1978</span>
+            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Wholesale & Retail Textile Hub Since 1978</span>
           </div>
         </div>
 
@@ -83,9 +83,11 @@ const TextileHeader = () => {
                </div>
                 <button 
                   onClick={() => setIsCatalogModalOpen(true)}
-                  className="flex items-center gap-2 md:gap-3 px-4 md:px-8 py-2 md:py-3 bg-[#0A5181] text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded shadow-xl hover:bg-black transition-all"
+                  className="flex items-center justify-center gap-1.5 px-6 py-2.5 bg-[#0A5181] text-white text-[10px] md:text-[11px] font-black uppercase tracking-[0.1em] md:tracking-widest rounded-lg shadow-xl shadow-[#0A5181]/20 hover:bg-black transition-all active:scale-[0.96]"
                 >
-                  <BookOpen className="w-4 h-4 md:w-5 md:h-5" /> <span className="hidden sm:inline">Get Catalog</span><span className="sm:hidden">Catalog</span>
+                  <Download className="w-4 h-4 md:w-5 md:h-5" /> 
+                  <span className="hidden sm:inline">Get Catalog</span>
+                  <span className="sm:hidden">Catalog</span>
                 </button>
                <button 
                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

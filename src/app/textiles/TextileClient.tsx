@@ -451,12 +451,12 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
                 Curated <br /><span className="text-[#DA222A]">Collections.</span>
               </h2>
               <p className="text-gray-400 text-lg md:text-xl font-medium max-w-xl italic mt-6 leading-relaxed">
-                A cinematic showcase of Ranchi&apos;s finest textile engineering. <br className="hidden lg:block" /> Bulk procurement excellence for global B2B partners.
+                A cinematic showcase of Ranchi&apos;s finest textile engineering. <br className="hidden lg:block" /> Wholesale & Retail excellence for global partners.
               </p>
             </div>
             <div className="flex items-center gap-10 text-[10px] font-black uppercase tracking-[.4em] text-gray-400">
               <div className="flex items-center gap-2 group cursor-pointer hover:text-[#0A5181] transition-colors">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#DA222A]" /> Wholesale Only
+                <div className="w-1.5 h-1.5 rounded-full bg-[#DA222A]" /> Wholesale & Retail
               </div>
               <div className="flex items-center gap-2 group cursor-pointer hover:text-[#0A5181] transition-colors">
                 Global Exports
@@ -543,7 +543,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
                 </div>
                 <h4 className="text-[#0A5181] text-2xl font-black tracking-tighter mb-4">Explore Full <br />Inventory.</h4>
                 <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-8 leading-relaxed">
-                  Access our complete 2026 wholesale line sheet and technical specifications.
+                  Access our complete 2026 line sheet and technical specifications.
                 </p>
                 <div className="flex items-center gap-2 text-[#DA222A] text-[10px] font-black uppercase tracking-widest">
                   Coming Soon <ArrowRight className="w-4 h-4" />
@@ -599,7 +599,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
                 </div>
                 <div className="text-center px-4">
                   <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{p.name}</h4>
-                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Request Wholesale Price</p>
+                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Request Commercial Pricing</p>
                 </div>
               </div>
             )) : (
@@ -735,7 +735,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
                 </div>
                 <div className="text-center px-4">
                   <h4 className="text-[#DA222A] text-lg font-black mb-1 group-hover:translate-y-[-2px] transition-transform">{p.name}</h4>
-                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Wholesale Rate</p>
+                  <p className="text-gray-900 text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">Check Latest Rates</p>
                 </div>
               </div>
             )) : (
@@ -1255,7 +1255,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
                 </div>
                 <InquiryForm
                   verticalId="TEXTILES"
-                  interestDefault={selectedProduct ? `Bulk Interest: ${selectedProduct.name}` : "Wholesale Catalog Request"}
+                  interestDefault={selectedProduct ? `Interest: ${selectedProduct.name}` : "Catalog Request"}
                   className="border-none shadow-none p-10 pt-16"
                 />
               </div>

@@ -6,8 +6,8 @@ export const BUSINESS_VERTICALS = {
     slug: "textiles",
     color: "#095181",
     accent: "#DA222A",
-    tagline: "India's Legacy in Wholesale Textiles since 1978.",
-    seoPattern: "Saree & Apparel Wholesaler in Ranchi",
+    tagline: "India's Legacy in Wholesale & Retail Textiles since 1978.",
+    seoPattern: "Saree & Apparel Wholesale & Retail in Ranchi",
     categories: ["Saree", "Kurti", "Lehenga", "Suit", "Fabric"],
     image: "/vertical_textiles.png"
   },

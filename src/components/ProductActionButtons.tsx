@@ -33,7 +33,7 @@ export default function ProductActionButtons({ verticalSlug, productName }: Prod
         </Link>
         <button 
           onClick={() => setIsStoreModalOpen(true)}
-          className="flex-1 px-8 py-5 bg-white border-2 border-accent text-accent text-[11px] font-black uppercase tracking-[0.2em] rounded-sm hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-3 shadow-lg group"
+          className="flex-1 px-6 py-5 bg-white border-2 border-accent text-accent text-[11px] font-black uppercase tracking-[0.2em] rounded-sm hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-2 shadow-lg group"
         >
           <MapPin className="w-4 h-4 group-hover:scale-110 transition-transform" /> Get Directions
         </button>

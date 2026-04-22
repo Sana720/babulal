@@ -80,7 +80,7 @@ export default function CategoryContent({ initialCategory, subCategoriesPromise,
                  </div>
                  <div className="text-right">
                     <div className="text-[10px] font-black uppercase text-accent tracking-widest">In-Store Procurement Only</div>
-                    <div className="text-[9px] font-bold uppercase text-gray-300 tracking-[0.3em] mt-1">Visit Ranchi H.Q. • Wholesale Only</div>
+                    <div className="text-[9px] font-bold uppercase text-gray-300 tracking-[0.3em] mt-1">Visit Ranchi H.Q. • Wholesale & Retail Hub</div>
                  </div>
               </div>
            </div>
@@ -149,8 +149,8 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
              </div>
 
              <div className="p-6 bg-[#fbfbfb] border border-gray-100 rounded">
-                <h4 className="text-[10px] font-black uppercase text-[#0A5181] tracking-widest mb-3">Bulk Assistance</h4>
-                <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-6 uppercase">Direct procurement desk for wholesale partners.</p>
+                <h4 className="text-[10px] font-black uppercase text-[#0A5181] tracking-widest mb-3">Priority Assistance</h4>
+                <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-6 uppercase">Direct procurement desk for wholesale & retail partners.</p>
                 <button 
                   onClick={() => {
                     Haptics.medium();
@@ -189,9 +189,9 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
                              Haptics.medium();
                              setIsStoreModalOpen(true);
                            }}
-                           className="w-full bg-white border border-[#DA222A] text-[#DA222A] py-3 text-[10px] font-black uppercase tracking-widest hover:bg-[#DA222A] hover:text-white transition-all flex items-center justify-center gap-2"
+                           className="w-full bg-[#DA222A] text-white py-4 text-[11px] font-black uppercase tracking-[0.16em] leading-none hover:bg-[#0A5181] transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#DA222A]/15 active:scale-[0.97]"
                         >
-                           <MessageCircle className="w-3.5 h-3.5" /> Price Enquiry
+                           <MessageCircle className="w-4 h-4 mb-0.5" /> Price Enquiry
                         </button>
                      </div>
                   </div>
@@ -208,10 +208,10 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
           <div className="mt-32 pt-20 border-t border-gray-100">
              <div className="max-w-4xl space-y-12">
                 <div className="space-y-6">
-                   <h2 className="text-2xl lg:text-3xl font-black text-[#0A5181] uppercase tracking-tighter italic">Premier Wholesale Destination for {initialCategory?.name} in Ranchi</h2>
+                   <h2 className="text-2xl lg:text-3xl font-black text-[#0A5181] uppercase tracking-tighter italic">Premier Wholesale & Retail Destination for {initialCategory?.name} in Ranchi</h2>
                    <div className="text-sm lg:text-base text-gray-500 font-medium leading-[1.8] space-y-6 italic">
                       <p>
-                         Babulal Premkumar stands as a pillar of excellence in the Indian textile landscape. For over four decades, our group has anchored the wholesale supply chain across Jharkhand, connecting century-old weaving traditions with modern retail infrastructures. 
+                         Babulal Premkumar stands as a pillar of excellence in the Indian textile landscape. For over four decades, our group has anchored the textile supply chain across Jharkhand, connecting century-old weaving traditions with modern retail infrastructures. 
                       </p>
                    </div>
                 </div>
