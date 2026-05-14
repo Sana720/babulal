@@ -24,7 +24,11 @@ const CATEGORIES = [
   "Saree", "Lehenga", "Suit", "Kurti", "Dupatta", "Blouse", "Petticoat", "Kids Wear", "Bottom Wear", "Mens Wear", "Towel"
 ];
 
-const TextileHeader = () => {
+interface TextileHeaderProps {
+  categories?: any[];
+}
+
+const TextileHeader = ({ categories = [] }: TextileHeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCatalogModalOpen, setIsCatalogModalOpen] = useState(false);
@@ -104,7 +108,8 @@ const TextileHeader = () => {
       <div className={`bg-white border-b border-gray-100 shadow-sm transition-all duration-300 hidden lg:block ${isScrolled ? 'shadow-xl bg-white/95 backdrop-blur-xl' : ''}`}>
         <div className="max-w-[1700px] mx-auto px-4 md:px-12">
           <nav className="flex items-center justify-start lg:justify-between gap-1 py-1 overflow-x-auto no-scrollbar snap-x">
-            {[
+            {/* DYNAMIC HEADER CATEGORIES */}
+            {(categories.length > 0 ? categories : [
               { name: "Sarees", slug: "sarees" },
               { name: "Suits", slug: "suits" },
               { name: "Kurtis", slug: "kurtis" },
@@ -113,9 +118,9 @@ const TextileHeader = () => {
               { name: "Home Furnishing", slug: "home-furnishings" },
               { name: "Mens Wear", slug: "mens-wear" },
               { name: "Uniforms", slug: "uniforms" }
-            ].map((cat) => (
+            ]).map((cat) => (
               <Link 
-                key={cat.name} 
+                key={cat.slug} 
                 href={`/textiles/category/${cat.slug}`} 
                 className="relative px-4 md:px-5 py-3 md:py-4 text-[10px] md:text-[12px] font-black uppercase tracking-[.2em] text-gray-700 hover:text-red-600 transition-colors group shrink-0 snap-start"
               >
@@ -158,25 +163,28 @@ const TextileHeader = () => {
 
             {/* Menu Links */}
             <nav className="flex flex-col">
+              {/* Combine dynamic categories and static utility links */}
               {[
-                { name: "Home", slug: "home" },
-                { name: "Saree", slug: "sarees" },
-                { name: "Suit", slug: "suits" },
-                { name: "Kurti", slug: "kurtis" },
-                { name: "Kids Wear", slug: "kids-wear" },
-                { name: "Lehenga", slug: "lehenga" },
-                { name: "Home Furnishing", slug: "home-furnishings" },
-                { name: "Mens Wear", slug: "mens-wear" },
-                { name: "Uniforms", slug: "uniforms" },
-                { name: "Manufacturing Hub", slug: "sarees" },
-                { name: "Blog", slug: "blog" },
-                { name: "Contact Us", slug: "contact" },
+                { name: "Home", slug: "home", type: 'utility' },
+                ...(categories.length > 0 
+                  ? categories.map(c => ({ name: c.name, slug: c.slug, type: 'category' }))
+                  : [
+                      { name: "Saree", slug: "sarees", type: 'category' },
+                      { name: "Suit", slug: "suits", type: 'category' },
+                      { name: "Kurti", slug: "kurtis", type: 'category' },
+                      { name: "Kids Wear", slug: "kids-wear", type: 'category' },
+                      { name: "Lehenga", slug: "lehenga", type: 'category' },
+                    ]
+                ),
+                { name: "Manufacturing Hub", slug: "sarees", type: 'utility' },
+                { name: "Blog", slug: "blog", type: 'utility' },
+                { name: "Contact Us", slug: "contact", type: 'utility' },
               ].map((item, i) => {
-                const isCategory = ['sarees', 'suits', 'kurtis', 'kids-wear', 'lehenga', 'home-furnishings', 'mens-wear', 'uniforms'].includes(item.slug);
+                const isCategory = item.type === 'category';
                 return (
                   <Link 
                     key={i}
-                    href={isCategory ? `/textiles/category/${item.slug}` : `#${item.slug}`}
+                    href={isCategory ? `/textiles/category/${item.slug}` : (item.slug === 'home' ? '/textiles' : `#${item.slug}`)}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center justify-between px-8 py-5 border-b border-gray-100 group active:bg-gray-50 transition-colors"
                   >

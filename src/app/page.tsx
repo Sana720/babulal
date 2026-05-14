@@ -94,8 +94,8 @@ export default function GroupHomepage() {
               transition={{ delay: 1.8, duration: 1 }}
               className="text-white/70 text-sm lg:text-lg font-medium leading-relaxed mb-6 lg:mb-10 border-l-2 border-accent/40 pl-4 lg:pl-10"
             >
-              <span className="sm:hidden">Multi-sector conglomerate. 45+ years of excellence across Jharkhand.</span>
-              <span className="hidden sm:inline">A diversified multi-billion dollar conglomerate governing strategic business verticals across Jharkhand with 45+ years of excellence.</span>
+              <span className="sm:hidden">Multi-sector conglomerate. 100+ years of excellence across Jharkhand.</span>
+              <span className="hidden sm:inline">A diversified multi-billion dollar conglomerate governing strategic business verticals across Jharkhand with 100+ years of excellence.</span>
             </motion.p>
 
             {/* CTA Buttons */}
@@ -137,7 +137,7 @@ export default function GroupHomepage() {
               <div className="absolute top-0 right-0 w-24 h-24 bg-accent/10 blur-3xl rounded-full" />
               <div className="relative z-10 space-y-12">
                 {[
-                  { val: '45+', lbl: 'Years of Institutional Presence' },
+                  { val: '100+', lbl: 'Years of Institutional Presence' },
                   { val: '5', lbl: 'Strategic Business Verticals' },
                   { val: '50K+', lbl: 'Network of Partners' },
                 ].map((stat) => (
@@ -170,7 +170,7 @@ export default function GroupHomepage() {
       {/* Mobile Stats Strip */}
       <div className="lg:hidden bg-primary grid grid-cols-3 divide-x divide-white/10 border-t border-white/10">
         {[
-          { val: '45+', lbl: 'Years' },
+          { val: '100+', lbl: 'Years' },
           { val: '5', lbl: 'Verticals' },
           { val: '50K+', lbl: 'Partners' },
         ].map((stat) => (
@@ -286,8 +286,8 @@ export default function GroupHomepage() {
                 <Image src="/vertical_manufacturing.png" alt="Manufacturing" fill className="object-cover opacity-50 grayscale group-hover:grayscale-0 shadow-2xl" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-10 left-10 z-10">
-                   <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-2 block">Engineering</span>
-                   <h4 className="text-white text-2xl font-black uppercase tracking-tighter">MUVA <br />Industries.</h4>
+                  <span className="text-accent text-[9px] font-black uppercase tracking-[.4em] mb-2 block">Engineering</span>
+                  <h4 className="text-white text-2xl font-black uppercase tracking-tighter">MUVA <br />Industries.</h4>
                 </div>
               </Link>
             </motion.div>
@@ -307,7 +307,7 @@ export default function GroupHomepage() {
               <Image src="/hero_rich.png" alt="Legacy" fill sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover opacity-20 grayscale" />
               <div className="relative z-10">
                 <h3 className="text-white font-black tracking-tighter leading-none italic" style={{ fontSize: 'clamp(4rem, 12vw, 10rem)' }}>
-                  45<span className="text-accent">+</span>
+                  100<span className="text-accent">+</span>
                 </h3>
                 <div className="text-accent font-black uppercase tracking-[.3em] text-base lg:text-xl mt-3">Years of Influence</div>
               </div>

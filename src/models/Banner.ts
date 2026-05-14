@@ -9,6 +9,7 @@ export interface IBanner extends Document {
   order: number;
   isActive: boolean;
   position: 'HOME_HERO' | 'VERTICAL_HERO' | 'PROMO_SECTION';
+  alignment?: 'top' | 'center' | 'bottom';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +27,11 @@ const BannerSchema: Schema = new Schema({
     enum: ['HOME_HERO', 'VERTICAL_HERO', 'PROMO_SECTION'], 
     default: 'HOME_HERO' 
   },
+  alignment: {
+    type: String,
+    enum: ['top', 'center', 'bottom'],
+    default: 'center'
+  }
 }, { timestamps: true });
 
 export default mongoose.models.Banner || mongoose.model<IBanner>('Banner', BannerSchema);

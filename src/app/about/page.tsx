@@ -102,7 +102,7 @@ export default function AboutPage() {
             { icon: Building2, label: "5 Verticals", sub: "Textiles to Automotive" },
             { icon: MapPin, label: "20+ Cities", sub: "Wide Supply Chain" },
             { icon: ShieldCheck, label: "ISO Certified", sub: "Process Excellence" },
-            { icon: History, label: "45 Years", sub: "Operational Legacy" }
+            { icon: History, label: "100 Years", sub: "Operational Legacy" }
           ].map((v, i) => (
             <div key={i} className="text-center group">
               <div className="flex justify-center mb-4 lg:mb-6">

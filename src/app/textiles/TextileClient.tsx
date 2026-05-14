@@ -107,9 +107,10 @@ const ReelCard = ({ reel, index }: { reel: Reel, index: number }) => {
 interface TextileClientProps {
   initialCategories: any[];
   initialProducts: any[];
+  initialBanners?: any[];
 }
 
-export default function TextileClient({ initialCategories, initialProducts }: TextileClientProps) {
+export default function TextileClient({ initialCategories, initialProducts, initialBanners }: TextileClientProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sareeScrollRef = useRef<HTMLDivElement>(null);
   const suitScrollRef = useRef<HTMLDivElement>(null);
@@ -128,6 +129,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
   // Dynamic Data States (Pre-populated from Server)
   const [products] = useState<any[]>(initialProducts);
   const [curatedCategories] = useState<any[]>(initialCategories);
+  const [banners] = useState<any[]>(initialBanners && initialBanners.length > 0 ? initialBanners : HERO_SLIDES);
   const [isLoading] = useState(false); // Never loading because data is SSR
 
   // Inquiry Modal State
@@ -141,10 +143,10 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setCurrentSlide((prev) => (prev + 1) % banners.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [banners.length]);
 
   // SCROLL SYNC ENGINE — Connects scroll position to Dot Index
   const handleScrollSync = (ref: React.RefObject<HTMLDivElement | null>, setProgress: (val: number) => void) => {
@@ -230,7 +232,7 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
   return (
     <div className="bg-white min-h-screen pt-24 lg:pt-[140px]">
 
-      <TextileHeader />
+      <TextileHeader categories={curatedCategories} />
 
       {/* ═══ HERO — THE BALANCED AWARD HERO ═══ */}
       <section className="relative h-[85vh] min-h-[650px] overflow-hidden">
@@ -244,11 +246,15 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
             className="absolute inset-0"
           >
             <Image
-              src={HERO_SLIDES[currentSlide].img}
-              alt={HERO_SLIDES[currentSlide].title}
+              src={banners[currentSlide].image || banners[currentSlide].img}
+              alt={banners[currentSlide].title}
               fill
               sizes="100vw"
-              className="object-cover opacity-90"
+              className={cn(
+                "object-cover opacity-90 transition-all duration-700",
+                banners[currentSlide].alignment === 'top' ? "object-top" : 
+                banners[currentSlide].alignment === 'bottom' ? "object-bottom" : "object-center"
+              )}
               priority
             />
             {/* High-Contrast Gradient Masking — Flipped for Left Alignment */}
@@ -259,25 +265,13 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
 
         {/* Diamond Nav Arrows — PUSHED TO EXTREMES */}
         <button
-          onClick={() => setCurrentSlide(prev => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+          onClick={() => setCurrentSlide(prev => (prev - 1 + banners.length) % banners.length)}
           className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 rotate-45 flex items-center justify-center transition-all group hidden md:flex active:scale-90"
         >
           <ChevronLeft className="w-5 h-5 -rotate-45" />
         </button>
         <button
-          onClick={() => setCurrentSlide(prev => (prev + 1) % HERO_SLIDES.length)}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 rotate-45 flex items-center justify-center transition-all group hidden md:flex active:scale-90"
-        >
-          <ChevronRight className="w-5 h-5 -rotate-45" />
-        </button>
-        <button
-          onClick={() => setCurrentSlide(prev => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 rotate-45 flex items-center justify-center transition-all group hidden md:flex active:scale-90"
-        >
-          <ChevronLeft className="w-5 h-5 -rotate-45" />
-        </button>
-        <button
-          onClick={() => setCurrentSlide(prev => (prev + 1) % HERO_SLIDES.length)}
+          onClick={() => setCurrentSlide(prev => (prev + 1) % banners.length)}
           className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 rotate-45 flex items-center justify-center transition-all group hidden md:flex active:scale-90"
         >
           <ChevronRight className="w-5 h-5 -rotate-45" />
@@ -294,12 +288,14 @@ export default function TextileClient({ initialCategories, initialProducts }: Te
               className="max-w-4xl"
             >
               <div className="bg-white/10 backdrop-blur-md px-4 py-1.5 md:px-6 md:py-1.5 inline-block rounded-lg border border-white/40 text-white text-[9px] md:text-[10px] font-black uppercase tracking-[.4em] mb-4 md:mb-6 drop-shadow-md">
-                {HERO_SLIDES[currentSlide].accent}
+                {banners[currentSlide].accent || "SEASONAL COLLECTION"}
               </div>
 
               <h1 className="font-extrabold tracking-tighter leading-none mb-8 md:mb-10 drop-shadow-2xl">
-                <span className="text-[#FFD700] block text-4xl md:text-6xl lg:text-8xl mb-2 md:mb-4 drop-shadow-2xl">{HERO_SLIDES[currentSlide].title}</span>
-                <span className="text-white block text-2xl md:text-3xl lg:text-5xl italic leading-tight drop-shadow-2xl">{HERO_SLIDES[currentSlide].subtitle}</span>
+                <span className="text-[#FFD700] block text-4xl md:text-6xl lg:text-8xl mb-2 md:mb-4 drop-shadow-2xl uppercase">{banners[currentSlide].title}</span>
+                {banners[currentSlide].subtitle && (
+                  <span className="text-white block text-2xl md:text-3xl lg:text-5xl italic leading-tight drop-shadow-2xl mt-2">{banners[currentSlide].subtitle}</span>
+                )}
               </h1>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-start">

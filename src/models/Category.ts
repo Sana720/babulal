@@ -30,6 +30,8 @@ const CategorySchema: Schema = new Schema({
   parentVertical: { type: String, default: 'textiles' },
 }, { timestamps: true });
 
+CategorySchema.index({ order: 1 });
+
 // Delete cached model to force re-registration with latest schema on hot-reload
 // This prevents stale schema issues where new fields (like isCurated) get stripped
 if (mongoose.models.Category) {

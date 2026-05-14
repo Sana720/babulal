@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
+import User from '@/models/User';
+import bcrypt from 'bcryptjs';
 
 const DUMMY_PRODUCTS = [
   {
@@ -58,14 +60,30 @@ export async function GET(req: Request) {
   try {
     await dbConnect();
     
-    // Optional: Clear existing products (Use with caution)
-    // await Product.deleteMany({});
+    // 1. Seed Default Admin User
+    const adminEmail = 'admin@premsons.com';
+    const existingAdmin = await User.findOne({ email: adminEmail });
     
+    let adminCreated = false;
+    if (!existingAdmin) {
+      const hashedPassword = await bcrypt.hash('admin123', 12);
+      await User.create({
+        name: 'System Admin',
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'ADMIN'
+      });
+      adminCreated = true;
+    }
+
+    // 2. Seed Products (Clear existing to avoid duplicates)
+    await Product.deleteMany({});
     const products = await Product.insertMany(DUMMY_PRODUCTS);
     
     return NextResponse.json({ 
-      message: 'Database seeded with sample products successfully!',
-      count: products.length,
+      message: 'Database seeded successfully!',
+      productsCount: products.length,
+      adminCreated,
       verticals: ['textiles', 'honda']
     });
   } catch (error: any) {

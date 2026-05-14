@@ -83,7 +83,7 @@ export default function InquiryForm({ verticalId, interestDefault = "General Inq
       <div className="mb-10 text-primary">
          <h4 className="text-[10px] font-bold uppercase tracking-[.4em] text-accent mb-4">Official Enquiry</h4>
          <h3 className="text-2xl font-bold tracking-tight mb-2">Connect with {business.name}</h3>
-         <p className="text-[13px] text-primary/40 font-medium leading-relaxed italic">A Ranchi Legacy. 45+ Years of Dedicated Service.</p>
+         <p className="text-[13px] text-primary/40 font-medium leading-relaxed italic">A Ranchi Legacy. 100+ Years of Dedicated Service.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="grid gap-6">

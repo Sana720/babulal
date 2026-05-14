@@ -19,9 +19,10 @@ async function fetchTextileCatalogData() {
     throw new Error("Database connection missing. Restart server.");
   }
 
-  // 1. Fetch Curated Categories
+  // 1. Fetch All Textiles Categories
   const categories = await db.collection("categories")
-    .find({ isCurated: true, parentVertical: { $regex: /textiles/i } })
+    .find({ parentVertical: { $regex: /textiles/i } })
+    .sort({ order: 1 })
     .toArray();
 
   // 2. Fetch Global Textile Products
@@ -31,19 +32,31 @@ async function fetchTextileCatalogData() {
     .limit(100) // Optimal limit to avoid payload bloat
     .toArray();
 
+  // 3. Fetch Textiles Banners
+  const banners = await db.collection("banners")
+    .find({ 
+      vertical: { $regex: /textiles/i }, 
+      position: 'HOME_HERO',
+      isActive: true 
+    })
+    .sort({ order: 1 })
+    .toArray();
+
   return {
     categories: JSON.parse(JSON.stringify(categories)),
-    products: JSON.parse(JSON.stringify(products))
+    products: JSON.parse(JSON.stringify(products)),
+    banners: JSON.parse(JSON.stringify(banners))
   };
 }
 
 export default async function TextileVerticalPage() {
-  const { categories, products } = await fetchTextileCatalogData();
+  const { categories, products, banners } = await fetchTextileCatalogData();
 
   return (
     <TextileClient 
       initialCategories={categories}
       initialProducts={products}
+      initialBanners={banners}
     />
   );
 }

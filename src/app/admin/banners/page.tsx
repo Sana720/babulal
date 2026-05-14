@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { compressImage } from '@/lib/image-utils';
 
 const VERTICAL_OPTIONS = ['TEXTILES', 'HONDA', 'BAJAJ', 'TRUCKING', 'MANUFACTURING', 'HOME'];
 const POSITION_OPTIONS = [
@@ -39,6 +40,7 @@ export default function BannersPage() {
     image: '',
     link: '',
     position: 'HOME_HERO',
+    alignment: 'center',
     isActive: true,
     order: 0
   });
@@ -64,14 +66,15 @@ export default function BannersPage() {
     if (banner) {
       setEditingBanner(banner);
       setFormData({
-        title: banner.title,
+        title: banner.title || '',
         subtitle: banner.subtitle || '',
-        vertical: banner.vertical,
-        image: banner.image,
+        vertical: banner.vertical || 'HOME',
+        image: banner.image || '',
         link: banner.link || '',
-        position: banner.position,
+        position: banner.position || 'HOME_HERO',
+        alignment: banner.alignment || 'center',
         isActive: banner.isActive,
-        order: banner.order
+        order: banner.order || 0
       });
     } else {
       setEditingBanner(null);
@@ -82,6 +85,7 @@ export default function BannersPage() {
         image: '',
         link: '',
         position: 'HOME_HERO',
+        alignment: 'center',
         isActive: true,
         order: banners.length
       });
@@ -93,7 +97,18 @@ export default function BannersPage() {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setFormData({ ...formData, image: reader.result as string });
+      reader.onloadend = async () => {
+        const base64 = reader.result as string;
+        try {
+          // Compress if it's a large image (e.g., > 1MB)
+          // We'll just compress all uploads to be safe and consistent
+          const optimizedImage = await compressImage(base64);
+          setFormData({ ...formData, image: optimizedImage });
+        } catch (err) {
+          console.error('Compression failed:', err);
+          setFormData({ ...formData, image: base64 }); // Fallback
+        }
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -193,15 +208,20 @@ export default function BannersPage() {
                        {banner.isActive ? "Active" : "Inactive"}
                     </button>
                  </div>
-                 <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-2">
-                       <Layers className="w-3.5 h-3.5 text-[#1a2b4b]/20" />
-                       <span className="text-[10px] font-bold text-[#1a2b4b]/40 uppercase tracking-widest">{banner.vertical}</span>
+                 <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-6">
+                       <div className="flex items-center gap-2">
+                          <Layers className="w-3.5 h-3.5 text-[#1a2b4b]/20" />
+                          <span className="text-[10px] font-bold text-[#1a2b4b]/40 uppercase tracking-widest">{banner.vertical}</span>
+                       </div>
+                       <div className="flex items-center gap-2">
+                          <Monitor className="w-3.5 h-3.5 text-[#1a2b4b]/20" />
+                          <span className="text-[10px] font-bold text-[#1a2b4b]/40 uppercase tracking-widest">{banner.position.replace('_', ' ')}</span>
+                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                       <Monitor className="w-3.5 h-3.5 text-[#1a2b4b]/20" />
-                       <span className="text-[10px] font-bold text-[#1a2b4b]/40 uppercase tracking-widest">{banner.position.replace('_', ' ')}</span>
-                    </div>
+                    {banner.subtitle && (
+                       <p className="text-[9px] text-[#1a2b4b]/40 uppercase font-medium italic">{banner.subtitle}</p>
+                    )}
                  </div>
               </div>
 
@@ -235,18 +255,25 @@ export default function BannersPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                 <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Banner Title</label>
-                       <input required className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-[#095181]/10" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Business Vertical</label>
-                       <select className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" value={formData.vertical} onChange={(e) => setFormData({...formData, vertical: e.target.value})}>
-                          {VERTICAL_OPTIONS.map(v => <option key={v} value={v}>{v}</option>)}
-                       </select>
-                    </div>
-                 </div>
+                  <div className="grid grid-cols-2 gap-6">
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Banner Title</label>
+                        <input required className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-[#095181]/10" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} />
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Banner Subtitle (Optional)</label>
+                        <input className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-[#095181]/10" value={formData.subtitle} onChange={(e) => setFormData({...formData, subtitle: e.target.value})} />
+                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-6">
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Business Vertical</label>
+                        <select className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" value={formData.vertical} onChange={(e) => setFormData({...formData, vertical: e.target.value})}>
+                           {VERTICAL_OPTIONS.map(v => <option key={v} value={v}>{v}</option>)}
+                        </select>
+                     </div>
+                  </div>
 
                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Hero Asset (Base64)</label>
@@ -265,18 +292,26 @@ export default function BannersPage() {
                     </div>
                  </div>
 
-                 <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Display Position</label>
-                       <select className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" value={formData.position} onChange={(e) => setFormData({...formData, position: e.target.value as any})}>
-                          {POSITION_OPTIONS.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
-                       </select>
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Action Link (Optional)</label>
-                       <input className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" placeholder="/textiles/summer-24" value={formData.link} onChange={(e) => setFormData({...formData, link: e.target.value})} />
-                    </div>
-                 </div>
+                  <div className="grid grid-cols-3 gap-6">
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Display Position</label>
+                        <select className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" value={formData.position} onChange={(e) => setFormData({...formData, position: e.target.value as any})}>
+                           {POSITION_OPTIONS.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
+                        </select>
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Image Alignment</label>
+                        <select className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" value={formData.alignment} onChange={(e) => setFormData({...formData, alignment: e.target.value as any})}>
+                           <option value="top">Top</option>
+                           <option value="center">Center</option>
+                           <option value="bottom">Bottom</option>
+                        </select>
+                     </div>
+                     <div className="space-y-2">
+                        <label className="text-[10px] font-black text-[#1a2b4b]/40 uppercase tracking-widest">Action Link (Optional)</label>
+                        <input className="w-full px-5 py-3 bg-[#f8fafc] border border-[#d1d9e6] rounded-xl text-xs font-bold outline-none" placeholder="/textiles/summer-24" value={formData.link} onChange={(e) => setFormData({...formData, link: e.target.value})} />
+                     </div>
+                  </div>
 
                  <button type="submit" disabled={isSubmitting} className="w-full bg-[#095181] text-white py-5 rounded-2xl text-[11px] font-black uppercase tracking-[.3em] shadow-xl shadow-[#095181]/20 hover:-translate-y-1 transition-all disabled:opacity-50">
                     {isSubmitting ? 'UPLOADING CREATIVE...' : 'AUTHORIZE & DEPLOY'}

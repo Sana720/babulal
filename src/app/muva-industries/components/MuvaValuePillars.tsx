@@ -57,7 +57,7 @@ export default function MuvaValuePillars() {
             },
             { 
               title: "Legacy Mastery", 
-              desc: "Rooted in 45+ years of BBP Group engineering excellence and manufacturing heritage.",
+              desc: "Rooted in 100+ years of BBP Group engineering excellence and manufacturing heritage.",
               icon: Cog 
             }
           ].map((pillar, i) => (

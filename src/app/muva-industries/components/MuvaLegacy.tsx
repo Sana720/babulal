@@ -29,13 +29,13 @@ export default function MuvaLegacy() {
 
               <div className="space-y-12">
                  <p className="text-white/60 text-xl font-medium italic border-l-4 border-[#DA222A] pl-10 max-w-xl leading-relaxed">
-                   Established in 1978, MUVA Industries began as the technical pulse of the BBP Group. For over four decades, we have been the unseen infrastructure behind Jharkhand&apos;s industrial growth.
+                   Established in 1978, MUVA Industries began as the technical pulse of the BBP Group. For over ten decades, we have been the unseen infrastructure behind Jharkhand&apos;s industrial growth.
                  </p>
                  
                  <div className="grid md:grid-cols-2 gap-12 pt-8">
                     <div className="space-y-4">
                        <Award className="w-8 h-8 text-[#DA222A]" />
-                       <h4 className="text-white text-lg font-black uppercase tracking-tighter">45+ Years</h4>
+                       <h4 className="text-white text-lg font-black uppercase tracking-tighter">100+ Years</h4>
                        <p className="text-white/40 text-xs font-medium italic leading-relaxed">Of relentless precision in a changing industrial landscape.</p>
                     </div>
                     <div className="space-y-4">
