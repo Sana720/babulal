@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
+import { optimizeBase64Image } from '@/lib/image-utils';
 
 /**
  * GET /api/admin/products
@@ -60,6 +61,14 @@ export async function POST(req: Request) {
       );
     }
 
+    // Automatically optimize images
+    if (data.image) {
+      data.image = await optimizeBase64Image(data.image);
+    }
+    if (data.images && Array.isArray(data.images)) {
+      data.images = await Promise.all(data.images.map((img: string) => optimizeBase64Image(img)));
+    }
+
     // Auto-formatting name & businessVertical
     const formattedData = {
       ...data,
@@ -105,6 +114,14 @@ export async function PATCH(req: Request) {
     }
     if (updates.businessVertical) {
       updates.businessVertical = updates.businessVertical.toLowerCase();
+    }
+
+    // Automatically optimize images in updates
+    if (updates.image) {
+      updates.image = await optimizeBase64Image(updates.image);
+    }
+    if (updates.images && Array.isArray(updates.images)) {
+      updates.images = await Promise.all(updates.images.map((img: string) => optimizeBase64Image(img)));
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(

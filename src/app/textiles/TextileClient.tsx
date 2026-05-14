@@ -128,7 +128,8 @@ export default function TextileClient({ initialCategories, initialProducts, init
 
   // Dynamic Data States (Pre-populated from Server)
   const [products] = useState<any[]>(initialProducts);
-  const [curatedCategories] = useState<any[]>(initialCategories);
+  // Only display categories toggled as 'Curated' in the Curated Collections section
+  const curatedCategories = initialCategories.filter((cat: any) => cat.isCurated);
   const [banners] = useState<any[]>(initialBanners && initialBanners.length > 0 ? initialBanners : HERO_SLIDES);
   const [isLoading] = useState(false); // Never loading because data is SSR
 
@@ -232,7 +233,7 @@ export default function TextileClient({ initialCategories, initialProducts, init
   return (
     <div className="bg-white min-h-screen pt-24 lg:pt-[140px]">
 
-      <TextileHeader categories={curatedCategories} />
+      <TextileHeader categories={initialCategories.filter(cat => cat.showInHeader)} />
 
       {/* ═══ HERO — THE BALANCED AWARD HERO ═══ */}
       <section className="relative h-[85vh] min-h-[650px] overflow-hidden">

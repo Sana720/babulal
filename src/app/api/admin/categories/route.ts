@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Category from '@/models/Category';
+import { optimizeBase64Image } from '@/lib/image-utils';
 
 /**
  * GET - List all categories
@@ -36,6 +37,11 @@ export async function POST(req: Request) {
       data.slug = data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     }
 
+    // Automatically optimize images if present
+    if (data.image) {
+      data.image = await optimizeBase64Image(data.image);
+    }
+
     const newCategory = await Category.create(data);
     console.log('CREATED CATEGORY:', newCategory);
     return NextResponse.json(newCategory, { status: 201 });
@@ -60,7 +66,9 @@ export async function PATCH(req: Request) {
     const cleanUpdates: any = {};
     if (updates.name) cleanUpdates.name = updates.name;
     if (updates.slug) cleanUpdates.slug = updates.slug;
-    if (updates.image !== undefined) cleanUpdates.image = updates.image;
+    if (updates.image !== undefined) {
+      cleanUpdates.image = await optimizeBase64Image(updates.image);
+    }
     if (updates.showInHeader !== undefined) cleanUpdates.showInHeader = Boolean(updates.showInHeader);
     if (updates.isCurated !== undefined) cleanUpdates.isCurated = Boolean(updates.isCurated);
     if (updates.status) cleanUpdates.status = updates.status;

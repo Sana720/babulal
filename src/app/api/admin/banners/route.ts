@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Banner from '@/models/Banner';
+import { optimizeBase64Image } from '@/lib/image-utils';
 
 export async function GET(req: Request) {
   try {
@@ -10,7 +11,6 @@ export async function GET(req: Request) {
     await dbConnect();
     const query = vertical ? { vertical: vertical.toUpperCase() } : {};
     const banners = await Banner.find(query).sort({ order: 1 });
-    console.log(`--- DB FETCH BANNERS --- COUNT: ${banners.length}`);
     return NextResponse.json(banners);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch banners' }, { status: 500 });
@@ -21,13 +21,12 @@ export async function POST(req: Request) {
   try {
     const data = await req.json();
 
-    // Check size (MongoDB limit is 16MB)
-    const approximateSize = JSON.stringify(data).length;
-    if (approximateSize > 15 * 1024 * 1024) {
-      return NextResponse.json({ 
-        error: 'Payload Too Large', 
-        details: 'The image size is too large for the database. Please compress it or use a lower resolution.' 
-      }, { status: 413 });
+    // Automatically optimize images if present
+    if (data.image) {
+      data.image = await optimizeBase64Image(data.image);
+    }
+    if (data.img) {
+      data.img = await optimizeBase64Image(data.img);
     }
     
     await dbConnect();
@@ -54,6 +53,14 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const { id, ...updates } = await req.json();
+
+    if (updates.image) {
+      updates.image = await optimizeBase64Image(updates.image);
+    }
+    if (updates.img) {
+      updates.img = await optimizeBase64Image(updates.img);
+    }
+
     await dbConnect();
     const updatedBanner = await Banner.findByIdAndUpdate(id, updates, { new: true });
     return NextResponse.json(updatedBanner);

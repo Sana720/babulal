@@ -1,37 +1,38 @@
+
+import sharp from 'sharp';
+
 /**
- * Compresses an image to ensure it stays within a reasonable size
- * for MongoDB storage (under 16MB including Base64 overhead).
+ * Optimizes a base64 image string by resizing and compressing it.
+ * @param base64String The full base64 string (including data:image/...)
+ * @param maxWidth Optional max width (default: 1200)
+ * @param maxHeight Optional max height (default: 1200)
+ * @returns Optimized base64 string
  */
-export async function compressImage(base64Str: string, maxWidth = 1920, quality = 0.8): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.src = base64Str;
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      let width = img.width;
-      let height = img.height;
+export async function optimizeBase64Image(base64String: string, maxWidth = 1200, maxHeight = 1200): Promise<string> {
+  if (!base64String || !base64String.startsWith('data:image')) {
+    return base64String;
+  }
 
-      // Calculate new dimensions while maintaining aspect ratio
-      if (width > maxWidth) {
-        height = (maxWidth / width) * height;
-        width = maxWidth;
-      }
+  try {
+    const [header, base64Data] = base64String.split(',');
+    const buffer = Buffer.from(base64Data, 'base64');
 
-      canvas.width = width;
-      canvas.height = height;
+    // Only optimize if the buffer is larger than 150KB to save CPU
+    if (buffer.length < 150 * 1024) {
+      return base64String;
+    }
 
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        reject(new Error('Failed to get canvas context'));
-        return;
-      }
+    const optimizedBuffer = await sharp(buffer)
+      .resize(maxWidth, maxHeight, {
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .jpeg({ quality: 80, progressive: true })
+      .toBuffer();
 
-      ctx.drawImage(img, 0, 0, width, height);
-      
-      // Convert to JPEG with specified quality to reduce file size significantly
-      const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
-      resolve(compressedBase64);
-    };
-    img.onerror = (error) => reject(error);
-  });
+    return `data:image/jpeg;base64,${optimizedBuffer.toString('base64')}`;
+  } catch (error) {
+    console.error('Image optimization failed:', error);
+    return base64String; // Return original if optimization fails
+  }
 }

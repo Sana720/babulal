@@ -93,6 +93,7 @@ export default function GroupHomepage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1.8, duration: 1 }}
               className="text-white/70 text-sm lg:text-lg font-medium leading-relaxed mb-6 lg:mb-10 border-l-2 border-accent/40 pl-4 lg:pl-10"
+              suppressHydrationWarning
             >
               <span className="sm:hidden">Multi-sector conglomerate. 100+ years of excellence across Jharkhand.</span>
               <span className="hidden sm:inline">A diversified multi-billion dollar conglomerate governing strategic business verticals across Jharkhand with 100+ years of excellence.</span>

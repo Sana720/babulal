@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { compressImage } from '@/lib/image-utils';
 
 const VERTICAL_OPTIONS = ['TEXTILES', 'HONDA', 'BAJAJ', 'TRUCKING', 'MANUFACTURING', 'HOME'];
 const POSITION_OPTIONS = [
@@ -99,15 +98,7 @@ export default function BannersPage() {
       const reader = new FileReader();
       reader.onloadend = async () => {
         const base64 = reader.result as string;
-        try {
-          // Compress if it's a large image (e.g., > 1MB)
-          // We'll just compress all uploads to be safe and consistent
-          const optimizedImage = await compressImage(base64);
-          setFormData({ ...formData, image: optimizedImage });
-        } catch (err) {
-          console.error('Compression failed:', err);
-          setFormData({ ...formData, image: base64 }); // Fallback
-        }
+        setFormData({ ...formData, image: base64 });
       };
       reader.readAsDataURL(file);
     }
