@@ -107,7 +107,7 @@ export default async function SingleProductPage({ params }: ProductPageProps) {
   };
 
   return (
-    <div className="bg-[#FBFBFB] min-h-screen">
+    <div className="bg-white min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -141,19 +141,21 @@ export default async function SingleProductPage({ params }: ProductPageProps) {
             );
           })()}
 
-          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24">
+          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
             {/* ══ LEFT: INTERACTIVE GALLERY ══ */}
-            <div className="lg:col-span-6 xl:col-span-7">
-              <ProductGallery
-                images={product.images}
-                productName={product.name}
-                videoUrl={product.videoUrl}
-              />
+            <div className="lg:col-span-7">
+              <div className="sticky top-40">
+                <ProductGallery
+                  images={product.images}
+                  productName={product.name}
+                  videoUrl={product.videoUrl}
+                />
+              </div>
             </div>
 
             {/* ══ RIGHT: PRODUCT DETAILS ══ */}
-            <div className="lg:col-span-6 xl:col-span-5 space-y-12">
+            <div className="lg:col-span-5 space-y-12">
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <span className="px-4 py-1.5 bg-accent/5 text-accent text-[10px] font-bold uppercase tracking-widest rounded-full border border-accent/10">

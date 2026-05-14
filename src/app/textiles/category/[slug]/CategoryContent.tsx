@@ -192,15 +192,15 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
                            <h4 className="text-[11px] font-black text-[#0A5181] uppercase tracking-tight mb-2 h-8 line-clamp-2">{item.name}</h4>
                         </Link>
                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6 italic">{item.attributes?.fabric || 'Premium Quality'}</p>
-                        <button 
+                        <Link 
+                           href={`/textiles/product/${item.slug}`}
                            onClick={() => {
                              Haptics.medium();
-                             setIsStoreModalOpen(true);
                            }}
                            className="w-full bg-[#DA222A] text-white py-4 text-[11px] font-black uppercase tracking-[0.16em] leading-none hover:bg-[#0A5181] transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#DA222A]/15 active:scale-[0.97]"
                         >
-                           <MessageCircle className="w-4 h-4 mb-0.5" /> Price Enquiry
-                        </button>
+                           <MessageCircle className="w-4 h-4 mb-0.5" /> View Details
+                        </Link>
                      </div>
                   </div>
                ))

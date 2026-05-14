@@ -32,9 +32,9 @@ export default function ProductGallery({ images, productName, videoUrl }: Produc
   }
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col md:flex-row gap-6">
       {/* Main Display */}
-      <div className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-white shadow-2xl group cursor-crosshair">
+      <div className="flex-1 relative aspect-square rounded-[2.5rem] overflow-hidden bg-white border border-gray-100 shadow-sm group cursor-crosshair">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIndex}
@@ -64,7 +64,7 @@ export default function ProductGallery({ images, productName, videoUrl }: Produc
                 alt={`${productName} - View ${activeIndex + 1}`}
                 fill
                 priority
-                className="object-cover"
+                className="object-contain p-4 md:p-8"
               />
             )}
           </motion.div>
@@ -86,13 +86,7 @@ export default function ProductGallery({ images, productName, videoUrl }: Produc
           </>
         )}
 
-        {/* Badge */}
-        <div className="absolute top-8 left-8">
-          <div className="bg-black/60 backdrop-blur-xl px-4 py-2 rounded-full border border-white/10 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-            <span className="text-[10px] font-black text-white uppercase tracking-widest">Premium Catalog Asset</span>
-          </div>
-        </div>
+        {/* Removed Badge as per user request */}
 
         {/* Zoom Trigger */}
         <button className="absolute bottom-8 right-8 p-4 bg-white shadow-xl rounded-2xl text-primary hover:bg-primary hover:text-white transition-all transform hover:rotate-6">
@@ -102,20 +96,20 @@ export default function ProductGallery({ images, productName, videoUrl }: Produc
 
       {/* Thumbnails */}
       {items.length > 1 && (
-        <div className="flex gap-4 overflow-x-auto no-scrollbar py-2">
+        <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto no-scrollbar py-2 md:w-20 lg:w-24 shrink-0">
           {items.map((item, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIndex(idx)}
               className={cn(
-                "relative w-24 aspect-[3/4] rounded-2xl overflow-hidden border-2 transition-all flex-shrink-0 bg-black",
-                activeIndex === idx ? "border-accent scale-105 shadow-lg" : "border-transparent opacity-40 hover:opacity-100"
+                "relative w-16 md:w-full aspect-square rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 bg-white shadow-sm",
+                activeIndex === idx ? "border-accent scale-105 shadow-md" : "border-transparent opacity-40 hover:opacity-100"
               )}
             >
               {item.type === 'video' ? (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-primary/10">
-                   <Film className="w-8 h-8 text-accent" />
-                   <span className="text-[8px] font-black uppercase text-accent/60 tracking-widest">Video</span>
+                   <Film className="w-6 h-6 text-accent" />
+                   <span className="text-[7px] font-black uppercase text-accent/60 tracking-widest">Video</span>
                 </div>
               ) : (
                 <Image
