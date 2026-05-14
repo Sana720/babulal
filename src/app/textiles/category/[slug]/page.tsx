@@ -44,6 +44,17 @@ async function fetchProductsData() {
   return JSON.parse(JSON.stringify(products));
 }
 
+async function fetchAllCategoriesData() {
+  await dbConnect();
+  const db = mongoose.connection.db;
+  if (!db) throw new Error("Database connection missing.");
+  const categories = await db.collection("categories")
+    .find({ parentVertical: { $in: ["textiles", "TEXTILES"] } })
+    .sort({ order: 1 })
+    .toArray();
+  return JSON.parse(JSON.stringify(categories));
+}
+
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
   return { title: `${params?.slug?.toUpperCase() || "Category"} Collection` };
@@ -61,12 +72,14 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
   // Do NOT await these! Trigger them in parallel to stream the promises down.
   const subCategoriesPromise = fetchSubCategoriesData(category._id ? category._id.toString() : "0");
   const productsPromise = fetchProductsData();
+  const navCategoriesPromise = fetchAllCategoriesData();
 
   return (
     <CategoryContent 
       initialCategory={category}
       subCategoriesPromise={subCategoriesPromise}
       productsPromise={productsPromise}
+      navCategoriesPromise={navCategoriesPromise}
       slug={slug}
     />
   );

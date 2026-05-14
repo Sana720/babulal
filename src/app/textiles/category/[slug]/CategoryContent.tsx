@@ -21,15 +21,23 @@ interface CategoryContentProps {
   initialCategory: any;
   subCategoriesPromise: Promise<any[]>;
   productsPromise: Promise<any[]>;
+  navCategoriesPromise: Promise<any[]>;
   slug: string;
 }
 
-export default function CategoryContent({ initialCategory, subCategoriesPromise, productsPromise, slug }: CategoryContentProps) {
+export default function CategoryContent({ 
+  initialCategory, 
+  subCategoriesPromise, 
+  productsPromise, 
+  navCategoriesPromise,
+  slug 
+}: CategoryContentProps) {
   const [isStoreModalOpen, setIsStoreModalOpen] = React.useState(false);
+  const allCategories = React.use(navCategoriesPromise) as any[];
 
   return (
     <div className="bg-white min-h-screen text-[#0A5181]">
-      <TextileHeader />
+      <TextileHeader categories={allCategories.filter((c: any) => c.showInHeader)} />
       
       <StoreLocatorModal 
         isOpen={isStoreModalOpen} 

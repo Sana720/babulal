@@ -79,6 +79,13 @@ export default async function SingleProductPage({ params }: ProductPageProps) {
 
   const finalBrochureUrl = product.brochureUrl || subCategoryCatalog?.brochureUrl;
 
+  // Fetch all categories for the header if we are in textiles
+  let navCategories: any[] = [];
+  if (verticalSlug === 'textiles') {
+    const Category = (await import('@/models/Category')).default;
+    navCategories = await Category.find({ parentVertical: 'textiles' }).sort({ order: 1 }).lean();
+  }
+
   // JSON-LD Structured Data for SEO
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -106,7 +113,9 @@ export default async function SingleProductPage({ params }: ProductPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {verticalSlug === 'textiles' && <TextileHeader />}
+      {verticalSlug === 'textiles' && (
+        <TextileHeader categories={JSON.parse(JSON.stringify(navCategories.filter((c: any) => c.showInHeader)))} />
+      )}
 
       <main className="pt-28 md:pt-48 lg:pt-64 pb-24 px-4 sm:px-6 md:px-12">
         <div className="max-w-[1400px] mx-auto">
