@@ -29,17 +29,47 @@ export default function TextilesLoading() {
         </div>
       </section>
 
-      {/* Categories Grid Skeleton */}
-      <section className="py-24 max-w-[1700px] mx-auto px-6">
+      {/* Categories Horizontal Nav Skeleton */}
+      <div className="bg-white border-b border-gray-100 py-4 sticky top-24 z-40 hidden lg:block">
+        <div className="max-w-[1700px] mx-auto px-12 flex gap-10">
+          {[1,2,3,4,5,6,7,8].map(i => (
+            <div key={i} className="w-20 h-4 bg-gray-100 rounded" />
+          ))}
+        </div>
+      </div>
+
+      {/* Categories Grid Skeleton (Curated) */}
+      <section className="py-24 max-w-[1700px] mx-auto px-6 lg:px-24">
+        <div className="flex flex-col items-center mb-20">
+          <div className="w-48 h-10 bg-gray-100 rounded mb-4" />
+          <div className="w-96 h-4 bg-gray-50 rounded" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {[1, 2, 3].map((i) => (
             <div key={i} className="space-y-6">
-              <div className="h-8 w-1/2 bg-gray-200 rounded" />
-              <div className="aspect-[4/5] bg-gray-100 rounded-3xl" />
+              <div className="aspect-[4/5] bg-gray-50 rounded-[2rem]" />
+              <div className="h-6 w-1/2 bg-gray-100 rounded mx-auto" />
             </div>
           ))}
         </div>
       </section>
+
+      {/* Horizontal Boutique Sections Skeleton */}
+      {[1, 2].map((section) => (
+        <section key={section} className="py-24 border-t border-gray-50 overflow-hidden">
+          <div className="max-w-[1700px] mx-auto px-6 lg:px-24">
+            <div className="flex flex-col items-center mb-16">
+              <div className="w-64 h-10 bg-gray-100 rounded mb-4" />
+              <div className="w-full max-w-2xl h-4 bg-gray-50 rounded" />
+            </div>
+            <div className="flex gap-8 overflow-hidden">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="min-w-[300px] aspect-[3/4] bg-gray-50 rounded-xl" />
+              ))}
+            </div>
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
