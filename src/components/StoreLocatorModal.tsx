@@ -66,8 +66,8 @@ const TEXTILE_STORES = [
     city: "Ranchi",
     locations: [
       { 
-        name: "Babulal Premkumar - Main Road (HQ)", 
-        address: "Babulal Premsons Building, Main Road, Upper Bazar, Ranchi, Jharkhand - 834001", 
+        name: "Babulal Premkumar - Upper Bazar (HQ)", 
+        address: "Babulal Premsons Building, Upper Bazar, Ranchi, Jharkhand - 834001", 
         mapUrl: "https://www.google.com/maps/place/Babulal+Premkumar/@23.3731426,85.3212812,17z/data=!3m1!4b1!4m6!3m5!1s0x39f4e1bf745d1d33:0x73a012c9b9d71786!8m2!3d23.3731426!4d85.3212812!16s%2Fg%2F11h2m9h6bl!18m1!1e1" 
       }
     ]

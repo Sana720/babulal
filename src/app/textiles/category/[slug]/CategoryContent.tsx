@@ -88,7 +88,7 @@ export default function CategoryContent({
                  </div>
                  <div className="text-right">
                     <div className="text-[10px] font-black uppercase text-accent tracking-widest">In-Store Procurement Only</div>
-                    <div className="text-[9px] font-bold uppercase text-gray-300 tracking-[0.3em] mt-1">Visit Ranchi H.Q. • Wholesale & Retail Hub</div>
+                    <div className="text-[9px] font-bold uppercase text-gray-300 tracking-[0.3em] mt-1">Visit Ranchi H.Q. • Retail Hub • Lowest Price 365 Days</div>
                  </div>
               </div>
            </div>
@@ -158,7 +158,7 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
 
              <div className="p-6 bg-[#fbfbfb] border border-gray-100 rounded">
                 <h4 className="text-[10px] font-black uppercase text-[#0A5181] tracking-widest mb-3">Priority Assistance</h4>
-                <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-6 uppercase">Direct procurement desk for wholesale & retail partners.</p>
+                <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-6 uppercase">Direct procurement desk for retail partners.</p>
                 <button 
                   onClick={() => {
                     Haptics.medium();
@@ -216,7 +216,7 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
           <div className="mt-32 pt-20 border-t border-gray-100">
              <div className="max-w-4xl space-y-12">
                 <div className="space-y-6">
-                   <h2 className="text-2xl lg:text-3xl font-black text-[#0A5181] uppercase tracking-tighter italic">Premier Wholesale & Retail Destination for {initialCategory?.name} in Ranchi</h2>
+                   <h2 className="text-2xl lg:text-3xl font-black text-[#0A5181] uppercase tracking-tighter italic">Premier Retail Destination for {initialCategory?.name} in Ranchi</h2>
                    <div className="text-sm lg:text-base text-gray-500 font-medium leading-[1.8] space-y-6 italic">
                       <p>
                          Babulal Premkumar stands as a pillar of excellence in the Indian textile landscape. For over four decades, our group has anchored the textile supply chain across Jharkhand, connecting century-old weaving traditions with modern retail infrastructures. 

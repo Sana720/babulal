@@ -202,7 +202,7 @@ export default function GroupHomepage() {
               </h2>
             </div>
             <p className="max-w-sm text-primary/45 text-base lg:text-lg font-medium italic leading-relaxed border-l-2 border-accent/20 pl-6 lg:pl-10">
-              India&apos;s legacy in wholesale textiles since 1978.
+              India&apos;s legacy in retail textiles since 1978.
             </p>
           </div>
 

@@ -223,7 +223,7 @@ const CatalogDownloadModal = ({ isOpen, onClose }: CatalogModalProps) => {
                          </div>
                          <h3 className="text-2xl font-black text-primary uppercase tracking-tighter italic italic-accent text-center">Catalog Ready</h3>
                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2 text-center max-w-[280px]">
-                            Official {selectedSubCategory?.name} wholesale price list and portfolio.
+                            Official {selectedSubCategory?.name} price list and portfolio.
                          </p>
 
                          <div className="mt-12 w-full space-y-4">
@@ -252,7 +252,7 @@ const CatalogDownloadModal = ({ isOpen, onClose }: CatalogModalProps) => {
             <div className="p-6 bg-gray-50/50 border-t border-gray-50 text-[9px] font-bold text-primary/30 uppercase tracking-[0.2em] flex justify-between items-center">
                <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                  Wholesale Gateway Active
+                  Retail Access Active
                </div>
                <span>Babulal Premsons Group • Ranchi</span>
             </div>

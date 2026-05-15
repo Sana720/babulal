@@ -314,7 +314,7 @@ export default function TextileClient({ initialCategories, initialProducts, init
               { title: "Latest Collection", sub: "Fresh Seasonal Inventory", icon: Star },
               { title: "Lowest Rate 365 Days", sub: "No Sales, Just Honesty", icon: TrendingUp },
               { title: "No Bundling", sub: "Buy Precisely What You Need", icon: PackageCheck },
-              { title: "Retail at Wholesale", sub: "Manufacturing Direct Pricing", icon: ShoppingBag }
+              { title: "Lowest Price 365 Days", sub: "Direct Retail Pricing", icon: ShoppingBag }
             ].map((pillar, i) => (
               <div key={i} className="flex items-center gap-4 text-white group">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#DA222A] transition-colors">
@@ -441,12 +441,12 @@ export default function TextileClient({ initialCategories, initialProducts, init
                 Curated <br /><span className="text-[#DA222A]">Collections.</span>
               </h2>
               <p className="text-gray-400 text-lg md:text-xl font-medium max-w-xl italic mt-6 leading-relaxed">
-                A cinematic showcase of Ranchi&apos;s finest textile engineering. <br className="hidden lg:block" /> Wholesale & Retail excellence for global partners.
+                A cinematic showcase of Ranchi&apos;s finest textile engineering. <br className="hidden lg:block" /> Retail excellence for global partners.
               </p>
             </div>
             <div className="flex items-center gap-10 text-[10px] font-black uppercase tracking-[.4em] text-gray-400">
               <div className="flex items-center gap-2 group cursor-pointer hover:text-[#0A5181] transition-colors">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#DA222A]" /> Wholesale & Retail
+                <div className="w-1.5 h-1.5 rounded-full bg-[#DA222A]" /> Retail Excellence
               </div>
               <div className="flex items-center gap-2 group cursor-pointer hover:text-[#0A5181] transition-colors">
                 Global Exports
@@ -818,9 +818,9 @@ export default function TextileClient({ initialCategories, initialProducts, init
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: "Kota Sarees Manufacturer & Supplier In India", redText: "" },
+              { title: "Kota Sarees Retail & Supplier In India", redText: "" },
               { title: "Buy Plain Kota Sarees In Bulk Online", redText: "Buy Plain Kota Sarees In Bulk Online" },
-              { title: "Plain Kota Sarees Wholesale For Resellers", redText: "" },
+              { title: "Plain Kota Sarees Retail Collection", redText: "" },
               { title: "Indian Handloom Sarees In Bulk For Boutiques", redText: "" }
             ].map((item, i) => (
               <motion.div
@@ -1086,19 +1086,19 @@ export default function TextileClient({ initialCategories, initialProducts, init
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Pattu Silk Saree Manufacturers in Telangana Crafting Timeless Silk Elegance",
+                title: "Pattu Silk Saree Retail in Telangana Crafting Timeless Silk Elegance",
                 img: "/blog_pattu.png",
-                excerpt: "The Pattu Silk Saree Manufacturers in Telangana are the skilled people who keep this beautiful tradition alive. They do ..."
+                excerpt: "The Pattu Silk Saree Retail in Telangana are the skilled people who keep this beautiful tradition alive. They do ..."
               },
               {
-                title: "Kanchipuram Saree Manufacturers in Telangana: Complete Wholesale Buying Guide",
+                title: "Kanchipuram Saree Retail in Telangana: Complete Buying Guide",
                 img: "/blog_kanchipuram.png",
-                excerpt: "The Kanchipuram Saree Manufacturers in Telangana are the people who create these masterpieces. Known as the Queen of Sil..."
+                excerpt: "The Kanchipuram Saree Retail in Telangana are the people who create these masterpieces. Known as the Queen of Sil..."
               },
               {
-                title: "Gadwal Saree Manufacturers in Telangana Preserving a Rich Handloom Legacy",
+                title: "Gadwal Saree Retail in Telangana Preserving a Rich Handloom Legacy",
                 img: "/blog_gadwal.png",
-                excerpt: "Gadwal Saree Manufacturers in Telangana do their magic. These sarees are very special because they bring two different t..."
+                excerpt: "Gadwal Saree Retail in Telangana do their magic. These sarees are very special because they bring two different t..."
               }
             ].map((blog, i) => (
               <motion.div

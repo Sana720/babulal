@@ -48,10 +48,10 @@ const TextileHeader = ({ categories = [] }: TextileHeaderProps) => {
         {/* TIER 1: TICKER */}
         <div className="bg-[#DA222A] text-white py-1.5 md:py-2 overflow-hidden shadow-sm relative z-50">
           <div className="flex whitespace-nowrap animate-marquee font-bold text-[8px] md:text-[10px] uppercase tracking-[.3em]">
-            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Wholesale & Retail Textile Hub Since 1978</span>
+            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Retail Textile Hub Since 1978</span>
             <span className="mx-4 md:mx-8">Global Shipping Now Available to 50+ Countries</span>
             <span className="mx-4 md:mx-8">New Bridal Collection 2026 Launching Soon</span>
-            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Wholesale & Retail Textile Hub Since 1978</span>
+            <span className="mx-4 md:mx-8">Jharkhand&apos;s Leading Retail Textile Hub Since 1978</span>
           </div>
         </div>
 
@@ -176,7 +176,7 @@ const TextileHeader = ({ categories = [] }: TextileHeaderProps) => {
                       { name: "Lehenga", slug: "lehenga", type: 'category' },
                     ]
                 ),
-                { name: "Manufacturing Hub", slug: "sarees", type: 'utility' },
+                { name: "Retail Hub", slug: "sarees", type: 'utility' },
                 { name: "Blog", slug: "blog", type: 'utility' },
                 { name: "Contact Us", slug: "contact", type: 'utility' },
               ].map((item, i) => {

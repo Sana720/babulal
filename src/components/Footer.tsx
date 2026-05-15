@@ -87,7 +87,7 @@ const Footer = () => {
           <div className="space-y-6 lg:space-y-8 text-center sm:text-left">
             <h4 className="text-white text-[11px] lg:text-[12px] font-black uppercase tracking-[0.4em]">Textile Boutique</h4>
             <div className="flex flex-col gap-3 lg:gap-4">
-              {['Elite Sarees', 'Designer Suits', 'Luxury Kurtis', 'Kids Collection', 'Manufacturing Hub'].map((cat) => (
+              {['Elite Sarees', 'Designer Suits', 'Luxury Kurtis', 'Kids Collection', 'Retail Hub'].map((cat) => (
                 <Link key={cat} href="#" className="text-white/40 text-xs md:text-sm font-medium italic hover:text-[#DA222A] transition-colors">
                   {cat}
                 </Link>
@@ -115,7 +115,7 @@ const Footer = () => {
                 <MapPin className="w-5 h-5 group-hover:text-[#DA222A] transition-colors shrink-0 sm:mt-1" />
                 <p className="text-xs md:text-sm font-medium italic leading-relaxed">
                   Babulal Premsons Building,<br />
-                  Main Road, Ranchi,<br />
+                  Upper Bazar, Ranchi,<br />
                   Jharkhand - 834001, India
                 </p>
               </div>
