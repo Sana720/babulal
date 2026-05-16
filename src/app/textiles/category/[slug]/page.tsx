@@ -28,7 +28,19 @@ async function fetchSubCategoriesData(categoryId: string) {
   await dbConnect();
   const db = mongoose.connection.db;
   if (!db) throw new Error("Database connection missing.");
-  const subs = await db.collection("subcategories").find({ categoryId }).toArray();
+  
+  // Try to query by ObjectId first, then fallback to string
+  let query: any = { categoryId: categoryId };
+  if (mongoose.Types.ObjectId.isValid(categoryId)) {
+    query = { 
+      $or: [
+        { categoryId: categoryId }, 
+        { categoryId: new mongoose.Types.ObjectId(categoryId) }
+      ] 
+    };
+  }
+
+  const subs = await db.collection("subcategories").find(query).toArray();
   return JSON.parse(JSON.stringify(subs));
 }
 

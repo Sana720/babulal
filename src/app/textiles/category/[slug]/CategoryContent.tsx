@@ -121,11 +121,45 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
   const dbSubCategories = React.use(subCategoriesPromise) as any[];
   const dbProducts = React.use(productsPromise) as any[];
   
-  const finalProducts = dbProducts.filter((p: any) => {
-    const pCat = String(p.category || "").toLowerCase().trim();
-    const cName = String(initialCategory?.name || "").toLowerCase().trim();
-    const cSlug = String(initialCategory?.slug || "").toLowerCase().trim();
-    return pCat === cName || pCat === cSlug || cName.includes(pCat);
+  const [selectedSubs, setSelectedSubs] = React.useState<string[]>([]);
+
+  const handleSubToggle = (subName: string) => {
+    Haptics.light();
+    setSelectedSubs(prev => 
+      prev.includes(subName) 
+        ? prev.filter(s => s !== subName) 
+        : [...prev, subName]
+    );
+  };
+
+  const handleReset = () => {
+    Haptics.medium();
+    setSelectedSubs([]);
+  };
+  
+  // Dynamic Sub-category Extraction (Fallback if subcategories collection is empty)
+  const productsInCategory = dbProducts.filter((p: any) => {
+    const normalize = (s: string) => String(s || "").toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+    const pCat = normalize(p.category);
+    const cName = normalize(initialCategory?.name);
+    const cSlug = normalize(initialCategory?.slug);
+    return pCat === cName || pCat === cSlug || cName.includes(pCat) || pCat.includes(cSlug);
+  });
+
+  const derivedSubTypes = Array.from(new Set(
+    productsInCategory.map((p: any) => p.subCategory).filter(Boolean)
+  )).map(name => ({ name, _id: name }));
+
+  const displaySubCategories = dbSubCategories.length > 0 ? dbSubCategories : derivedSubTypes;
+  
+  const finalProducts = productsInCategory.filter((p: any) => {
+    const normalize = (s: string) => String(s || "").toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+    
+    // Sub-category Match (if any selected)
+    if (selectedSubs.length === 0) return true;
+    
+    const pSub = normalize(p.subCategory);
+    return selectedSubs.some(s => normalize(s) === pSub);
   });
 
   return (
@@ -137,22 +171,37 @@ function AsyncProductSection({ subCategoriesPromise, productsPromise, initialCat
                 <ul className="space-y-4">
                    <li>
                       <button 
-                        onClick={() => Haptics.light()}
-                        className="text-[11px] font-black text-[#DA222A] flex items-center gap-2 uppercase tracking-tight"
+                        onClick={handleReset}
+                        className={`text-[11px] font-black flex items-center gap-2 uppercase tracking-tight transition-colors ${selectedSubs.length === 0 ? 'text-[#DA222A]' : 'text-gray-400 hover:text-[#0A5181]'}`}
                       >
-                         <CheckCircle className="w-4 h-4" /> ALL {initialCategory?.name}
+                         <CheckCircle className={`w-4 h-4 ${selectedSubs.length === 0 ? 'opacity-100' : 'opacity-20'}`} /> ALL {initialCategory?.name}
                       </button>
                    </li>
-                   {dbSubCategories.map((sub: any) => (
-                      <li key={sub._id}>
-                         <button 
-                           onClick={() => Haptics.light()}
-                           className="text-[11px] font-bold text-gray-400 hover:text-[#0A5181] uppercase transition-colors tracking-tight"
-                         >
-                            {sub.name}
-                         </button>
-                      </li>
-                   ))}
+                   {displaySubCategories.map((sub: any) => {
+                      const isActive = selectedSubs.some(s => s.toLowerCase().trim() === sub.name.toLowerCase().trim());
+                      return (
+                        <li key={sub._id}>
+                           <label className="flex items-center gap-3 cursor-pointer group">
+                              <div className={`w-4 h-4 border-2 rounded-sm flex items-center justify-center transition-all ${isActive ? 'bg-[#DA222A] border-[#DA222A]' : 'border-gray-200 group-hover:border-[#DA222A]'}`}>
+                                 {isActive && (
+                                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className="w-3 h-3 text-white">
+                                      <polyline points="20 6 9 17 4 12" />
+                                   </svg>
+                                 )}
+                              </div>
+                              <input 
+                                type="checkbox" 
+                                className="hidden"
+                                checked={isActive}
+                                onChange={() => handleSubToggle(sub.name)}
+                              />
+                              <span className={`text-[11px] font-bold uppercase transition-colors tracking-tight ${isActive ? 'text-[#DA222A]' : 'text-gray-400 group-hover:text-[#0A5181]'}`}>
+                                 {sub.name}
+                              </span>
+                           </label>
+                        </li>
+                      );
+                   })}
                 </ul>
              </div>
 

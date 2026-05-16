@@ -122,6 +122,7 @@ export default function TextileClient({ initialCategories, initialProducts, init
   const [sareeProgress, setSareeProgress] = useState(0);
   const [suitProgress, setSuitProgress] = useState(0);
   const [kurtiProgress, setKurtiProgress] = useState(0);
+  const [kidsProgress, setKidsProgress] = useState(0);
   const [isSareePaused, setIsSareePaused] = useState(false);
   const [isSuitPaused, setIsSuitPaused] = useState(false);
   const [isKurtiPaused, setIsKurtiPaused] = useState(false);
@@ -183,11 +184,27 @@ export default function TextileClient({ initialCategories, initialProducts, init
     return () => clearInterval(autoScroll);
   }, [isSuitPaused]);
 
-  // Dynamic Data Sections
-  const sarees = products.filter(p => p.category?.toLowerCase() === 'saree').slice(0, 10);
-  const suits = products.filter(p => p.category?.toLowerCase() === 'suit').slice(0, 10);
-  const kurtis = products.filter(p => p.category?.toLowerCase() === 'kurti').slice(0, 10);
-  const kidsWear = products.filter(p => p.category?.toLowerCase() === 'kids-wear').slice(0, 10);
+  // Dynamic Data Sections - Robust Filtering for Variations
+  const sarees = products.filter(p => {
+    const cat = p.category?.toLowerCase() || '';
+    return cat === 'saree' || cat === 'sarees';
+  }).slice(0, 10);
+
+  const suits = products.filter(p => {
+    const cat = p.category?.toLowerCase() || '';
+    return cat === 'suit' || cat === 'suits';
+  }).slice(0, 10);
+
+  const kurtis = products.filter(p => {
+    const cat = p.category?.toLowerCase() || '';
+    return cat === 'kurti' || cat === 'kurtis';
+  }).slice(0, 10);
+
+  const kidsWear = products.filter(p => {
+    const cat = p.category?.toLowerCase() || '';
+    const slug = p.slug?.toLowerCase() || '';
+    return cat === 'kids-wear' || cat === 'kids wear' || cat === 'kids' || cat.includes('kids') || slug.includes('kids');
+  }).slice(0, 10);
 
   // Removed activeImageIndex as part of modal cleanup
 
@@ -817,37 +834,34 @@ export default function TextileClient({ initialCategories, initialProducts, init
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { title: "Kota Sarees Retail & Supplier In India", redText: "" },
-              { title: "Buy Plain Kota Sarees In Bulk Online", redText: "Buy Plain Kota Sarees In Bulk Online" },
-              { title: "Plain Kota Sarees Retail Collection", redText: "" },
-              { title: "Indian Handloom Sarees In Bulk For Boutiques", redText: "" }
-            ].map((item, i) => (
+            {products.slice(0, 4).map((p, i) => (
               <motion.div
-                key={i}
+                key={p._id || i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className="group flex flex-col bg-white border border-gray-100/50 shadow-sm hover:shadow-2xl transition-all duration-500 rounded-sm overflow-hidden"
               >
-                <div className="relative aspect-[3/4] overflow-hidden">
+                <Link href={`/textiles/product/${p.slug}`} onClick={() => Haptics.light()} className="relative aspect-[3/4] overflow-hidden block cursor-pointer">
                   <Image
-                    src="/latest_arrivals_saree.png"
-                    alt={item.title}
+                    src={p.images?.[0] || "/latest_arrivals_saree.png"}
+                    alt={p.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
-                </div>
+                </Link>
                 <div className="p-6 flex flex-col flex-1 text-center justify-between min-h-[160px]">
-                  <h4 className={`text-sm md:text-base font-bold tracking-tight mb-6 line-clamp-2 px-2 ${i === 1 ? 'text-[#DA222A]' : 'text-gray-900 group-hover:text-[#DA222A]'} transition-colors`}>
-                    {item.title}
-                  </h4>
+                  <Link href={`/textiles/product/${p.slug}`} onClick={() => Haptics.light()}>
+                    <h4 className="text-sm md:text-base font-bold tracking-tight mb-6 line-clamp-2 px-2 text-gray-900 group-hover:text-[#DA222A] transition-colors cursor-pointer">
+                      {p.name}
+                    </h4>
+                  </Link>
                   <div className="flex gap-2 mt-auto">
-                    <button className="flex-1 py-3 bg-[#DA222A] text-white text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                    <Link href={`/textiles/product/${p.slug}`} onClick={() => Haptics.light()} className="flex-1 py-3 bg-[#DA222A] text-white text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
                       <Star className="w-3 h-3 fill-current" />
                       Catalog
-                    </button>
+                    </Link>
                     <button className="flex-1 py-3 bg-[#1A1A1A] text-white text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#0A5181] transition-colors">
                       <Mail className="w-3 h-3" />
                       Enquire Now
@@ -913,33 +927,50 @@ export default function TextileClient({ initialCategories, initialProducts, init
 
               <div
                 ref={kidsScrollRef}
+                onScroll={() => handleScrollSync(kidsScrollRef, setKidsProgress)}
                 className="flex gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory pt-4"
               >
-                {[
-                  { name: "Kids Dress", img: "/kids_boutique_yellow.png" },
-                  { name: "Kids Tops", img: "/kids_boutique_yellow.png" },
-                  { name: "Girls T-Shirts", img: "/kids_boutique_yellow.png" },
-                  { name: "Kids Lehenga Choli", img: "/kids_boutique_yellow.png" }
-                ].map((cat, i) => (
+                {kidsWear.length > 0 ? kidsWear.map((p, i) => (
                   <Link
-                    key={i}
-                    href="/textiles/category/kids-wear"
-                    className="min-w-[280px] md:min-w-[calc(50%-1.5rem)] lg:min-w-[calc(33.33%-1.5rem)] xl:min-w-[calc(25%-1.2rem)] snap-center group cursor-pointer"
+                    key={p._id}
+                    href={`/textiles/product/${p.slug}`}
+                    onClick={() => Haptics.light()}
+                    className="flex-none w-[280px] md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] xl:w-[calc(25%-1.2rem)] snap-center group cursor-pointer flex flex-col h-full"
                   >
-                    <div className="relative aspect-[4/5] overflow-hidden bg-white mb-6 border border-gray-100 group-hover:shadow-xl transition-all duration-700">
+                    <div className="relative w-full aspect-[4/5] overflow-hidden bg-gray-100 border border-gray-100 group-hover:shadow-xl transition-all duration-700 shrink-0">
                       <Image
-                        src={cat.img}
-                        alt={cat.name}
+                        src={p.images?.[0] || "/kids_boutique_yellow.png"}
+                        alt={p.name}
                         fill
                         sizes="(max-width: 1024px) 100vw, 25vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-1000"
                       />
                     </div>
-                    <div className="text-center p-4 bg-white border border-t-0 border-gray-100">
-                      <h4 className="text-gray-900 text-sm font-bold tracking-tight mb-1 group-hover:text-[#DA222A] transition-colors">{cat.name}</h4>
-                      <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">See the collection</p>
+                    <div className="text-center p-6 bg-white border border-t-0 border-gray-100 flex-1 flex flex-col items-center justify-between">
+                      <h4 className="text-gray-900 text-sm md:text-base font-bold tracking-tight mb-2 group-hover:text-[#DA222A] transition-colors line-clamp-2">
+                        {p.name}
+                      </h4>
+                      <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-auto">Explore Collection</p>
                     </div>
                   </Link>
+                )) : (
+                  [1, 2, 3, 4].map((i) => (
+                    <div key={i} className="flex-none w-[280px] md:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] xl:w-[calc(25%-1.2rem)] snap-center flex flex-col h-full">
+                      <div className="w-full aspect-[4/5] bg-gray-100 animate-pulse border border-gray-100 shrink-0" />
+                      <div className="flex-1 min-h-[130px] bg-white border border-t-0 border-gray-100 animate-pulse" />
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Institutional Progress Indicators — Kids Section */}
+              <div className="flex justify-center gap-2 mt-8">
+                {[0, 1, 2, 3, 4].map((dot) => (
+                  <div
+                    key={dot}
+                    className={`h-1.5 rounded-full transition-all duration-500 ${Math.round(kidsProgress * 4) === dot ? 'bg-[#DA222A] w-8' : 'bg-gray-200 w-3'
+                      }`}
+                  />
                 ))}
               </div>
             </div>

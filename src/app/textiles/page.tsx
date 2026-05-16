@@ -29,9 +29,9 @@ async function fetchTextileCatalogData() {
       .toArray(),
 
     db.collection("products")
-      .find({ businessVertical: { $in: ["textiles", "TEXTILES"] } })
+      .find({ businessVertical: { $in: ["textiles", "TEXTILES", "textile", "TEXTILE"] } })
       .sort({ createdAt: -1 })
-      .limit(60) 
+      .limit(500) 
       .toArray(),
 
     db.collection("banners")
