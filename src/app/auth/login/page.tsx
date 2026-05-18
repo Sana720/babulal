@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -26,6 +27,14 @@ export default function LoginPage() {
   React.useEffect(() => {
     setMounted(true);
   }, []);
+
+  React.useEffect(() => {
+    if (status === 'authenticated') {
+      const params = new URLSearchParams(window.location.search);
+      const callbackUrl = params.get('callbackUrl') || '/admin';
+      window.location.href = callbackUrl;
+    }
+  }, [status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +51,9 @@ export default function LoginPage() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push('/admin');
-        router.refresh();
+        const params = new URLSearchParams(window.location.search);
+        const callbackUrl = params.get('callbackUrl') || '/admin';
+        window.location.href = callbackUrl;
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
