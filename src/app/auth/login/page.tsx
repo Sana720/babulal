@@ -28,14 +28,6 @@ export default function LoginPage() {
     setMounted(true);
   }, []);
 
-  React.useEffect(() => {
-    if (status === 'authenticated') {
-      const params = new URLSearchParams(window.location.search);
-      const callbackUrl = params.get('callbackUrl') || '/admin';
-      window.location.href = callbackUrl;
-    }
-  }, [status]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
